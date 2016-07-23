@@ -60,14 +60,11 @@ body{
     margin-top: 2%;
 }
 
-#this1{
 
-    /*vertical-align: top !important;*/
-}
-
-#this2{
+#middle-align{
     vertical-align: middle !important;
 }
+
 
 .category-label {
     color: black;

@@ -181,25 +181,41 @@
         </div>
 
 <!---- START LOGIN MODAL---------------------------------------->
-        <div id="login-modal" class="ui modal">
+        <div id="login-modal" class="ui small modal">
             <i class="close icon"></i>
             <div class="header"> Login </div>
 
             <div class="content">
-                <form class="ui form" id="login-form" method="post">
+                <div class="ui basic  center aligned segment">
 
-                    <div class="field">
-                        <label>Username</label>
-                        <input type="text" name="username">
-                    </div>
-                    <div class="field">
-                        <label>Password</label>
-                        <input type="text" name="password">
-                    </div>
-                </form>
+                    <form class="ui form" id="login-form" method="post">
+
+                        <!--<div class="inline field">-->
+                            <!--<label>Username</label>-->
+                            <!--&lt;!&ndash;<input type="text" name="username">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="ui fluid input">&ndash;&gt;-->
+                                <!--<input type="text" name="username">-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--</div>-->
+
+                        <!--<div class="inline field">-->
+                            <!--<label>Password</label>-->
+                            <!--<input type="text" name="password">-->
+                        <!--</div>-->
+
+                                <div class="ui fluid left icon input">
+                                    <i class="user icon"></i>
+                                    <input type="text" placeholder="Username">
+                                </div><br>
+                                <div class="ui fluid left icon input">
+                                    <i class="lock icon"></i>
+                                    <input type="text" placeholder="Password">
+                                </div>
+                    </form>
+                </div>
             </div>
             <div class="actions">
-                <div class="ui positive right labeled icon button"  type="submit" form="login-form"> Login <i class="checkmark icon"></i></div>
+                <div class="ui positive right button"  type="submit" form="login-form"> Login</div>
             </div>
         </div>
 <!---- END LOGIN MODAL------------------------------------------>
