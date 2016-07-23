@@ -1,9 +1,18 @@
 <! DOCTYPE html>
 <html>
     <head>
+        <script src="jquery-1.11.3.min.js"></script>
         <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="semantic-ui/dist/semantic.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#login").click(function () {
+                    $("#login-modal").modal('show');
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="ui top attached menu">
@@ -170,35 +179,27 @@
         </div>
 
 <!---- START LOGIN MODAL---------------------------------------->
-        <div id="#login-modal" class="ui modal">
+        <div id="login-modal" class="ui modal">
             <i class="close icon"></i>
             <div class="header"> Login </div>
+
             <div class="content">
-                <div class="description">
-                    <div class="ui header">We've auto-chosen a profile image for you.</div>
-                    <p> We've grabbed the following image from the 
-                        <a href="https://www.gravatar.com" target="_blank">gravatar</a> image 
-                        associated with your registered e-mail address.</p>
-                    <p>Is it okay to use this photo?</p>
-                </div>
+                <form class="ui form" id="login-form" method="post">
+
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" name="username">
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="text" name="password">
+                    </div>
+                </form>
             </div>
             <div class="actions">
-                <div class="ui black deny button"> Create an account </div>
-                <div class="ui positive right labeled icon button"> Login <i class="checkmark icon"></i></div>
-          </div>
+                <div class="ui positive right labeled icon button"  type="submit" form="login-form"> Login <i class="checkmark icon"></i></div>
+            </div>
         </div>
-<!---- END LOGIN MODAL------------------------------------------>      
-<!---- SCRIPTS-------------------------------------------------->  
-        <script type="text/javascript" src="semantic-ui/dist/semantic.min.js"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script type="text/javascript">
-
-            $(document).ready(function(){
-              $("#login").click(function(){
-                  alet("hello");
-                $('#login-modal').modal('show');
-              });
-            });
-        </script>
+<!---- END LOGIN MODAL------------------------------------------>
     </body>
 </html>
