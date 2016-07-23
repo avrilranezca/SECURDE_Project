@@ -38,33 +38,220 @@
                 </div>                              
             </div>
         </div>
-        <div class="ui container segment">
+        
+        
+        <div class="ui container custom-container">
             <div class="ui header">Create new account</div>
-            <form class="ui form">
-                <div class="ui two column grid">
-<!---------------- START Basic Information ----------------------------------------------------->                    
-                    <div class="seven wide column">
-                        <p>Basic Information</p>
-                       
-                        <div class="inline field ui grid sixteen wide">
-                            <label class="eight wide column">Firstname</label>
-                            <input  class="eight wide column" placeholder="Juan" name="firstname" type="text">
+            <div class="ui segment">
+                <form class="ui form">
+                    <div class="ui grid">
+                        <div class="row">
+    <!---------------- START Basic Information ----------------------------------------------------->                    
+                            <div class="seven wide computer sixteen wide tablet column">
+                                <h4 class="ui dividing header">Basic Information</h4>
+                                <div class="row">
+                                    <div class="ui grid middle aligned">
+                                        <div class="row">
+                                            <div class='six wide column'><label>Firstname</label> </div>
+                                            <div class='ten wide column'>
+                                                <div class='ui fluid input'>
+                                                    <input placeholder="Juan" name="firstname" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class='six wide column'><label>Middle Initial</label> </div>
+                                            <div class='ten wide column'>
+                                                <div class='ui fluid input'>
+                                                    <input placeholder="A." name="middleInitial" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class='six wide column'><label>Lastname</label> </div>
+                                            <div class='ten wide column'>
+                                                <div class='ui fluid input'>
+                                                    <input placeholder="Dela Cruz" name="lastname" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class='six wide column'><label>Email</label> </div>
+                                            <div class='ten wide column'>
+                                                <div class='ui fluid input'>
+                                                    <input placeholder="example@abc.com" name="email" type="email">
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="row">
+                                            <div class='six wide column'><label>Username</label> </div>
+                                            <div class='ten wide column'>
+                                                <div class='ui fluid input'>
+                                                    <input placeholder="exampleABC" name="username" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class='six wide column'><label>Password</label> </div>
+                                            <div class='ten wide column'>
+                                                <div class='ui fluid input'>
+                                                    <input placeholder="*******" name="password" type="password">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+        <!---------------- END Basic Information ----------------------------------------------------->                    
+        <!---------------- START Billing and Shipping Information ----------------------------------------------------->                    
+                            <div class="nine wide computer sixteen wide tablet column">
+        <!--------------------- START BILLING INFORMATION ------------------------------------------>                                            
+                                <div class="row">
+                                     <h4 class="ui dividing header">Billing Information</h4>
+                                     <div class="ui grid middle aligned">
+                                        <div class="row">
+                                            <!------ start Billing information left side-------->
+                                            <div class="eight wide computer sixteen wide tablet column">
+                                                <div class="ui grid">
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>House No.</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="123" name="bHouseNo" type="number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>Subdivision</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="subdivi" name="bSubdivision" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class='six wide column'><label>Postal Code</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="1440" name="bPostalCode" type="number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!------ end Billing information left side-------->
+                                            <!------ start Billing information right side-------->
+                                            <div class="eight wide computer sixteen wide tablet column">
+                                                <div class="ui grid">
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>Street</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="Santo Domingo" name="bStreet" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>City</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="Quezon City" name="bCity" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class='six wide column'><label>Country</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="Philippines" name="bCountry" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!------ end Billing information right side-------->
+                                        </div>
+                                    </div>
+                                </div>
+        <!--------------------- END BILLING INFORMATION ------------------------------------------>                                                 <!--------------------- START BILLING INFORMATION ------------------------------------------>                                        
+                                <div class="row">
+                                     <h4 class="ui dividing header">Billing Information</h4>
+                                     <div class="ui grid middle aligned">
+                                        <div class="row">
+                                            <!------ start Billing information left side-------->
+                                            <div class="eight wide computer sixteen wide tablet column">
+                                                <div class="ui grid">
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>House No.</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="123" name="bHouseNo" type="number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>Subdivision</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="subdivi" name="bSubdivision" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class='six wide column'><label>Postal Code</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="1440" name="bPostalCode" type="number">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!------ end Billing information left side-------->
+                                            <!------ start Billing information right side-------->
+                                            <div class="eight wide computer sixteen wide tablet column">
+                                                <div class="ui grid">
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>Street</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="Santo Domingo" name="bStreet" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class='six wide column'><label>City</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="Quezon City" name="bCity" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                     <div class="row">
+                                                        <div class='six wide column'><label>Country</label> </div>
+                                                        <div class='ten wide column'>
+                                                            <div class='ui fluid input'>
+                                                                <input placeholder="Philippines" name="bCountry" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!------ end Billing information right side-------->
+                                        </div>
+                                    </div>
+                                </div>
+        <!--------------------- END BILLING INFORMATION ------------------------------------------>            
+                            </div>
                         </div>
-                        <div class="inline field ui grid sixteen wide">
-                            <label class="eight wide column">Middle Initial</label>
-                            <input class="eight wide column" placeholder="A." name="middleInitial" type="text">
+                        <div class="row">
+                            <div class="six wide computer sixteen wide table column right floated">
+                               
+                            </div>
                         </div>
-                        <div class="inline field">
-                            <label>Lastname</label>
-                            <input placeholder="Dela Cruz" name="lastname" type="text">
-                        </div>
-                    
-<!---------------- END Basic Information ----------------------------------------------------->                    
-                    
-                    <div class="nine wide column">
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>    
     </body>
 </html>
