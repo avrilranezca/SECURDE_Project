@@ -40,15 +40,25 @@
         </div>
         <div class="ui container segment">
             <div class="ui header">Create new account</div>
-            <form class="ui form segment">
+            <form class="ui form">
                 <div class="ui two column grid">
 <!---------------- START Basic Information ----------------------------------------------------->                    
                     <div class="seven wide column">
-                        <div class="inline field">
-                            <label></label>
-                            <input placeholder="Username" name="username" type="text">
+                        <p>Basic Information</p>
+                       
+                        <div class="inline field ui grid sixteen wide">
+                            <label class="eight wide column">Firstname</label>
+                            <input  class="eight wide column" placeholder="Juan" name="firstname" type="text">
                         </div>
-                    </div>
+                        <div class="inline field ui grid sixteen wide">
+                            <label class="eight wide column">Middle Initial</label>
+                            <input class="eight wide column" placeholder="A." name="middleInitial" type="text">
+                        </div>
+                        <div class="inline field">
+                            <label>Lastname</label>
+                            <input placeholder="Dela Cruz" name="lastname" type="text">
+                        </div>
+                    
 <!---------------- END Basic Information ----------------------------------------------------->                    
                     
                     <div class="nine wide column">
