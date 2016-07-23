@@ -1,7 +1,9 @@
 
 body{
-    font-family: 
+    /*font-family: */
 }
+
+
 
 .top-nav {
     padding: 0px !important;
@@ -46,13 +48,21 @@ body{
 }
 
 
-
 .search-bar {
     width: 100% !important;
 }
 
 .category-container {
     margin-top: 2.5%;
+}
+
+#this1{
+
+    /*vertical-align: top !important;*/
+}
+
+#this2{
+    vertical-align: middle !important;
 }
 
 .category-label {
