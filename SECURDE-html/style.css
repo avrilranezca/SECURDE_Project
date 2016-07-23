@@ -53,7 +53,11 @@ body{
 }
 
 .category-container {
-    margin-top: 2.5%;
+    margin-top: 2%;
+}
+
+.custom-container{
+    margin-top: 2%;
 }
 
 #this1{
