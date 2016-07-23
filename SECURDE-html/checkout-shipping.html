@@ -1,0 +1,232 @@
+<! DOCTYPE html>
+<html>
+<head>
+    <script src="jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="semantic-ui/dist/semantic.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#login").click(function () {
+                $("#login-modal").modal('show');
+            });
+
+            $(".btnminus").click(function () {
+                var index = $(this).index(".btnminus");
+                var a = +$(".txtquantity:eq(" + index + ")").val();
+//                if(a>1)$(".txtquantity:eq("+index+")").val(a-1);
+            });
+
+            $(".btnplus").click(function () {
+                var index = $(this).index(".btnplus");
+                var a = +$(".txtquantity:eq(" + index + ")").val();
+//                $(".txtquantity:eq("+index+")").val(a+1);
+//                $("#quantity").val(a+1);
+
+//                console.log(a);
+
+            });
+
+
+            $(".remove.icon").click(function () {
+                var index = $(this).index(".remove.icon");
+//                $("tr").eq(index+1).remove();
+//                console.log(index);
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="ui top attached menu">
+    <div class="right menu">
+        <div class="ui right aligned item top-nav">
+            <a id="login" class="item top-nav-item">login</a>
+            <a class="item top-nav-item">sign up</a>
+        </div>
+    </div>
+</div>
+<div class="ui grid inverted attached segment">
+    <div class="four wide column center aligned">
+        <div class="ui header center aligned">
+            <div class="content brand-container">
+                <a href="index.html">
+                    <span>Talaria</span>
+                    <div class="sub header">
+                        <span>Footwear Co.</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="seven wide column center aligned">
+        <div class="ui icon input search-bar">
+            <input placeholder="Search for products or categories" type="text">
+            <i class="search link icon"></i>
+        </div>
+    </div>
+    <div class="five wide column middle aligned ">
+        <div class="ui grid sixteen wide column">
+            <div class="eight wide column right aligned"><i class="badge big link shop icon" data-badge="0"></i></div>
+            <div class="eight wide column left aligned"><span class="price-label">0.00</span></div>
+        </div>
+    </div>
+</div>
+<div class="ui container grid">
+    <!--<div class="ui grid">-->
+    <div class="ten wide column">
+        <div class="ui segment">
+            <div class="ui mini steps">
+                <div class="active step">
+                    <i class="truck icon"></i>
+                    <div class="content">
+                        <div class="title">Shipping</div>
+                        <!--<div class="description">Choose your shipping options</div>-->
+                    </div>
+                </div>
+                <div class="disabled step">
+                    <i class="payment icon"></i>
+                    <div class="content">
+                        <div class="title">Billing</div>
+                        <!--<div class="description">Enter billing information</div>-->
+                    </div>
+                </div>
+                <div class="disabled step">
+                    <i class="info icon"></i>
+                    <div class="content">
+                        <div class="title">Confirm Order</div>
+                        <!--<div class="description">Verify order details</div>-->
+                    </div>
+                </div>
+            </div>
+
+            <!--<h3 class="ui header">Payment</h3>-->
+            <div class="ui form">
+
+                <h3 class="ui dividing header">Shipping Address</h3>
+                <div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column"><label>House No.</label></div>
+                        <div class="twelve wide column"><input placeholder="123" name="sHouseNo" type="number"></div>
+                    </div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column"><label>Subdivision</label></div>
+                        <div class="twelve wide column"><input placeholder="subdivi" name="sSubdivision" type="text"></div>
+                    </div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column"><label>Postal Code</label></div>
+                        <div class="twelve wide column"><input placeholder="1440" name="sPostalCode" type="number"></div>
+                    </div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column"><label>Street</label></div>
+                        <div class="twelve wide column"><input placeholder="Santo Domingo" name="sStreet" type="text"></div>
+                    </div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column"><label>City</label></div>
+                        <div class="twelve wide column"><input placeholder="Quezon City" name="sCity" type="text"></div>
+                    </div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column"><label>Country</label></div>
+                        <div class="twelve wide column"><input placeholder="Philippines" name="sCountry" type="text"></div>
+                    </div>
+                </div>
+                <h4 class="ui hidden divider"></h4>
+                <div class="ui basic right aligned segment">
+
+                    <button class="ui  large blue submit button" type="submit">Confirm Shipping Address</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="six wide column">
+
+        <div class="ui secondary segment">
+
+            <h3 class="ui dividing header">Cart</h3>
+
+            <div class="ui two column grid middle aligned">
+                <div class="ten wide column">
+                    <h5 class="ui header">
+
+                        <div class="ui tiny image">
+                            <div class="floating ui circular orange label">3</div>
+                            <img src="assets/bababoots.jpg">
+                        </div>
+                        Bababoots</h5>
+                </div>
+                <div class="six wide column right aligned">
+
+                    <h5 class="ui header">PHP 4,500.00</h5>
+                </div>
+            </div>
+            <div class="ui two column grid middle aligned">
+                <div class="ten wide column">
+                    <h5 class="ui header">
+
+                        <div class="ui tiny image">
+                            <div class="floating ui circular orange label">2</div>
+                            <img src="assets/bababoots.jpg">
+                        </div>
+                        Bababoots</h5>
+                </div>
+                <div class="six wide column right aligned">
+
+                    <h5 class="ui header">PHP 3,000.00</h5>
+                </div>
+            </div>
+            <div class="ui two column grid middle aligned">
+                <div class="ten wide column">
+                    <h5 class="ui header">
+
+                        <div class="ui tiny image">
+                            <div class="floating ui circular orange label">4</div>
+                            <img src="assets/bababoots.jpg">
+                        </div>
+                        Bababoots</h5>
+                </div>
+                <div class="six wide column right aligned">
+
+                    <h5 class="ui header">PHP 6,000.00</h5>
+                </div>
+            </div>
+
+            <div class="ui divider"></div>
+
+            <div class="ui basic segment right aligned">
+                <h3 class="ui header">Total: PHP 13,500.00</h3>
+            </div>
+        </div>
+    </div>
+    <!--</div>-->
+
+
+</div>
+
+<!---- START LOGIN MODAL---------------------------------------->
+<div id="login-modal" class="ui modal">
+    <i class="close icon"></i>
+    <div class="header"> Login</div>
+
+    <div class="content">
+        <form class="ui form" id="login-form" method="post">
+
+            <div class="field">
+                <label>Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="text" name="password">
+            </div>
+        </form>
+    </div>
+    <div class="actions">
+        <div class="ui positive right labeled icon button" type="submit" form="login-form"> Login <i
+                class="checkmark icon"></i></div>
+    </div>
+</div>
+<!---- END LOGIN MODAL------------------------------------------>
+</body>
+</html>
