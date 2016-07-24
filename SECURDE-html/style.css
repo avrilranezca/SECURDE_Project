@@ -92,3 +92,17 @@ body{
     margin:-1rem;
     background: #efefef;
 }
+
+#menubar{
+    overflow:visible;
+    background: #1b1c1d;
+}
+
+.overflow{
+
+    overflow:visible !important;
+}
+
+.popup{
+    width: 200% !important;
+}
