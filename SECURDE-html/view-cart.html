@@ -12,14 +12,27 @@
                 $("#login-modal").modal('show');
             });
 
-            $("#btnminus").click(function(){
-                var a = +$("#quantity").val();
-                if(a>1) $("#quantity").val(a-1);
+            $(".btnminus").click(function(){
+                var index = $(this).index(".btnminus");
+                var a = +$(".txtquantity:eq("+index+")").val();
+//                if(a>1)$(".txtquantity:eq("+index+")").val(a-1);
             });
 
-            $("#btnplus").click(function(){
-                var a = +$("#quantity").val();
-                $("#quantity").val(a+1);
+            $(".btnplus").click(function(){
+                var index = $(this).index(".btnplus");
+                var a = +$(".txtquantity:eq("+index+")").val();
+//                $(".txtquantity:eq("+index+")").val(a+1);
+//                $("#quantity").val(a+1);
+
+//                console.log(a);
+
+            });
+
+
+            $(".remove.icon").click(function(){
+                var index = $(this).index(".remove.icon");
+//                $("tr").eq(index+1).remove();
+//                console.log(index);
             });
         });
     </script>
@@ -29,7 +42,7 @@
     <div class="right menu">
         <div class="ui right aligned item top-nav">
             <a id="login" class="item top-nav-item">login</a>
-            <a href="sign-up.html" class="item top-nav-item">sign up</a>
+            <a class="item top-nav-item">sign up</a>
         </div>
     </div>
 </div>
@@ -59,7 +72,7 @@
         </div>
     </div>
 </div>
-<div class="ui container custom-container">
+<div class="ui container category-container">
     <div class="ui four item pointing menu">
         <a class="item">
             <div class="ui grid">
@@ -97,42 +110,82 @@
     </div>
 </div>
 <div class="ui container segment">
-    <div class="ui grid">
-        <div class="nine wide column">
-            <img class="ui fluid image" src="assets/bababoots.jpg">
-        </div>
-        <div class="seven wide column">
-            <h1 class="ui header">Rissa Bababoots (Red)
-                <div class="sub header price-label">1,500.00</div>
-            </h1>
-
-
-            <p>
-                Rissa Bababoots (Red) is an awesome boots that allows you to walk on gutter level floods.
-            </p>
-            <p>
-                Loren ipsum bae rissa. Rissa the bae! The beh, the bah, and the boh.
-            </p>
-
-            <div class="ui divider"></div>
-
-            <form class="ui form" method="post">
-                <div class="inline field">
-                    <label>Quantity</label>
-                    <!--<button class="ui icon button middle">-->
-                        <i id="btnminus" class="minus link icon"></i>
-                    <!--</button>-->
-                    <input type="text" id="quantity" name="quantity" value="1">
-                    <!--<button class="ui icon button middle">-->
-                        <i id="btnplus" class="plus link icon"></i>
-                    <!--</button>-->
-                </div>
-
-                <div class="ui fluid large orange submit button">
-                    <div><i class="big shop icon element"></i><span class="middle-align">ADD TO CART</span>
+    <h2 class="ui header">Your Cart
+    </h2>
+    <table class="ui single line basic table">
+        <thead>
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <h4 class="ui image header">
+                    <img src="assets/bababoots.jpg" class="ui mini rounded image">
+                    <div class="content">
+                        Bababoots
                     </div>
+                </h4></td>
+            <td>PHP 1,500.00</td>
+            <td>
+
+                <i class="btnminus minus link icon"></i>
+                <div class="ui input">
+                    <input type="text" class="txtquantity" name="quantity" value="3">
                 </div>
-            </form>
+                <i class="btnplus plus link icon"></i></td>
+            <td>PHP 4,500.00</td>
+            <td><i class="link bordered inverted red remove icon"></i></td>
+        </tr>
+        <tr>
+            <td>
+                <h4 class="ui image header">
+                    <img src="assets/bababoots.jpg" class="ui mini rounded image">
+                    <div class="content">
+                        Bababoots
+                    </div>
+                </h4></td>
+            <td>PHP 1,500.00</td>
+            <td>
+                <i class="btnminus minus link icon"></i>
+                <div class="ui input">
+                    <input type="text" class="txtquantity" name="quantity" value="2">
+                </div>
+                <i class="btnplus plus link icon"></i></td>
+            <td>PHP 3,000.00</td>
+            <td><i class="link bordered inverted red remove icon"></i></td>
+        </tr>
+        <tr>
+            <td>
+                <h4 class="ui image header">
+                    <img src="assets/bababoots.jpg" class="ui mini rounded image">
+                    <div class="content">
+                        Bababoots
+                    </div>
+                </h4></td>
+            <td>PHP 1,500.00</td>
+            <td>
+                <i class="btnminus minus link icon"></i>
+                <div class="ui input">
+                    <input type="text" class="txtquantity" name="quantity" value="4">
+                </div>
+                <i class="btnplus plus link icon"></i></td>
+            <td>PHP 6,000.00</td>
+            <td><i class="link bordered inverted red remove icon"></i></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="ui basic right aligned segment">
+        <h3 class="ui header">Total: PHP 13,500.00</h3>
+        <div class="ui large orange submit button">
+            <div><span class="middle-align">CHECKOUT</span>
+            </div>
         </div>
     </div>
 </div>

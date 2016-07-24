@@ -52,10 +52,6 @@ body{
     width: 100% !important;
 }
 
-.category-container {
-    margin-top: 2%;
-}
-
 .custom-container{
     margin-top: 2%;
 }
@@ -82,4 +78,12 @@ body{
 
 .meta .price-label{
     color: darkslategray;   
+}
+
+.pagination-container {
+    margin-top: 10px;
+    text-align: center;
+}
+.txtquantity{
+    width: 60px !important;
 }

@@ -3,14 +3,40 @@
     <head>
         <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <script src="jquery-1.11.3.min.js"></script>
         <script src="semantic-ui/dist/semantic.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#login").click(function () {
+                    $("#error-login").hide();
+                    $("#login-modal")
+                            .modal({
+                                closable  : true,
+                                onDeny    : function(){
+                                    window.alert('Wait not yet!');
+                                    return false;
+                                },
+                                onApprove : function() {
+                                    if($("#username").val()=="" || $("#password").val()==""){
+                                        $("#error-login").show();
+                                        return false;
+                                    }
+
+                                }
+                            })
+                            .modal('show')
+                    ;
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="ui top attached menu">
             <div class="right menu">
               <div class="ui right aligned item top-nav">
-                <a class="item top-nav-item">login</a>
-                <a class="item top-nav-item">sign up</a>
+                <a id="login" class="item top-nav-item">login</a>
+                <a href="sign-up.html" class="item top-nav-item">sign up</a>
               </div>
             </div>
         </div>
@@ -153,6 +179,38 @@
                     </div>
                 </form>
             </div>
-        </div>    
+        </div>  
+<!---- START LOGIN MODAL---------------------------------------->
+        <div id="login-modal" class="ui small modal">
+            <i class="close icon"></i>
+            <div class="header"> Login</div>
+
+            <div class="content">
+                <div class="ui basic  center aligned segment">
+
+                    <form class="ui form" id="login-form" method="post">
+                        <div id="error-login" class="ui negative message">
+                            <p>
+                                Wrong username/password!
+                            </p>
+                        </div>
+                        <div class="ui fluid left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" id="username" placeholder="Username">
+                        </div>
+                        <br>
+                        <div class="ui fluid left icon input">
+                            <i class="lock icon"></i>
+                            <input type="text" id="password" placeholder="Password">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui positive right button" type="submit" form="login-form"> Login</div>
+            </div>
+        </div>
+<!---- END LOGIN MODAL------------------------------------------>
+        
     </body>
 </html>
