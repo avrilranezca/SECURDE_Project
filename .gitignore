@@ -59,3 +59,5 @@ Temporary Items
 #Filetypes
 .class
 .classpath
+*.xml
+META-INF/application.xml
