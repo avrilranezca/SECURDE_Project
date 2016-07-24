@@ -88,6 +88,9 @@ body{
     width: 60px !important;
 }
 
+.hidden{
+    display: none !important;   
+}
 
 #search-banner{
     margin:-1rem;
@@ -168,6 +171,7 @@ body{
     right: 0px !important;
     position: absolute !important;
     bottom: 0px !important;
+    text-align: center;
 }
 
 a{
@@ -178,4 +182,7 @@ a{
 a:hover{
     color: black;
     font-weight: bold;
+}
+.subfilter {
+    font-size: 12px;
 }
