@@ -83,3 +83,7 @@ body{
 .meta .price-label{
     color: darkslategray;   
 }
+
+.txtquantity{
+    width: 60px !important;
+}
