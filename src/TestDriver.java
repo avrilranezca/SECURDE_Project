@@ -1,4 +1,5 @@
 import model.AccountTypeEnum.AccountType;
+import model.Address;
 import model.User;
 import model.AccountTypeEnum;
 import database.UserDAO;
@@ -16,10 +17,14 @@ public class TestDriver {
 		dc.addUser(u);*/
 		
 		User u = udao.getUser("user_1", "password");
-		if(u != null)
+		/*if(u != null)
 			System.out.println(u.getEmail());
 		else
-			System.out.println("No such user");
+			System.out.println("No such user");*/
+		
+		Address a = new Address("Uhouse1", "street1", "subdivision1", "city1", "postalcode1", "country1");
+		
+		udao.updateBillingAddress(u, a);
 	}
 
 }

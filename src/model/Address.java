@@ -11,7 +11,7 @@ public class Address {
 	private String country;
 	
 	public Address(int id, String house_no, String street, String subdivision,
-			String city, String postal_code) {
+			String city, String postal_code, String country) {
 		super();
 		this.id = id;
 		this.house_no = house_no;
@@ -19,16 +19,18 @@ public class Address {
 		this.subdivision = subdivision;
 		this.city = city;
 		this.postal_code = postal_code;
+		this.country = country;
 	}
 	
 	public Address(String house_no, String street, String subdivision,
-			String city, String postal_code) {
+			String city, String postal_code, String country) {
 		super();
 		this.house_no = house_no;
 		this.street = street;
 		this.subdivision = subdivision;
 		this.city = city;
 		this.postal_code = postal_code;
+		this.country = country;
 	}
 
 	public int getId() {
