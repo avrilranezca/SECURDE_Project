@@ -55,3 +55,7 @@ Temporary Items
 .idea/modules.xml
 .idea/uiDesigner.xml
 .idea/uiDesigner.xml
+
+#Filetypes
+.class
+.classpath
