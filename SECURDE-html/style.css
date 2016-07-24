@@ -87,3 +87,8 @@ body{
 .txtquantity{
     width: 60px !important;
 }
+
+#search-banner{
+    margin:-1rem;
+    background: #efefef;
+}
