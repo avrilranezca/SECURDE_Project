@@ -88,6 +88,7 @@ body{
     width: 60px !important;
 }
 
+
 #search-banner{
     margin:-1rem;
     background: #efefef;
@@ -105,4 +106,42 @@ body{
 
 .popup{
     width: 200% !important;
+}
+.role-label {
+    color: white;
+}
+
+
+
+.filter-menu {
+    border: none !important;
+    box-shadow: none !important;
+    min-height: 0.2em !important;
+    float: right;
+}
+
+.filter-menu .item{
+    padding: 5px !important;
+}
+
+.filter-menu .item:hover, .filter-menu .active{
+    text-decoration: underline !important;
+    font-weight: bold !important;
+/*    background: none !important;*/
+}
+
+.filter-menu .item:last-child:before{
+    background: none !important; 
+}
+
+.secondary-filter{
+    margin-left: 16px !important;
+    margin-top: -5px !important;  
+}
+.secondary-filter .item {
+    font-size: 12px;
+}
+
+.black-text{
+       color: black;
 }
