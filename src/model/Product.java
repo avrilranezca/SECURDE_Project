@@ -3,19 +3,35 @@ package model;
 public class Product {
 	
 	private int id;
+	private String name;
 	private String description;
 	private double price;
 	private int category_id;
-	private int isArchived;
+	private int isActive;
 	
-	public Product(int id, String description, double price, int category_id,
-			int isArchived) {
+	public Product(int id, String name, String description, double price, int category_id,
+			int isActive) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.category_id = category_id;
-		this.isArchived = isArchived;
+		this.isActive = isActive;
+	}
+	
+	public Product(String name, String description, double price, int category_id,
+			int isActive) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.category_id = category_id;
+		this.isActive = isActive;
+	}
+	
+	public String toString() {
+		return "\nID:" + id + " Name:" + name + " Description:" + description + " Price:" + price + " Category_Id:" + category_id + " isActive:" + isActive;
 	}
 
 	public int getId() {
@@ -24,6 +40,14 @@ public class Product {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -50,12 +74,12 @@ public class Product {
 		this.category_id = category_id;
 	}
 
-	public int getIsArchived() {
-		return isArchived;
+	public int getIsActive() {
+		return isActive;
 	}
 
-	public void setIsArchived(int isArchived) {
-		this.isArchived = isArchived;
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
 	}
 	
 	
