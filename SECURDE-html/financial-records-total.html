@@ -37,89 +37,92 @@
     </script>
 </head>
 <body>
-<div class="ui top attached menu">
-    <div class="right menu">
-        <a class="item"><h4 class="ui header black-text">Welcome Shayane!</h4></a>
-        <div class="ui right aligned item top-nav">
-            <a id="login" class="item top-nav-item">logout</a>
-        </div>
+<div class="ui container">
+    <div class="ui right aligned basic segment">
+        <div class="ui grid middle aligned">
+            <div class="fourteen wide column">
+                 <div class="ui sub header"> Welcome Shayane!</div>
+            </div>
+            <div class="two wide column">
+                  <div class="ui tiny right aligned basic button">Logout</div>
+            </div>
+        </div>  
     </div>
 </div>
-<div class="ui grid inverted attached segment">
-    <div class="four wide column left aligned">
-        <div class="ui header center aligned">
-            <div class="content brand-container">
-                <a href="index.html">
-                    <span>Talaria</span>
-                    <div class="sub header">
-                        <span>Footwear Co.</span>
+<div id="menubar">
+    <div class="ui  attached container">
+        <div class=" ui basic inverted segment">
+            <div class="ui grid">
+                <div class="four wide column center aligned">
+                    <div class="ui header center aligned">
+                        <div class="content brand-container">
+                            <a href="index.html">
+                                <span>Talaria</span>
+                                <div class="sub header">
+                                    <span>Footwear Co.</span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="seven wide column"></div>
-    <div class="five wide column middle aligned">
-        <div class="ui header center aligned">
-            <div class="content role-label">
-               ACCOUNTING MANAGER
-            </div>
-        </div>
-    </div>
-</div>
-<div class="ui container grid">
-    <div class="sixteen wide column">
-          <div class="ui grid middle aligned">
-            <div class="twelve wide column"><div class="ui header">Financial Records</div></div>
-            <div class="four wide column">
-                <div class="ui menu filter-menu">
-                    <a href="financial-records-total.html" class="active fitted item">Total</a>
-                    <a href="financial-records-categ.html" class="fitted item">Category</a>
-                    <a href="financial-records-product.html" class="fitted item">Product</a>
                 </div>
-                <div class="ui menu filter-menu secondary-filter">
-                    <a class="active fitted item">Daily</a>
-                    <a class="fitted item">Monthly</a>
-                    <a class="fitted item">Yearly</a>
+
+                <div class="twelve wide column right aligned ">
+                    <h1 class="ui inverted header">ACCOUNTING MANAGER</h1>
                 </div>
             </div>
         </div>
     </div>
-    <div class="sixteen wide column">
-        <table class="ui single line basic table">
-            <thead>
-               <tr>
-                   <th class="ten wide">Date</th>
-                   <th class="three wide right aligned">Quantity</th>
-                   <th class="three wide right aligned">Subtotal</th>
-               </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><h4 class="ui header">July 20, 2015</h4></td>
-                    <td class="right aligned">2134</td>
-                    <td class="right aligned price-label">1,500.00</td>
-                </tr>
-                <tr>
-                    <td><h4 class="ui header">July 20, 2015</h4></td>
-                    <td class="right aligned">2134</td>
-                    <td class="right aligned price-label">1,500.00</td>
-                </tr>
-                <tr>
-                    <td><h4 class="ui header">July 20, 2015</h4></td>
-                    <td class="right aligned">2134</td>
-                    <td class="right aligned price-label">1,500.00</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="ui basic right aligned segment">
-            <h3 class="ui header">Total:
-                <span class="price-label black-text">4,500.00</span>
-            </h3>
+</div>
+    
+<div class="ui container basic segment">
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <div class="ui basic segment headingc">
+                <h2 class="ui header headerc">Financial Records</h2>
+                <div class="headingsubc">
+                    <b><a href="financial-records-total.html">Total</a> </b> | <a href="financial-records-categ.html">Category</a> | <a href="financial-records-product.html">Product</a>
+                    <br>
+                    <b><a href="#" class="subfilter">Daily</a> </b> | 
+                       <a href="#" class="subfilter">Monthly</a> | 
+                       <a href="#" class="subfilter">Yearly</a>
+                </div>
+            </div>
         </div>
+        <div class="sixteen wide column">
+            <table class="ui single line basic table">
+                <thead>
+                   <tr>
+                       <th class="ten wide">Date</th>
+                       <th class="three wide right aligned">Quantity</th>
+                       <th class="three wide right aligned">Subtotal</th>
+                   </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><h4 class="ui header">July 20, 2015</h4></td>
+                        <td class="right aligned">2134</td>
+                        <td class="right aligned price-label">1,500.00</td>
+                    </tr>
+                    <tr>
+                        <td><h4 class="ui header">July 20, 2015</h4></td>
+                        <td class="right aligned">2134</td>
+                        <td class="right aligned price-label">1,500.00</td>
+                    </tr>
+                    <tr>
+                        <td><h4 class="ui header">July 20, 2015</h4></td>
+                        <td class="right aligned">2134</td>
+                        <td class="right aligned price-label">1,500.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="ui basic right aligned segment">
+                <h3 class="ui header">Total:
+                    <span class="price-label black-text">4,500.00</span>
+                </h3>
+            </div>
+        </div>    
     </div>
 </div>
- 
 
 <!---- START LOGIN MODAL---------------------------------------->
 <div id="login-modal" class="ui small modal">
