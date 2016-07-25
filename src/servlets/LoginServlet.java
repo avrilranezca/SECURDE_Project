@@ -30,7 +30,11 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+=======
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
+>>>>>>> master
 	}
 
 	/**
@@ -39,6 +43,14 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+<<<<<<< HEAD
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		UserDAO dao = new UserDAO();
+		User user = dao.getUser(username, password);
+		System.out.println(user.getUser_name());
+=======
 		
 		System.out.println("HELLLO");
 		String username = request.getParameter("username");
@@ -60,6 +72,7 @@ public class LoginServlet extends HttpServlet {
 			response.getWriter().write(user.getFirst_name());
         }
 		
+>>>>>>> master
 	}
 
 }
