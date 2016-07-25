@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `securde_eshopping` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `securde_eshopping`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: localhost    Database: securde_eshopping
@@ -54,7 +56,7 @@ CREATE TABLE `category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,6 +65,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (1,'boots'),(2,'shoes'),(3,'sandals'),(4,'slippers');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,14 +78,15 @@ DROP TABLE IF EXISTS `product`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `price` double NOT NULL,
   `category_id` int(11) unsigned NOT NULL,
-  `isArchived` tinyint(4) NOT NULL,
+  `isActive` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id_FK_idx` (`category_id`),
   CONSTRAINT `p_category_id_FK` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,6 +95,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'boot1','boot1des',1,1,1),(2,'shoe2','shoe1des',1.23,2,1),(3,'boot2','boot2des',2.34,1,1);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +219,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$s9glQXz/brRYzSaBGj3sguETmKS51PwYlUDU9mSUAfhxQJrZcBUci','user1@securde.com',NULL,NULL,'CUSTOMER',1);
+INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$s9glQXz/brRYzSaBGj3sguETmKS51PwYlUDU9mSUAfhxQJrZcBUci','user1@securde.com',1,NULL,'CUSTOMER',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -227,4 +232,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-23 19:01:35
+-- Dump completed on 2016-07-25 16:58:32
