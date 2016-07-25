@@ -2,6 +2,10 @@ package model;
 
 public class User {
 	
+	public static final String customer = "CUSTOMER";
+	public static final String admin = "ADMIN";
+
+	
 	private int id;
 	private String first_name;
 	private String last_name;
@@ -129,7 +133,4 @@ public class User {
 		this.isActive = isActive;
 	}
 	
-	
-	
-
 }

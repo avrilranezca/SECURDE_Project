@@ -59,3 +59,8 @@ Temporary Items
 #Filetypes
 .class
 .classpath
+
+#Files
+src/database/DatabaseConnection.java
+*.xml
+META-INF/application.xml
