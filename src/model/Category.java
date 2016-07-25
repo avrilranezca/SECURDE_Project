@@ -11,6 +11,12 @@ public class Category {
 		this.id = id;
 		this.name = name;
 	}
+	
+	public Category(String name) {
+		super();
+		this.name = name;
+	}
+	
 	public int getId() {
 		return id;
 	}
