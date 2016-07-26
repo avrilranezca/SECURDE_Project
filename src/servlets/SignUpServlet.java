@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Address;
 import model.User;
+import database.AddressDAO;
 import database.UserDAO;
 
 /**
@@ -32,6 +33,7 @@ public class SignUpServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("asdfsadfsad");
 		request.getRequestDispatcher("sign-up.jsp").forward(request, response);
 	}
 
@@ -40,7 +42,6 @@ public class SignUpServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		String first_name = request.getParameter("firstname");
 		String last_name = request.getParameter("lastname");
 		String middle_initial =  request.getParameter("middleInitial");
@@ -71,6 +72,13 @@ public class SignUpServlet extends HttpServlet {
 		u = uDao.getUser(user_name, password);
 		Address bAddress = new Address(bHouseNo, bStreet, bSubdivision, bCity, bPostalCode, bCountry);
 		Address sAddress = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
+		
+		AddressDAO aDao = new AddressDAO();
+		aDao.addAddress(bAddress);
+		aDao.addAddress(sAddress);
+		
+		uDao.updateBillingAddress(u, bAddress);
+		uDao.updateShippingAddress(u, bAddress);
 		
 		response.sendRedirect("index.jsp");
 	}

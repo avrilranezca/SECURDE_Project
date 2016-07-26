@@ -75,7 +75,7 @@
         <div class="ui container custom-container">
             <div class="ui header">Create new account</div>
             <div class="ui segment">
-                <form class="ui form">
+                <form data-abide class="ui form" method="POST" action="SignUpServlet" id="signup-form">
                     <div class="ui grid">
                         <div class="seven wide computer sixteen wide tablet column">
                             <h4 class="ui dividing header">Basic Information</h4>
@@ -178,7 +178,7 @@
                     </div>
                     <div class="ui grid">
                         <div class=" six wide computer sixteen wide tablet column right floated">
-                             <button class="ui blue button" style="width: 100%;">REGISTER</button>
+                             <button type="submit" class="ui blue button" style="width: 100%;" form="signup-form">REGISTER</button>
                         </div>
                     </div>
                 </form>
