@@ -3,9 +3,11 @@ package servlets;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import database.UserDAO;
 import model.User;
@@ -48,15 +50,19 @@ public class LoginServlet extends HttpServlet {
 		UserDAO dao = new UserDAO();
 		User user = dao.getUser(username, password);
 		
-		System.out.println("name db:"+user.getFirst_name());
-
-		response.setContentType("text/plain");
 		if (user != null)
-        {
-			System.out.println("Helo pasok");
-//			response.sendRedirect("index.jsp");
-
-			response.getWriter().write(user.getFirst_name());
+        {			
+			HttpSession session = request.getSession();
+			session.setAttribute("user", user);
+			//setting session to expiry in 30 mins
+			session.setMaxInactiveInterval(30*60);
+			
+			Cookie userName = new Cookie("user", user.getUser_name());
+			userName.setMaxAge(30*60);
+			response.addCookie(userName);
+			
+			response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().write("True");
         }
 	}
 
