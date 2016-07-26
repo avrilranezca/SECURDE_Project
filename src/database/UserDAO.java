@@ -67,27 +67,40 @@ public class UserDAO {
 	}
 	
 	public void updateBillingAddress(User u, Address a) {
+
+		AddressDAO adao = new AddressDAO();
+		
+		adao.addAddress(a);
+		
 		try{
 			PreparedStatement ps = conn.prepareStatement("UPDATE user SET billing_address_id = ? WHERE id = ?");
-			ps.setInt(1, a.getId());
+			
+			ps.setInt(1, adao.getAddress(a));
 			ps.setInt(2, u.getId());
 			
 			ps.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public void updateShippingAddress(User u, Address a) {
+		
+		AddressDAO adao = new AddressDAO();
+		
+		adao.addAddress(a);
+		
 		try{
 			PreparedStatement ps = conn.prepareStatement("UPDATE user SET shipping_address_id = ? WHERE id = ?");
-			ps.setInt(1, a.getId());
+			ps.setInt(1, adao.getAddress(a));
 			ps.setInt(2, u.getId());
 			
 			ps.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 }

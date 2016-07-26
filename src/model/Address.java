@@ -32,6 +32,10 @@ public class Address {
 		this.postal_code = postal_code;
 		this.country = country;
 	}
+	
+	public String toString() {
+		return "\nId:" + id + " House_No:" + house_no + " Street:" + street + " Subdivision:" + subdivision + " City:" + city + " Postal_Code:" + postal_code + " Country:" + country;
+	}
 
 	public int getId() {
 		return id;
