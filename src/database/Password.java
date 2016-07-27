@@ -52,7 +52,7 @@ public class Password {
 	  * for the password it represents, and also generate a new hash and ensure that the new hash verifies
 	  * just the same.
 	  */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		String test_passwd = "abcdefghijklmnopqrstuvwxyz";
 		String test_hash = "$2a$06$.rCVZVOThsIa97pEDOxvGuRRgzG64bvtJ0938xuqzv18d3ZpQhstC";
 
@@ -76,6 +76,6 @@ public class Password {
 		System.out.println("Verify against stored hash:   " + compare_test);
 		System.out.println("Verify against computed hash: " + compare_computed);
 
-	}
+	}*/
 
 }

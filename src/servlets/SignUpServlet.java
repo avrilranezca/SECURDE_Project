@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-
+import model.Address;
 import model.User;
 import database.UserDAO;
 
@@ -34,7 +32,6 @@ public class SignUpServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Sign up");
 	}
 
 	/**
@@ -50,8 +47,19 @@ public class SignUpServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String account_type = User.customer; 
+		String bHouseNo = request.getParameter("bHouseNo");
+		String bSubdivision = request.getParameter("bSubdivision");
+		String bPostalCode = request.getParameter("bPostalCode");
+		String bStreet = request.getParameter("bStreet");
+		String bCity = request.getParameter("bCity");
+		String bCountry = request.getParameter("bCountry");
+		String sHouseNo = request.getParameter("sHouseNo");
+		String sSubdivision = request.getParameter("sSubdivision");
+		String sPostalCode = request.getParameter("sPostalCode");
+		String sStreet = request.getParameter("sStreet");
+		String sCity = request.getParameter("sCity");
+		String sCountry = request.getParameter("sCountry");
 		int isActive = 1;
-		
 		
 		User u = new User(first_name, last_name, middle_initial, user_name, email, account_type, isActive);
 		u.setPassword(password);
@@ -59,8 +67,11 @@ public class SignUpServlet extends HttpServlet {
 		UserDAO uDao = new UserDAO();
 		uDao.addUser(u);
 		
+		u = uDao.getUser(user_name, password);
+		Address bAddress = new Address(bHouseNo, bStreet, bSubdivision, bCity, bPostalCode, bCountry);
+		Address sAddress = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
 		
-	
+		response.sendRedirect("index.jsp");
 	}
 
 }

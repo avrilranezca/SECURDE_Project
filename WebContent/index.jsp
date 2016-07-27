@@ -36,9 +36,11 @@
 				                        return false;
 				                    },
 				                    success: function(data) {
-				                    	alert("pasok success");
-				                		$('#welcome-menu').show();
-				                		$('#login-menu').hide();
+				                    	if(data == "True") {
+					                    	alert("pasok success");
+					                		$('#welcome-menu').show();
+					                		$('#login-menu').hide();
+				                    	}
 				                    },
 				                    type: 'POST'
 				                });
@@ -67,7 +69,7 @@
     <div class="right menu">
         <div class="ui right aligned item top-nav">
             <a id="login" class="item top-nav-item">login</a>
-            <a href="sign-up.html" class="item top-nav-item">sign up</a>
+            <a href="sign-up.jsp" class="item top-nav-item">sign up</a>
         </div>
     </div>
 </div>

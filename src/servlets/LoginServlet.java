@@ -9,9 +9,11 @@ import java.util.Random;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 import database.UserDAO;
@@ -36,7 +38,6 @@ public class LoginServlet extends HttpServlet {
 	 */
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		int token = new SecureRandom().nextInt();
 		request.getSession().setAttribute("token", token);
 		ArrayList<String> tokens = (ArrayList<String>) getServletContext().getAttribute("tokens");
@@ -72,10 +73,8 @@ public class LoginServlet extends HttpServlet {
 		UserDAO dao = new UserDAO();
 		User user = dao.getUser(username, password);
 		
-		System.out.println("name db:"+user.getFirst_name());
-
-		response.setContentType("text/plain");
 		if (user != null)
+<<<<<<< HEAD
         {
 			System.out.println("Helo pasok");
 //			response.sendRedirect("index.jsp");
