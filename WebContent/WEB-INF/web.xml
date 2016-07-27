@@ -19,11 +19,11 @@
     </user-data-constraint>
   </security-constraint>
   <servlet>
-	<servlet-name>LoginServlet</servlet-name>
-	<servlet-class>servlets.LoginServlet</servlet-class>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>servlets.LoginServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-	<servlet-name>LoginServlet</servlet-name>
-	<url-pattern></url-pattern>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern></url-pattern>
   </servlet-mapping>
 </web-app>
