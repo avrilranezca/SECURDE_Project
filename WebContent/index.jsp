@@ -316,6 +316,7 @@
                     <i class="lock icon"></i>
                     <input type="password" name="password" id="password" placeholder="Password">
                 </div>
+                <input type="hidden" name="token" value="${token}"/>
             </form>
         </div>
     </div>
