@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.ProductDAO;
+import model.Product;
+
 /**
  * Servlet implementation class AddProductServlet
  */
@@ -35,10 +38,10 @@ public class AddProductServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String name = request.getParameter("name");
-		String price = request.getParameter("price");
-		String type = request.getParameter("type");
-		String description = request.getParameter("description");
+		String name = request.getParameter("addName");
+		String price = request.getParameter("addPrice");
+		String type = request.getParameter("addType");
+		String description = request.getParameter("addDescription");
 		System.out.println(name + " " + price + " " + type + " " + description);
 	}
 

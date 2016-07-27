@@ -158,13 +158,13 @@
 
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="addType" checked="checked">
+                                                <input type="radio" name="addType" checked="checked" value="Boots">
                                                 <label>Boots</label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="addType">
+                                                <input type="radio" name="addType" value="Sandals">
                                                 <label>Sandals</label>
                                             </div>
                                         </div>
@@ -176,13 +176,13 @@
 
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="addType">
+                                                <input type="radio" name="addType" value="Shoes">
                                                 <label>Shoes</label>
                                             </div>
                                         </div>
                                         <div class="field">
                                             <div class="ui radio checkbox">
-                                                <input type="radio" name="addType">
+                                                <input type="radio" name="addType" value="Slippers">
                                                 <label>Slippers</label>
                                             </div>
                                         </div>
@@ -195,7 +195,7 @@
                             <div class="four wide column"><label>Description:</label></div>
                             <div class="twelve wide column">
                                 <div class="field">
-                                    <textarea name="addDesciption"></textarea>
+                                    <textarea name="addDescription"></textarea>
                                 </div>
                             </div>
                         </div>
