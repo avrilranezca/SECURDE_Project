@@ -12,26 +12,7 @@
         <script src="semantic-ui/dist/semantic.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#login").click(function () {
-                    $("#error-login").hide();
-                    $("#login-modal")
-                            .modal({
-                                closable  : true,
-                                onDeny    : function(){
-                                    window.alert('Wait not yet!');
-                                    return false;
-                                },
-                                onApprove : function() {
-                                    if($("#username").val()=="" || $("#password").val()==""){
-                                        $("#error-login").show();
-                                        return false;
-                                    }
-
-                                }
-                            })
-                            .modal('show')
-                    ;
-                });
+           
             });
         </script>
     </head>
@@ -39,8 +20,8 @@
         <div id="#login-menu" class="ui top attached menu">
             <div class="right menu">
                 <div class="ui right aligned item top-nav">
-                    <a id="login" class="item top-nav-item">login</a>
-                    <a href="sign-up.html" class="item top-nav-item">sign up</a>
+                    <a href="login.jsp" class="item top-nav-item">login</a>
+                    <a href="sign-up.jsp" class="item top-nav-item">sign up</a>
                 </div>
             </div>
         </div> 
@@ -75,7 +56,7 @@
         <div class="ui container custom-container">
             <div class="ui header">Create new account</div>
             <div class="ui segment">
-                <form class="ui form">
+                <form data-abide class="ui form" method="POST" action="SignUpServlet" id="signup-form">
                     <div class="ui grid">
                         <div class="seven wide computer sixteen wide tablet column">
                             <h4 class="ui dividing header">Basic Information</h4>
@@ -178,7 +159,7 @@
                     </div>
                     <div class="ui grid">
                         <div class=" six wide computer sixteen wide tablet column right floated">
-                             <button class="ui blue button" style="width: 100%;">REGISTER</button>
+                             <button type="submit" class="ui blue button" style="width: 100%;" form="signup-form">REGISTER</button>
                         </div>
                     </div>
                 </form>

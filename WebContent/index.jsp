@@ -11,47 +11,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#login").click(function () {
-//                $("#login-modal").modal('show');
-                $("#error-login").hide();
-                $("#login-modal")
-                        .modal({
-                            closable  : true,
-                            onDeny    : function(){
-                                window.alert('Wait not yet!');
-                                return false;
-                            },
-                            onApprove : function() {
-                                alert('Approved!');
-								
-								var username = $('#username').val();
-				                var password = $('#password').val();
-				                $.ajax({
-				                    url: 'LoginServlet',
-				                    data: { "username" : username,
-				                    		"password": password},
-				                    error: function(data) {
-				                    	alert("wut");
-				                        $('#error-login').show();
-				                        return false;
-				                    },
-				                    success: function(data) {
-				                    	if(data == "True") {
-					                    	alert("pasok success");
-					                		$('#welcome-menu').show();
-					                		$('#login-menu').hide();
-				                    	}
-				                    },
-				                    type: 'POST'
-				                });
-
-                            }
-                        })
-                        .modal('show')
-                ;
-            });
-
-
+           
             $('#cart-button')
                     .popup({
 //                        movePopup: false,
@@ -68,7 +28,7 @@
 <div id="#login-menu" class="ui top attached menu">
     <div class="right menu">
         <div class="ui right aligned item top-nav">
-            <a id="login" class="item top-nav-item">login</a>
+            <a href="login.jsp" class="item top-nav-item">login</a>
             <a href="sign-up.jsp" class="item top-nav-item">sign up</a>
         </div>
     </div>
@@ -294,39 +254,6 @@
         </div>
     </div>
 </div>
-
-<!---- START LOGIN MODAL---------------------------------------->
-<div id="login-modal" class="ui small modal">
-    <i class="close icon"></i>
-    <div class="header"> Login</div>
-
-    <div class="content">
-        <div class="ui basic  center aligned segment">
-
-            <form data-abide action = "LoginServlet" class="ui form" id="login-form" method="post">
-                <div id="error-login" class="ui negative message">
-                    <p>
-                        Wrong username/password!
-                    </p>
-                </div>
-                <div class="ui fluid left icon input">
-                    <i class="user icon"></i>
-                    <input type="text" name="username" id="username" placeholder="Username">
-                </div>
-                <br>
-                <div class="ui fluid left icon input">
-                    <i class="lock icon"></i>
-                    <input type="password" name="password" id="password" placeholder="Password">
-                </div>
-                <input type="hidden" name="token" value="${token}"/>
-            </form>
-        </div>
-    </div>
-    <div class="actions">
-        <button id="login-btn" class="ui positive right button" type="submit" form="login-form"> Login</button>
-    </div>
-</div>
-<!---- END LOGIN MODAL------------------------------------------>
 
 </body>
 </html>

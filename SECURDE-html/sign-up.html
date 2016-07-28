@@ -35,21 +35,9 @@
         <div id="#login-menu" class="ui top attached menu">
             <div class="right menu">
                 <div class="ui right aligned item top-nav">
-                    <a id="login" class="item top-nav-item">login</a>
+                    <a href="login.html" class="item top-nav-item">login</a>
                     <a href="sign-up.html" class="item top-nav-item">sign up</a>
                 </div>
-            </div>
-        </div>
-        <div id="#welcome-menu" class="ui container hidden">
-            <div class="ui right aligned basic segment">
-                <div class="ui grid middle aligned">
-                    <div class="fourteen wide column">
-                         <div class="ui sub header"> Welcome Shayane!</div>
-                    </div>
-                    <div class="two wide column">
-                          <div class="ui tiny right aligned basic button">Logout</div>
-                    </div>
-                </div>       
             </div>
         </div> 
         <div class="ui grid inverted attached segment">
@@ -191,38 +179,7 @@
                     </div>
                 </form>
             </div>
-        </div>  
-<!---- START LOGIN MODAL---------------------------------------->
-        <div id="login-modal" class="ui small modal">
-            <i class="close icon"></i>
-            <div class="header"> Login</div>
-
-            <div class="content">
-                <div class="ui basic  center aligned segment">
-
-                    <form class="ui form" id="login-form" method="post">
-                        <div id="error-login" class="ui negative message">
-                            <p>
-                                Wrong username/password!
-                            </p>
-                        </div>
-                        <div class="ui fluid left icon input">
-                            <i class="user icon"></i>
-                            <input type="text" id="username" placeholder="Username">
-                        </div>
-                        <br>
-                        <div class="ui fluid left icon input">
-                            <i class="lock icon"></i>
-                            <input type="text" id="password" placeholder="Password">
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="actions">
-                <div class="ui positive right button" type="submit" form="login-form"> Login</div>
-            </div>
         </div>
-<!---- END LOGIN MODAL------------------------------------------>
         
     </body>
 </html>
