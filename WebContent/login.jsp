@@ -11,6 +11,16 @@
     <script src="semantic-ui/dist/semantic.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#error-login').hide();
+            <%
+                if(request.getAttribute("error")!=null){
+                    %>
+                    $('#error-msg').text("${error}");
+                    $('#error-login').show();
+                    <%
+                }
+
+            %>
             <%
                             Cookie[] cookies = request.getCookies();
                             boolean foundCookie = false;
@@ -145,6 +155,11 @@
                     <div class="ui basic segment">
 
                         <form class="ui form" id="login-form" action="LoginServlet" method="post">
+                            <div id="error-login" class="ui negative message">
+                                <p id="error-msg">
+                                    Wrong username/password!
+                                </p>
+                            </div>
                             <div class="field"><label>Username</label>
                                 <div class="ui fluid left icon input">
                                     <i class="user icon"></i>

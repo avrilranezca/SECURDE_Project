@@ -70,8 +70,11 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}else{
 
+			if(username.equals("")||password.equals("")) request.setAttribute("error", "Fill up all fields.");
+				else request.setAttribute("error", "Incorrect username/password!");
 			String encodedURL = response.encodeRedirectURL("login.jsp");
-			response.sendRedirect(encodedURL);
+//			response.sendRedirect(encodedURL);
+			request.getRequestDispatcher(encodedURL).forward(request,response);
 			return;
 		}
 	}
