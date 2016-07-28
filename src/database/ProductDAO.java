@@ -19,11 +19,11 @@ public class ProductDAO {
 	
 	public void addProduct(Product p) {
 		try{
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO product (name, description, price, category_id, isActive) VALUES (?,?,?,?,?);");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO product (name, description, price, category_id, isActive) VALUES (?,?,?,(SELECT id FROM category WHERE name = ?),?);");
 			ps.setString(1, p.getName());
 			ps.setString(2, p.getDescription());
 			ps.setDouble(3, p.getPrice());
-			ps.setInt(4, p.getCategory_id());
+			ps.setString(4, p.getCategory());
 			ps.setInt(5, 1);
 			
 			ps.execute();

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.ProductDAO;
+import model.Category;
 import model.Product;
 
 /**
@@ -43,6 +44,10 @@ public class AddProductServlet extends HttpServlet {
 		String type = request.getParameter("addType");
 		String description = request.getParameter("addDescription");
 		System.out.println(name + " " + price + " " + type + " " + description);
+		
+		ProductDAO dao = new ProductDAO();
+		dao.addProduct(new Product(name, description, Double.valueOf(price), type, 1));
+		request.getRequestDispatcher("product_manager.jsp").forward(request, response);
 	}
 
 }
