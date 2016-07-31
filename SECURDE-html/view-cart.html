@@ -38,14 +38,26 @@
     </script>
 </head>
 <body>
-<div class="ui top attached menu">
+<div id="#login-menu" class="ui top attached menu">
     <div class="right menu">
         <div class="ui right aligned item top-nav">
-            <a id="login" class="item top-nav-item">login</a>
-            <a class="item top-nav-item">sign up</a>
+            <a href="login.html" class="item top-nav-item">login</a>
+            <a href="sign-up.html" class="item top-nav-item">sign up</a>
         </div>
     </div>
 </div>
+<div id="#welcome-menu" class="ui container hidden">
+    <div class="ui right aligned basic segment">
+        <div class="ui grid middle aligned">
+            <div class="fourteen wide column">
+                 <div class="ui sub header"> Welcome Shayane!</div>
+            </div>
+            <div class="two wide column">
+                  <div class="ui tiny right aligned basic button">Logout</div>
+            </div>
+        </div>       
+    </div>
+</div> 
 <div class="ui grid inverted attached segment">
     <div class="four wide column center aligned">
         <div class="ui header center aligned">
@@ -72,7 +84,7 @@
         </div>
     </div>
 </div>
-<div class="ui container category-container">
+<div class="ui container custom-container">
     <div class="ui four item pointing menu">
         <a class="item">
             <div class="ui grid">
@@ -190,29 +202,5 @@
     </div>
 </div>
 
-<!---- START LOGIN MODAL---------------------------------------->
-<div id="login-modal" class="ui modal">
-    <i class="close icon"></i>
-    <div class="header"> Login</div>
-
-    <div class="content">
-        <form class="ui form" id="login-form" method="post">
-
-            <div class="field">
-                <label>Username</label>
-                <input type="text" name="username">
-            </div>
-            <div class="field">
-                <label>Password</label>
-                <input type="text" name="password">
-            </div>
-        </form>
-    </div>
-    <div class="actions">
-        <div class="ui positive right labeled icon button" type="submit" form="login-form"> Login <i
-                class="checkmark icon"></i></div>
-    </div>
-</div>
-<!---- END LOGIN MODAL------------------------------------------>
 </body>
 </html>

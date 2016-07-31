@@ -3,17 +3,45 @@
     <head>
         <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
         <link rel="stylesheet" type="text/css" href="style.css">
+        
+        <script src="jquery-1.11.3.min.js"></script>
         <script src="semantic-ui/dist/semantic.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#login").click(function () {
+                    $("#error-login").hide();
+                    $("#login-modal")
+                            .modal({
+                                closable  : true,
+                                onDeny    : function(){
+                                    window.alert('Wait not yet!');
+                                    return false;
+                                },
+                                onApprove : function() {
+                                    if($("#username").val()=="" || $("#password").val()==""){
+                                        $("#error-login").show();
+                                        return false;
+                                    }
+
+                                }
+                            })
+                            .modal('show')
+                    ;
+                });
+            });
+        </script>
     </head>
     <body>
-        <div class="ui top attached menu">
+<!--
+        <div id="#login-menu" class="ui top attached menu">
             <div class="right menu">
-              <div class="ui right aligned item top-nav">
-                <a class="item top-nav-item">login</a>
-                <a class="item top-nav-item">sign up</a>
-              </div>
+                <div class="ui right aligned item top-nav">
+                    <a href="login.html" class="item top-nav-item">login</a>
+                    <a href="sign-up.html" class="item top-nav-item">sign up</a>
+                </div>
             </div>
-        </div>
+        </div> 
+-->
         <div class="ui grid inverted attached segment">
             <div class="four wide column center aligned">
                 <div class="ui header center aligned">
@@ -40,135 +68,41 @@
                 </div>                              
             </div>
         </div>
-        <div class="ui container category-container">
-             <div class="ui four item pointing menu">
-                 <a class="active item">
-                    <div class="ui grid">
-                        <div class="sixteen wide column categ-label-container">
-                             <img class="ui mini image middle aligned" src="assets/boots.png">
-                        </div>    
-                        <div class="sixteen wide column categ-label-container"><span class="category-label">boots</span> </div>
-                    </div>    
-                 </a>
-                 <a class="item">
-                     <div class="ui grid">
-                        <div class="sixteen wide column categ-label-container">
-                             <img class="ui mini image middle aligned" src="assets/shoes.png">
-                        </div>    
-                        <div class="sixteen wide column categ-label-container"><span class="category-label">shoes</span> </div>
-                    </div>  
-                 </a>
-                 <a class="item">
-                     <div class="ui grid">
-                        <div class="sixteen wide column categ-label-container">
-                             <img class="ui mini image middle aligned" src="assets/sandals.png">
-                        </div>    
-                        <div class="sixteen wide column categ-label-container"><span class="category-label">sandals</span> </div>
-                    </div>  
-                 </a>
-                 <a class="item">
-                     <div class="ui grid">
-                        <div class="sixteen wide column categ-label-container">
-                             <img class="ui mini image middle aligned" src="assets/slippers.png">
-                        </div>    
-                        <div class="sixteen wide column categ-label-container"><span class="category-label">slippers</span> </div>
-                    </div>  
-                 </a>
-            </div>
-        </div>
-        <div class="ui container segment">
-            <div class="ui four column grid">
-                <div class="column">
-                    <div class="ui fluid card">
-                        <div class="image">
-                            <img src="assets/bababoots.jpg">
-                        </div>
-                        <div class="content">
-                            <div class="ui grid">
-                                <div class="twelve wide column">
-                                    <a class="header">Rissa Bababoots (Red)</a>
-                                    <div class="meta"><span class="price-label">900.00</span></div>
+        
+        
+        <div class="ui container custom-container" style="padding-top: 5%;">
+            <div class="ui header">LOGIN OR CREATE AN ACCOUNT</div>
+            <div class="ui segment very padded">
+                <form>
+                    <div class="ui two column middle aligned very relaxed stackable grid">
+                        <div class="column">
+                            <div class="ui form">
+                                <div class="field">
+                                    <label>Username</label>
+                                    <div class="ui left icon input">
+                                        <input placeholder="Username" type="text"><i class="user icon"></i>
+                                    </div>
                                 </div>
-                                <div class="four wide column middle aligned center aligned">
-                                   <i class="big link add to cart icon"></i>
+                                <div class="field">
+                                    <label>Password</label>
+                                    <div class="ui left icon input">
+                                        <input type="password"><i class="lock icon"></i>
+                                    </div>
                                 </div>
+                                <button class="ui blue submit button">Login</button>
                             </div>
-                        </div>
+                      </div>
+                      <div class="ui vertical divider"> Or</div>
+                      <div class="center aligned column">
+                          <a href="sign-up.html">
+                              <div class="ui big green labeled icon button">
+                                  <i class="signup icon"></i>Sign Up
+                              </div>
+                          </a>
+                      </div>
                     </div>
-                </div>
-                <div class="column">
-                    <div class="ui fluid card">
-                        <div class="image">
-                            <img src="assets/bababoots.jpg">
-                        </div>
-                        <div class="content">
-                            <div class="ui grid">
-                                <div class="twelve wide column">
-                                    <a class="header">Rissa Bababoots (Red)</a>
-                                    <div class="meta"><span class="price-label">900.00</span></div>
-                                </div>
-                                <div class="four wide column middle aligned center aligned">
-                                   <i class="big link add to cart icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui fluid card">
-                        <div class="image">
-                            <img src="assets/bababoots.jpg">
-                        </div>
-                        <div class="content">
-                            <div class="ui grid">
-                                <div class="twelve wide column">
-                                    <a class="header">Rissa Bababoots (Red)</a>
-                                    <div class="meta"><span class="price-label">900.00</span></div>
-                                </div>
-                                <div class="four wide column middle aligned center aligned">
-                                   <i class="big link add to cart icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui fluid card">
-                        <div class="image">
-                            <img src="assets/bababoots.jpg">
-                        </div>
-                        <div class="content">
-                            <div class="ui grid">
-                                <div class="twelve wide column">
-                                    <a class="header">Rissa Bababoots (Red)</a>
-                                    <div class="meta"><span class="price-label">900.00</span></div>
-                                </div>
-                                <div class="four wide column middle aligned center aligned">
-                                   <i class="big link add to cart icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="column">
-                    <div class="ui fluid card">
-                        <div class="image">
-                            <img src="assets/bababoots.jpg">
-                        </div>
-                        <div class="content">
-                            <div class="ui grid">
-                                <div class="twelve wide column">
-                                    <a class="header">Rissa Bababoots (Red)</a>
-                                    <div class="meta"><span class="price-label">900.00</span></div>
-                                </div>
-                                <div class="four wide column middle aligned center aligned">
-                                   <i class="big link add to cart icon"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </form>
+            </div>          
+        </div>          
     </body>
 </html>
