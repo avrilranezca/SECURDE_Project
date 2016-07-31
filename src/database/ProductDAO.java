@@ -57,12 +57,16 @@ public class ProductDAO {
 	}
 	
 	public void updateProduct(Product p) {
+		
+		CategoryDAO cdao = new CategoryDAO();
+		Category category = cdao.getCategory(p.getCategory());
+		
 		try {
 			PreparedStatement ps = conn.prepareStatement("UPDATE product SET name = ?, description = ?, price = ?, category_id = ?, isActive = ? WHERE id = ?");
 			ps.setString(1, p.getName());
 			ps.setString(2, p.getDescription());
 			ps.setDouble(3, p.getPrice());
-			ps.setInt(4, p.getCategory_id());
+			ps.setInt(4, category.getId());
 			ps.setInt(5, 1);
 			ps.setInt(6, p.getId());
 			
@@ -76,6 +80,9 @@ public class ProductDAO {
 		PreparedStatement ps;
 
 		ArrayList<Product> productList = new ArrayList<Product>();
+		
+		CategoryDAO cdao = new CategoryDAO();
+		
 		try {
 			ps = conn.prepareStatement("SELECT * FROM product;");
 
@@ -83,7 +90,8 @@ public class ProductDAO {
 			
 			
 			while(rs.next()) {
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getInt("category_id"), rs.getInt("isActive"));
+				Category c = cdao.getCategory(rs.getInt("category_id"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
 				productList.add(p);
 			}
 			
@@ -108,7 +116,7 @@ public class ProductDAO {
 			
 			
 			while(rs.next()) {
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getInt("category_id"), rs.getInt("isActive"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
 				productList.add(p);
 			}
 			
@@ -122,6 +130,8 @@ public class ProductDAO {
 	
 	public Product getProductOnID(int id) {
 		PreparedStatement ps;
+		
+		CategoryDAO cdao = new CategoryDAO();
 
 		try {
 			ps = conn.prepareStatement("SELECT * FROM product WHERE id = ?;");
@@ -132,7 +142,8 @@ public class ProductDAO {
 			
 			
 			while(rs.next()) {
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getInt("category_id"), rs.getInt("isActive"));
+				Category c = cdao.getCategory(rs.getInt("category_id"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
 				return p;
 			}
 			
