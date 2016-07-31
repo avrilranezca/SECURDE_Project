@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.CategoryDAO;
+import database.ProductDAO;
+import model.Product;
 
 /**
  * Servlet implementation class DisplayProductsServlet
@@ -33,6 +35,10 @@ public class DisplayProductsServlet extends HttpServlet {
 		CategoryDAO categoryDAO = new CategoryDAO();
 		List<String> categories = categoryDAO.getCategories();
 		request.setAttribute("categories", categories);
+		
+		ProductDAO productDAO = new ProductDAO();
+		List<Product> products = productDAO.getAllProducts();
+		request.setAttribute("products", products);
 		
 		request.getRequestDispatcher("product_manager.jsp").forward(request, response);
 	}

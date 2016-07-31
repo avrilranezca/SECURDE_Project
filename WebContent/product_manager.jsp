@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <! DOCTYPE html>
@@ -91,48 +92,22 @@
 
             <div class="ui hidden divider"></div>
 
-            <div class="ui  segment">
-                <div class="ui grid">
-                    <div class="ten wide column">
-                        <h3 class="ui header">Payday 2
-                            <div class="ui sub header">PHP 565.00</div>
-                        </h3>
-                    </div>
-                    <div class="six wide column right aligned">
-                        <h1 class="ui sub header">Boots</h1>
-                        <i class="write link icon"></i>
-                        <i class="trash link icon"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="ui  segment">
-                <div class="ui grid">
-                    <div class="ten wide column">
-                        <h3 class="ui header">Dead By Daylight
-                            <div class="ui sub header">PHP 565.00</div>
-                        </h3>
-                    </div>
-                    <div class="six wide column right aligned">
-                        <h1 class="ui sub header">Sandals</h1>
-                        <i class="write link icon"></i>
-                        <i class="trash link icon"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="ui  segment">
-                <div class="ui grid">
-                    <div class="ten wide column">
-                        <h3 class="ui header">Depth
-                            <div class="ui sub header">PHP 565.00</div>
-                        </h3>
-                    </div>
-                    <div class="six wide column right aligned">
-                        <h1 class="ui sub header">Shoes</h1>
-                        <i class="write link icon"></i>
-                        <i class="trash link icon"></i>
-                    </div>
-                </div>
-            </div>
+			<c:forEach var="product" items="${products }">
+				<div class="ui segment">
+	                <div class="ui grid">
+	                    <div class="ten wide column">
+	                        <h3 class="ui header">${product.name }
+	                            <div class="ui sub header"><fmt:formatNumber value="${product.price }" type="currency" currencyCode="PHP"/></div>
+	                        </h3>
+	                    </div>
+	                    <div class="six wide column right aligned">
+	                        <h1 class="ui sub header">${product.category }</h1>
+	                        <i class="write link icon"></i>
+	                        <i class="trash link icon"></i>
+	                    </div>
+	                </div>
+           		</div>
+			</c:forEach>
         </div>
         <div class="seven wide column">
 
