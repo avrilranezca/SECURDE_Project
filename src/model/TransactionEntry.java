@@ -18,13 +18,11 @@ public class TransactionEntry {
 		this.transaction_id = transaction_id;
 	}
 
-	public TransactionEntry(int product_id, int quantity, double price,
-			int transaction_id) {
+	public TransactionEntry(int product_id, int quantity, double price) {
 		super();
 		this.product_id = product_id;
 		this.quantity = quantity;
 		this.price = price;
-		this.transaction_id = transaction_id;
 	}
 
 	public int getId() {

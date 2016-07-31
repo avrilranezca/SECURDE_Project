@@ -81,17 +81,14 @@ public class ProductDAO {
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		
-		CategoryDAO cdao = new CategoryDAO();
-		
 		try {
-			ps = conn.prepareStatement("SELECT * FROM product;");
+			ps = conn.prepareStatement("SELECT product.id, product.name, description, category_id, category.name FROM product INNER JOIN category ON product.category_id = category.id;");
 
 			ResultSet rs = ps.executeQuery();
 			
 			
 			while(rs.next()) {
-				Category c = cdao.getCategory(rs.getInt("category_id"));
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive"));
 				productList.add(p);
 			}
 			
@@ -131,10 +128,8 @@ public class ProductDAO {
 	public Product getProductOnID(int id) {
 		PreparedStatement ps;
 		
-		CategoryDAO cdao = new CategoryDAO();
-
 		try {
-			ps = conn.prepareStatement("SELECT * FROM product WHERE id = ?;");
+			ps = conn.prepareStatement("SELECT product.id, product.name, description, category_id, category.name AS c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = ?;");
 
 			ps.setInt(1, id);
 			
@@ -142,8 +137,7 @@ public class ProductDAO {
 			
 			
 			while(rs.next()) {
-				Category c = cdao.getCategory(rs.getInt("category_id"));
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive"));
 				return p;
 			}
 			
