@@ -8,20 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.ProductDAO;
-import model.Category;
 import model.Product;
 
 /**
- * Servlet implementation class AddProductServlet
+ * Servlet implementation class EditProductServlet
  */
-@WebServlet("/AddProductServlet")
-public class AddProductServlet extends HttpServlet {
+@WebServlet("/EditProductServlet")
+public class EditProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddProductServlet() {
+    public EditProductServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,15 +37,14 @@ public class AddProductServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String name = request.getParameter("addName");
-		String price = request.getParameter("addPrice");
-		String type = request.getParameter("addType");
-		String description = request.getParameter("addDescription");
-		System.out.println(name + " " + price + " " + type + " " + description);
+		int id = Integer.valueOf(request.getParameter("editId"));
+		String name = request.getParameter("editName");
+		double price = Double.valueOf(request.getParameter("editPrice"));
+		String type = request.getParameter("editType");
+		String description = request.getParameter("editDescription");
 		
 		ProductDAO dao = new ProductDAO();
-		dao.addProduct(new Product(name, description, Double.valueOf(price), type, 1));
+		dao.updateProduct(new Product(id, name, description, price, type, 1));
 		request.getRequestDispatcher("/product_manager").forward(request, response);
 	}
 
