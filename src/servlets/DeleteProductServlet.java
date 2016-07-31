@@ -8,20 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.ProductDAO;
-import model.Category;
 import model.Product;
 
 /**
- * Servlet implementation class AddProductServlet
+ * Servlet implementation class DeleteProductServlet
  */
-@WebServlet("/AddProductServlet")
-public class AddProductServlet extends HttpServlet {
+@WebServlet("/DeleteProductServlet")
+public class DeleteProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddProductServlet() {
+    public DeleteProductServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,14 +38,10 @@ public class AddProductServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String name = request.getParameter("addName");
-		String price = request.getParameter("addPrice");
-		String type = request.getParameter("addType");
-		String description = request.getParameter("addDescription");
-		System.out.println(name + " " + price + " " + type + " " + description);
+		int id = Integer.valueOf(request.getParameter("deleteProductId"));
 		
-		ProductDAO dao = new ProductDAO();
-		dao.addProduct(new Product(name, description, Double.valueOf(price), type, 1));
+		ProductDAO productDAO = new ProductDAO();
+		productDAO.deleteProduct(new Product(id, null, null, 0, null, 0));
 		request.getRequestDispatcher("/product_manager").forward(request, response);
 	}
 

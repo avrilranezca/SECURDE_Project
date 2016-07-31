@@ -82,7 +82,9 @@ public class ProductDAO {
 		ArrayList<Product> productList = new ArrayList<Product>();
 		
 		try {
-			ps = conn.prepareStatement("SELECT product.id, product.name, description, category_id, category.name FROM product INNER JOIN category ON product.category_id = category.id;");
+
+			ps = conn.prepareStatement("SELECT product.id, product.name, description, category_id, category.name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;");
+			//ps = conn.prepareStatement("SELECT * FROM product WHERE isActive = 1;");
 
 			ResultSet rs = ps.executeQuery();
 			

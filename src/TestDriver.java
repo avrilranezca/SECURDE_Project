@@ -83,6 +83,8 @@ public class TestDriver {
 		
 		System.out.println(tdao.getSalesPerProduct());
 		System.out.println(tdao.getSalesPerCategory());
+
+		//System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));
 	}
 
 }
