@@ -49,4 +49,27 @@ public class CategoryDAO {
 		
 		return c;
 	}
+	
+	public Category getCategory(int categoryID) {
+		
+		Category c = null;
+		
+		try{
+			PreparedStatement ps = conn.prepareStatement("SELECT id, name FROM category WHERE id = ? LIMIT 1;");
+			ps.setInt(1, categoryID);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {
+				c = new Category(rs.getInt("id"), rs.getString("name"));
+				return c;
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return c;
+	}
 }
