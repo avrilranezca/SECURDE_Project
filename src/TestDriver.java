@@ -72,14 +72,17 @@ public class TestDriver {
 		
 		/*System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));*/
 		
-		Transaction t = new Transaction(1, new Date());
+		/*Transaction t = new Transaction(1, new Date());
 		ArrayList<TransactionEntry> teList = new ArrayList<TransactionEntry>();
 		
 		teList.add(new TransactionEntry(1, 2, 1));
 		teList.add(new TransactionEntry(2, 3, 1.23));
 		teList.add(new TransactionEntry(3, 1, 2.34));
 		
-		tdao.addTransaction(t, teList);
+		tdao.addTransaction(t, teList);*/
+		
+		System.out.println(tdao.getSalesPerProduct());
+		System.out.println(tdao.getSalesPerCategory());
 	}
 
 }

@@ -2,21 +2,25 @@ package model;
 
 public class Sales {
 	
-	private String product_name;
+	private String name;
 	private double total_sales;
 	
-	public Sales(String product_name, double total_sales) {
+	public Sales(String name, double total_sales) {
 		super();
-		this.product_name = product_name;
+		this.name = name;
 		this.total_sales = total_sales;
 	}
-
-	public String getProduct_name() {
-		return product_name;
+	
+	public String toString() {
+		return "\nName:" + name + " TotalSales: " + total_sales;
 	}
 
-	public void setProduct_name(String product_name) {
-		this.product_name = product_name;
+	public String getname() {
+		return name;
+	}
+
+	public void setname(String name) {
+		this.name = name;
 	}
 
 	public double getTotal_sales() {
