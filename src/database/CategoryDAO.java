@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Category;
 import model.Product;
@@ -48,5 +50,23 @@ public class CategoryDAO {
 		}
 		
 		return c;
+	}
+	
+	public List<String> getCategories() {
+		List<String> categories = new ArrayList<String>();
+		try{
+			PreparedStatement ps = conn.prepareStatement("SELECT name FROM category;");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {
+				categories.add(rs.getString("name"));
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return categories;
 	}
 }

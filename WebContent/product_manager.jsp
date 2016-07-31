@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <! DOCTYPE html>
@@ -155,37 +156,26 @@
                             <div class="twelve wide column">
                                 <div class="grouped fields">
                                     <div class="inline fields">
-
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="addType" checked="checked" value="Boots">
-                                                <label>Boots</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="addType" value="Sandals">
-                                                <label>Sandals</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="grouped fields">
-                                    <div class="inline fields">
-
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="addType" value="Shoes">
-                                                <label>Shoes</label>
-                                            </div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="addType" value="Slippers">
-                                                <label>Slippers</label>
-                                            </div>
-                                        </div>
+										<c:forEach var="category" items="${categories}" varStatus="loop">
+											<c:choose>
+											<c:when test="${loop.first}">
+		                                        <div class="field">
+		                                            <div class="ui radio checkbox">
+		                                                <input type="radio" name="addType" value="${category}" checked="checked">
+		                                                <label>${category}</label>
+		                                            </div>
+		                                        </div>
+		                                    </c:when>
+		                                    <c:otherwise>
+		                                    	<div class="field">
+		                                            <div class="ui radio checkbox">
+		                                                <input type="radio" name="addType" value="${category}">
+		                                                <label>${category}</label>
+		                                            </div>
+		                                        </div>
+		                                    </c:otherwise>
+		                                    </c:choose>
+                                        </c:forEach>
                                     </div>
                                 </div>
                             </div>

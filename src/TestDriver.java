@@ -66,7 +66,7 @@ public class TestDriver {
 		rdao.addReview(r);*/
 		
 		
-		System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));
+		//System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));
 	}
 
 }
