@@ -1,30 +1,26 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import database.CategoryDAO;
 import database.ProductDAO;
-import model.Category;
 import model.Product;
 
 /**
- * Servlet implementation class DisplayProductsServlet
+ * Servlet implementation class DeleteProductServlet
  */
-@WebServlet("/DisplayProductsServlet")
-public class DisplayProductsServlet extends HttpServlet {
+@WebServlet("/DeleteProductServlet")
+public class DeleteProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DisplayProductsServlet() {
+    public DeleteProductServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,29 +29,8 @@ public class DisplayProductsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String filter = "All";
-		
-		if(request.getParameter("filter") != null) {
-			filter = request.getParameter("filter");
-		}
-		
-		request.setAttribute("filter", filter);
-		
-		CategoryDAO categoryDAO = new CategoryDAO();
-		List<String> categories = categoryDAO.getCategories();
-		request.setAttribute("categories", categories);
-		
-		ProductDAO productDAO = new ProductDAO();
-		List<Product> products;
-		
-		if("All".equals(filter)) {
-			products = productDAO.getAllProducts();
-		} else {
-			products = productDAO.getProductOnCategory(new Category(filter));
-		}
-		
-		request.setAttribute("products", products);
-		request.getRequestDispatcher("product_manager.jsp").forward(request, response);
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -63,7 +38,11 @@ public class DisplayProductsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		int id = Integer.valueOf(request.getParameter("deleteProductId"));
+		
+		ProductDAO productDAO = new ProductDAO();
+		productDAO.deleteProduct(new Product(id, null, null, 0, null, 0));
+		request.getRequestDispatcher("/product_manager").forward(request, response);
 	}
 
 }

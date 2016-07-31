@@ -39,6 +39,14 @@
         function saveEdit(form) {
         	form.submit();
         }
+        function filter(form, filter) {
+        	document.getElementById("filter").value = filter;
+        	form.submit();
+        }
+        function deleteProduct(form, id) {
+        	document.getElementById("deleteProductId").value = id;
+        	form.submit();
+        }
     </script>
 </head>
 <body>
@@ -88,10 +96,34 @@
                 <h2 class="ui header headerc">
                     Products
                 </h2>
-                <div class="headingsubc">
-                    <b><a href="#">All</a> </b> | <a href="#">Boots</a> | <a href="#">Shoes</a>| <a href="#">Sandals</a>
-                    | <a href="#">Slippers</a>
-                </div>
+                <form id="filter-form" method="post" action="DisplayProductsServlet">
+	                <div class="headingsubc">
+	                	<c:choose>
+							<c:when test="${filter eq 'All'}">
+								<b><a href="#" onClick="filter(document.getElementById('filter-form'), 'All');return false;">All</a></b>
+							</c:when>
+							<c:otherwise>
+								<a href="#" onClick="filter(document.getElementById('filter-form'), 'All');return false;">All</a>
+							</c:otherwise>
+						</c:choose>
+	                
+						<c:forEach var="category" items="${categories}" varStatus="loop">
+							<c:choose>
+								<c:when test="${filter eq category}">
+									<b>
+								</c:when>
+							</c:choose>
+							|
+							<a href="#" onClick="filter(document.getElementById('filter-form'), '${category}');return false;">${category }</a>
+							<c:choose>
+								<c:when test="${filter eq category}">
+									</b>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+	                </div>
+	                <input id="filter" type="hidden" name="filter" value="All">
+	            </form>
             </div>
 
             <div class="ui basic segment headingd">
@@ -101,6 +133,10 @@
             </div>
 
             <div class="ui hidden divider"></div>
+
+			<form id="delete-form" action="DeleteProductServlet" method="post">
+           		<input type="hidden" id="deleteProductId" name="deleteProductId">
+           	</form>
 
 			<c:forEach var="product" items="${products }" varStatus="loop">
 				<div class="ui segment">
@@ -113,11 +149,11 @@
 	                    <div class="six wide column right aligned">
 	                        <h1 class="ui sub header" id="productCategory${loop.index}">${product.category }</h1>
 	                        <i class="write link icon" onClick="editProduct(${loop.index})"></i>
-	                        <i class="trash link icon"></i>
+	                        <i class="trash link icon" onClick="deleteProduct(document.getElementById('delete-form'), ${product.id})"></i>
 	                    </div>
 	                </div>
            		</div>
-           		<input type="hidden" id="productId${loop.index}" value="${product.id }">
+           		<input type="hidden" id="productId${loop.index}" value="${product.id }" name="productId">
            		<input type="hidden" id="productPrice${loop.index}" value="${product.price }">
 	            <input type="hidden" id="productDescription${loop.index}" value="${product.description }">
 			</c:forEach>

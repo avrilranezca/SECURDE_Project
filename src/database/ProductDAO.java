@@ -84,7 +84,7 @@ public class ProductDAO {
 		CategoryDAO cdao = new CategoryDAO();
 		
 		try {
-			ps = conn.prepareStatement("SELECT * FROM product;");
+			ps = conn.prepareStatement("SELECT * FROM product WHERE isActive = 1;");
 
 			ResultSet rs = ps.executeQuery();
 			
