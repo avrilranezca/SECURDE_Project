@@ -1,7 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="database.UserDAO" %>
+<%@ page import="database.ProductDAO" %>
+<%@ page import="model.Product" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -32,8 +33,10 @@
                                         }
                                     }
                             }
-                            if (!foundCookie) {
-                        %>
+
+
+                            if (!foundCookie || userName==null) {
+            %>
             $('#welcome-menu').hide();
             <%
                 } else {
@@ -43,22 +46,7 @@
                 }
             %>
 
-
-            <%
-                int cartcount = 0;
-                Cookie[] cookies2 = request.getCookies();
-
-                            if(cookies2 !=null){
-                                    for(int i = 0; i < cookies2.length; i++) {
-                                        Cookie c = cookies2[i];
-                                        if (c.getName().equals("item")) {
-                                            cartcount++;
-
-                                        }
-                                    }
-                            }
-
-            %>
+            updateCart();
 
             $('#cart-button')
                     .popup({
@@ -68,15 +56,69 @@
                     })
             ;
 
+            $('#cart-button').click(function () {
+                updateCart();
+
+            });
+
+            function updateCart(){
+                <%
+                            String item = null;
+                            if(cookies !=null){
+                                    for(int i = 0; i < cookies.length; i++) {
+                                        Cookie c = cookies[i];
+                                        if (c.getName().equals("user")) {
+                                            foundCookie = true;
+                                        }
+                                        if (c.getName().equals("item")) {
+                                            item = c.getValue();
+                                        }
+                                    }
+                            }
+                             if(item!=null){
+
+                            String[] list = item.split(",");
+                            float sum=0;
+
+                             ProductDAO dao = new ProductDAO();
+                             Product prod = dao.getProductOnID(Integer.parseInt(list[list.length-1]));
+                            for (int i =0; i<list.length; i++) sum+=dao.getProductOnID(Integer.parseInt(list[i])).getPrice();
+
+
+
+            %>
+                $("#cart-button").attr("data-badge", "<%=list.length%>");
+                $("#total").html("<%=sum%>");
+
+                $("#empty-cart").hide();
+
+                $("#cart-name").html("<%=prod.getName()%>");
+                $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+
+                $("#cart-capacity").html("<%=list.length%> Item/s");
+                <%
+                    }
+                    else{
+
+
+                %>
+                    $("#recent-cart").hide();
+                <%
+                }
+                %>
+
+            }
+
             $(".add-cart").click(function () {
                 var id = this.id;
 
                 $.ajax({
                     url: "AddToCartServlet",
-                    data: {"itemID" : id},
-                    success: function(result){
-                        $("#cart-button").attr("data-badge", <%= cartcount%>);
-                        alert(<%=cartcount%>);
+                    data: {"itemID": id},
+                    type: "POST",
+                    success: function(data){
+                        updateCart();
                     }
                 });
 
@@ -91,25 +133,25 @@
                 $("#display-form").submit();
             });
 
-            $("#cat-boots").click(function(){
+            $("#cat-boots").click(function () {
                 $("#category-form input[name=cat]").val("Boots");
                 $("#category-form").submit();
             });
 
 
-            $("#cat-sandals").click(function(){
+            $("#cat-sandals").click(function () {
                 $("#category-form input[name=cat]").val("Sandals");
                 $("#category-form").submit();
             });
 
 
-            $("#cat-shoes").click(function(){
+            $("#cat-shoes").click(function () {
                 $("#category-form input[name=cat]").val("Shoes");
                 $("#category-form").submit();
             });
 
 
-            $("#cat-slippers").click(function(){
+            $("#cat-slippers").click(function () {
                 $("#category-form input[name=cat]").val("Slippers");
                 $("#category-form").submit();
             });
@@ -165,42 +207,49 @@
                     <div class="ui grid sixteen wide column">
                         <div class="eight wide column right aligned"><i class="badge big link shop icon"
                                                                         id="cart-button" data-badge="0"></i></div>
-                        <div class="eight wide column left aligned"><span class="price-label">0.00</span></div>
+                        <div class="eight wide column left aligned"><span id="total" class="price-label">0.00</span></div>
                     </div>
 
 
                 </div>
             </div>
             <div class="ui custom flowing bottom center popup transition left aligned" id="cart-popup">
-                <div class="ui sub header left aligned">Recently added:</div>
-                <div class="ui grid">
-                    <div class="eight wide column left aligned">
+                <div id="empty-cart">
+                    <div class="ui sub header left aligned">Add items to your cart!</div>
+                </div>
+                <div id="recent-cart">
+                    <div class="ui sub header left aligned">Recently added:</div>
 
-                        Bababoots
+                    <div class="ui grid">
+                        <div id="cart-name" class="eight wide column left aligned">
+
+                            Bababoots
+                        </div>
+                        <div id="cart-subtotal" class="eight wide column right aligned">
+
+                            PHP 1,500.00
+                        </div>
                     </div>
-                    <div class="eight wide column right aligned">
+                    <div class="ui divider"></div>
 
-                        PHP 1,500.00
+                    <div class="ui grid">
+                        <div id="cart-capacity" class="eight wide column left aligned">
+
+                            5 Items
+                        </div>
+                        <div class="eight wide column right aligned">
+
+                            <h4 id="cart-total" class="ui header">TOTAL: PHP 7,500.00</h4>
+                        </div>
+                    </div>
+
+                    <div class="ui hidden divider"></div>
+                    <div class="ui fluid large orange submit button">
+                        <a href="view-cart.jsp"><span class="middle-align">CHECKOUT</span>
+                        </a>
                     </div>
                 </div>
-                <div class="ui divider"></div>
 
-                <div class="ui grid">
-                    <div class="eight wide column left aligned">
-
-                        5 Items
-                    </div>
-                    <div class="eight wide column right aligned">
-
-                        <h4 class="ui header">TOTAL: PHP 7,500.00</h4>
-                    </div>
-                </div>
-
-                <div class="ui hidden divider"></div>
-                <div class="ui fluid large orange submit button">
-                    <div><span class="middle-align">CHECKOUT</span>
-                    </div>
-                </div>
             </div>
 
         </div>
