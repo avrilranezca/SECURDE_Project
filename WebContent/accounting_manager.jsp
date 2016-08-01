@@ -38,6 +38,16 @@
 
 
         });
+        
+        function changeFilter(form, filter) {
+        	document.getElementById("filter").value = filter;
+        	form.submit();
+        }
+        
+        function changeSubfilter(form, subfilter) {
+        	document.getElementById("subfilter").value = subfilter;
+        	form.submit();
+        }
     </script>
 </head>
 <body>
@@ -80,79 +90,123 @@
     
 <div class="ui container basic segment">
     <div class="ui grid">
-        <div class="sixteen wide column">
-            <div class="ui basic segment headingc">
-                <h2 class="ui header headerc">Financial Records</h2>
-                <div class="headingsubc">
-                	<c:choose>
-                		<c:when test="${filter eq 'Total'}">
-                			<b>
-                		</c:when>
-                	</c:choose>
-                	<a href="financial-records-total.html">Total</a>
-                	<c:choose>
-                		<c:when test="${filter eq 'Total'}">
-                			</b>
-                		</c:when>
-                	</c:choose>
-                	|
-                	<c:choose>
-                		<c:when test="${filter eq 'Category'}">
-                			<b>
-                		</c:when>
-                	</c:choose>
-                	<a href="financial-records-categ.html">Category</a></b>
-                	<c:choose>
-                		<c:when test="${filter eq 'Category'}">
-                			</b>
-                		</c:when>
-                	</c:choose>
-                	|
-                	<c:choose>
-                		<c:when test="${filter eq 'Product'}">
-                			<b>
-                		</c:when>
-                	</c:choose>
-                	<a href="financial-records-product.html">Product</a>
-                	<c:choose>
-                		<c:when test="${filter eq 'Product'}">
-                			</b>
-                		</c:when>
-                	</c:choose>
-                </div>
-            </div>
-        </div>
-        <div class="sixteen wide column">
+			<div class="sixteen wide column">
+				<div class="ui basic segment headingc">
+					<h2 class="ui header headerc">Financial Records</h2>
+					<div class="headingsubc">
+						<form id="filter-form" action="DisplayFinancialRecordsServlet" method="post">
+							<input id="filter" name="filter" type="hidden" value="Total">
+							<input id="subfilter" name="subfilter" type="hidden" value="Daily"> 
+						</form>
+						<c:choose>
+							<c:when test="${filter eq 'Total'}">
+								<b>
+							</c:when>
+						</c:choose>
+						<a href="#" onClick="changeFilter(document.getElementById('filter-form'), 'Total');return false;">Total</a>
+						<c:choose>
+							<c:when test="${filter eq 'Total'}">
+								</b>
+							</c:when>
+						</c:choose>
+						|
+						<c:choose>
+							<c:when test="${filter eq 'Category'}">
+								<b>
+							</c:when>
+						</c:choose>
+						<a href="#" onClick="changeFilter(document.getElementById('filter-form'), 'Category');return false;">Category</a></b>
+						<c:choose>
+							<c:when test="${filter eq 'Category'}">
+								</b>
+							</c:when>
+						</c:choose>
+						|
+						<c:choose>
+							<c:when test="${filter eq 'Product'}">
+								<b>
+							</c:when>
+						</c:choose>
+						<a href="#" onClick="changeFilter(document.getElementById('filter-form'), 'Product');return false;">Product</a>
+						<c:choose>
+							<c:when test="${filter eq 'Product'}">
+								</b>
+							</c:when>
+						</c:choose>
+						<c:choose>
+							<c:when test="${filter eq 'Total'}">
+								<br>
+								<c:choose>
+									<c:when test="${subfilter eq 'Daily' }">
+										<b>
+									</c:when>
+								</c:choose>
+								<a href="#" class="subfilter" onClick="changeSubfilter(document.getElementById('filter-form'), 'Daily');return false;">Daily</a>
+								<c:choose>
+									<c:when test="${subfilter eq 'Daily' }">
+										</b>
+									</c:when>
+								</c:choose>
+								|
+								<c:choose>
+									<c:when test="${subfilter eq 'Monthly' }">
+										<b>
+									</c:when>
+								</c:choose>
+								<a href="#" class="subfilter" onClick="changeSubfilter(document.getElementById('filter-form'), 'Monthly');return false;">Monthly</a>
+								<c:choose>
+									<c:when test="${subfilter eq 'Monthly' }">
+										</b>
+									</c:when>
+								</c:choose>
+								|
+								<c:choose>
+									<c:when test="${subfilter eq 'Yearly' }">
+										<b>
+									</c:when>
+								</c:choose>
+								<a href="#" class="subfilter" onClick="changeSubfilter(document.getElementById('filter-form'), 'Yearly');return false;">Yearly</a>
+								<c:choose>
+									<c:when test="${subfilter eq 'Yearly' }">
+										</b>
+									</c:when>
+								</c:choose>
+							</c:when>
+						</c:choose>
+					</div>
+				</div>
+			</div>
+			<div class="sixteen wide column">
             <table class="ui single line basic table">
-                <thead>
-                   <tr>
-                       <th class="eight wide">Category</th>
-                       <th class="four wide right aligned">Quantity</th>
-                       <th class="four wide right aligned">Subtotal</th>
-                   </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><h4 class="ui header">Boots</h4></td>
-                        <td class="right aligned">2134</td>
-                        <td class="right aligned price-label">1,500.00</td>
-                    </tr>
-                    <tr>
-                        <td><h4 class="ui header">Shoes</h4></td>
-                        <td class="right aligned">2134</td>
-                        <td class="right aligned price-label">1,500.00</td>
-                    </tr>
-                    <tr>
-                        <td><h4 class="ui header">Sandals</h4></td>
-                        <td class="right aligned">2134</td>
-                        <td class="right aligned price-label">1,500.00</td>
-                    </tr>
-                </tbody>
-            </table>
+					<thead>
+						<tr>
+							<c:choose>
+								<c:when test="${filter eq 'All'}">
+									<th class="eight wide">Date</th>
+								</c:when>
+								<c:otherwise>
+									<th class="eight wide">${filter }</th>
+								</c:otherwise>
+							</c:choose>
+							<th class="four wide right aligned">Quantity</th>
+							<th class="four wide right aligned">Subtotal</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="sale" items="${sales }">
+							<tr>
+								<td><h4 class="ui header">${sale.name }</h4></td>
+								<td class="right aligned">${sale.quantity }</td>
+								<td class="right aligned price-label"><fmt:formatNumber
+										value="${sale.total_sales }" type="currency" currencyCode="PHP" /></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
             <div class="ui basic right aligned segment">
-                <h3 class="ui header">Total:
-                    <span class="price-label black-text">4,500.00</span>
-                </h3>
+                <h3 class="ui header">Total: <span class="black-text"><fmt:formatNumber
+								value="${total }" type="currency" currencyCode="PHP" /></span>
+					</h3>
             </div>
         </div>    
     </div>
