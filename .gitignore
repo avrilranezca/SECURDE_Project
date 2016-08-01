@@ -65,3 +65,4 @@ src/database/DatabaseConnection.java
 *.xml
 META-INF/application.xml
 *.class
+src/database/DatabaseConnection.java

@@ -29,7 +29,7 @@ public class UserDAO {
 			
 			while(rs.next()) {
 				
-				if(BCrypt.checkpw(password, rs.getString("password"))) {
+				if(Password.checkPassword(password, rs.getString("password"))) {
 
 					User user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"),
 							rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
