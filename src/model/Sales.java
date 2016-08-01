@@ -3,16 +3,18 @@ package model;
 public class Sales {
 	
 	private String name;
+	private int quantity;
 	private double total_sales;
 	
-	public Sales(String name, double total_sales) {
+	public Sales(String name, int quantity, double total_sales) {
 		super();
 		this.name = name;
+		this.quantity = quantity;
 		this.total_sales = total_sales;
 	}
 	
 	public String toString() {
-		return "\nName:" + name + " TotalSales: " + total_sales;
+		return "\nName:" + name + " Quantity: " + quantity + " TotalSales: " + total_sales;
 	}
 
 	public String getname() {
@@ -21,6 +23,14 @@ public class Sales {
 
 	public void setname(String name) {
 		this.name = name;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public double getTotal_sales() {

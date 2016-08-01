@@ -77,12 +77,12 @@ private Connection conn;
 		ArrayList<Sales> salesList = new ArrayList<Sales>();
 		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT id, c_name, SUM(total) AS total FROM (SELECT TE.product_id, P.name, C.id, C.name AS c_name, TE.price * SUM(TE.quantity) AS total FROM transaction_entry TE INNER JOIN product P ON TE.product_id = P.id INNER JOIN category C ON C.id = P.category_id GROUP BY product_id) A GROUP BY c_name;");
+			PreparedStatement ps = conn.prepareStatement("SELECT id, c_name, SUM(quantity) AS quantity, SUM(total) AS total FROM (SELECT TE.product_id, P.name, C.id, C.name AS c_name, SUM(TE.quantity) AS quantity, TE.price * SUM(TE.quantity) AS total FROM transaction_entry TE INNER JOIN product P ON TE.product_id = P.id INNER JOIN category C ON C.id = P.category_id GROUP BY product_id) A GROUP BY c_name;");
 			
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				salesList.add(new Sales(rs.getString("c_name"), rs.getDouble("total")));
+				salesList.add(new Sales(rs.getString("c_name"), rs.getInt("quantity"), rs.getDouble("total")));
 			}
 			
 		} catch (SQLException e) {
@@ -99,12 +99,12 @@ private Connection conn;
 		ArrayList<Sales> salesList = new ArrayList<Sales>();
 		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT TE.product_id, P.name, TE.price * SUM(TE.quantity) AS total FROM transaction_entry TE INNER JOIN product P ON TE.product_id = P.id GROUP BY product_id;");
+			PreparedStatement ps = conn.prepareStatement("SELECT TE.product_id, P.name, SUM(TE.quantity) AS quantity, TE.price * SUM(TE.quantity) AS total FROM transaction_entry TE INNER JOIN product P ON TE.product_id = P.id GROUP BY product_id;");
 			
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				salesList.add(new Sales(rs.getString("name"), rs.getDouble("total")));
+				salesList.add(new Sales(rs.getString("name"), rs.getInt("quantity"), rs.getDouble("total")));
 			}
 			
 		} catch (SQLException e) {
