@@ -26,6 +26,7 @@
   <servlet-mapping>
     <servlet-name>IndexDisplayProductsServlet</servlet-name>
     <url-pattern></url-pattern>
+    <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>DisplayProductsServlet</servlet-name>

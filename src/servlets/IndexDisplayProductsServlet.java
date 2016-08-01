@@ -25,6 +25,7 @@ public class IndexDisplayProductsServlet extends HttpServlet {
 
         ArrayList<Product> plist = dao.getAllProducts();
         request.setAttribute("products", plist);
+        request.setAttribute("filter", "All");
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }

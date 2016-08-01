@@ -1,6 +1,7 @@
 package servlets;
 
 import database.ProductDAO;
+import model.Category;
 import model.Product;
 
 import javax.servlet.ServletException;
@@ -9,22 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by rissa on 8/1/2016.
  */
-@WebServlet("/DisplaySpecificItemServlet")
-public class DisplaySpecificItemServlet extends HttpServlet {
+@WebServlet("/SelectDisplayCategoryServlet")
+public class SelectDisplayCategoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("fu "+request.getParameter("itemID"));
-        String id = request.getParameter("itemID").split("-")[1];
-        System.out.println(id);
+        String filter = request.getParameter("cat");
 
         ProductDAO dao = new ProductDAO();
-        Product prod = dao.getProductOnID(Integer.parseInt(id));
 
-        request.setAttribute("product", prod);
-        request.getRequestDispatcher("view-product.jsp").forward(request, response);
+        ArrayList<Product> plist= dao.getProductOnCategory(new Category(filter));
+        request.setAttribute("products", plist);
+        request.setAttribute("filter", filter);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
