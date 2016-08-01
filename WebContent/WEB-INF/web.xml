@@ -18,12 +18,14 @@
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
   </security-constraint>
+
   <servlet>
-	<servlet-name>LoginServlet</servlet-name>
-	<servlet-class>servlets.LoginServlet</servlet-class>
+    <servlet-name>IndexDisplayProductsServlet</servlet-name>
+    <servlet-class>servlets.IndexDisplayProductsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-	<servlet-name>LoginServlet</servlet-name>
-	<url-pattern></url-pattern>
+    <servlet-name>IndexDisplayProductsServlet</servlet-name>
+    <url-pattern></url-pattern>
+    <!--<url-pattern>/index.jsp</url-pattern>-->
   </servlet-mapping>
 </web-app>

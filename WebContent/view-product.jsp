@@ -1,7 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="database.UserDAO" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -12,74 +8,47 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#login").click(function () {
+                $("#login-modal").modal('show');
+            });
 
-            <%
-                String userName=null;
+            $("#btnminus").click(function(){
+                var a = +$("#quantity").val();
+                if(a>1) $("#quantity").val(a-1);
+            });
 
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
+            $("#btnplus").click(function(){
+                var a = +$("#quantity").val();
+                $("#quantity").val(a+1);
+            });
 
-	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                            Cookie[] cookies = request.getCookies();
 
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
-                                        }
-                                    }
-                            }
-                            if (!foundCookie) {
-                        %>
-            $('#welcome-menu').hide();
-            <%
-                } else {
-            %>
-            $('#login-menu').hide();
-            <%
-                }
-            %>
+
 
             $('#cart-button')
                     .popup({
 //                        movePopup: false,
-                        popup: $('#cart-popup'),
-                        on: 'click'
+                        popup : $('#cart-popup'),
+                        on    : 'click'
                     })
             ;
-
-            $(".add-cart").click(function(){
-                var id = this.id;
-                $("#addtocart-form input[name=itemID]").val(id);
-                $("#addtocart-form").submit();
-            });
-
-            $(".item-name").click(function(){
-                var id = this.id;
-                $("#display-form input[name=itemID]").val(id);
-                $("#display-form").submit();
-            });
-
         });
     </script>
 </head>
 <body>
-<div id="login-menu" class="ui top attached menu">
+<div id="#login-menu" class="ui top attached menu">
     <div class="right menu">
         <div class="ui right aligned item top-nav">
-            <a href="<%=response.encodeURL("login.jsp") %>" id="login" class="item top-nav-item">login</a>
-            <a href="<%=response.encodeURL("sign-up.jsp") %>" class="item top-nav-item">sign up</a>
+            <a href="login.html" class="item top-nav-item">login</a>
+            <a href="sign-up.html" class="item top-nav-item">sign up</a>
         </div>
     </div>
 </div>
-<div id="welcome-menu" class="ui container">
+<div id="#welcome-menu" class="ui container hidden">
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome !</div>
+                <div class="ui sub header"> Welcome Shayane!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button">Logout</div>
@@ -87,14 +56,14 @@
         </div>
     </div>
 </div>
-<div id="menubar">
+<div  id="menubar">
     <div class="ui  attached container">
-        <div class=" ui basic inverted segment">
+        <div class =" ui basic inverted segment">
             <div class="ui grid">
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("index.jsp") %>">
+                            <a href="index.html">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>
@@ -112,14 +81,17 @@
 
                 <div class="five wide column middle aligned ">
                     <div class="ui grid sixteen wide column">
-                        <div class="eight wide column right aligned"><i class="badge big link shop icon"
-                                                                        id="cart-button" data-badge="0"></i></div>
+                        <div class="eight wide column right aligned"><i class="badge big link shop icon"  id="cart-button" data-badge="0"></i></div>
                         <div class="eight wide column left aligned"><span class="price-label">0.00</span></div>
                     </div>
 
 
                 </div>
+
             </div>
+
+
+
             <div class="ui custom flowing bottom center popup transition left aligned" id="cart-popup">
                 <div class="ui sub header left aligned">Recently added:</div>
                 <div class="ui grid">
@@ -159,7 +131,7 @@
 
 <div class="ui container custom-container">
     <div class="ui four item pointing menu">
-        <a class="active item">
+        <a class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
                     <img class="ui mini image middle aligned" src="assets/boots.png">
@@ -195,47 +167,42 @@
     </div>
 </div>
 <div class="ui container segment">
-
-    <div class="ui four column grid">
-        <c:forEach var="item" items="${products}">
-            <div class="column">
-                <div class="ui fluid card">
-                    <div class="image">
-                        <img src="assets/bababoots.jpg">
-                    </div>
-                    <div class="content">
-                        <div class="ui grid">
-                            <div class="twelve wide column">
-                                <a id="cart-${item.id}" class="item-name">${item.name}</a>
-                                <div class="meta"><span class="price-label"><fmt:formatNumber value="${item.price}" type="currency" currencyCode="PHP"></fmt:formatNumber></span>
-                                </div>
-                            </div>
-                            <div class="four wide column middle aligned center aligned">
-
-                                <form id="display-form" action="DisplaySpecificItemServlet" method="post">
-                                    <input name="itemID" type="hidden">
-                                </form>
+    <div class="ui grid">
+        <div class="nine wide column">
+            <img class="ui fluid image" src="assets/bababoots.jpg">
+        </div>
+        <div class="seven wide column">
+            <h1 class="ui header">Rissa Bababoots (Red)
+                <div class="sub header price-label">1,500.00</div>
+            </h1>
 
 
-                                <form id="addtocart-form" action="AddToCartServlet" method="post">
-                                    <input name="itemID" type="hidden">
-                                </form>
+            <p>
+                Rissa Bababoots (Red) is an awesome boots that allows you to walk on gutter level floods.
+            </p>
+            <p>
+                Loren ipsum bae rissa. Rissa the bae! The beh, the bah, and the boh.
+            </p>
 
-                                <i id="cart-${item.id}" class="big link add to cart icon add-cart"></i>
-                            </div>
-                        </div>
+            <div class="ui divider"></div>
+
+            <form class="ui form" method="post">
+                <div class="inline field">
+                    <label>Quantity</label>
+                    <!--<button class="ui icon button middle">-->
+                    <i id="btnminus" class="minus link icon"></i>
+                    <!--</button>-->
+                    <input type="text" id="quantity" name="quantity" value="1">
+                    <!--<button class="ui icon button middle">-->
+                    <i id="btnplus" class="plus link icon"></i>
+                    <!--</button>-->
+                </div>
+
+                <div class="ui fluid large orange submit button">
+                    <div><i class="big shop icon element"></i><span class="middle-align">ADD TO CART</span>
                     </div>
                 </div>
-            </div>
-        </c:forEach>
-
-    </div>
-    <div class="container pagination-container ">
-        <div class="ui pagination menu">
-            <a class="icon item"><i class="left arrow icon"></i></a>
-            <a class="active item"> 1</a>
-            <a class="item">2</a>
-            <a class="icon item"><i class="right arrow icon"></i></a>
+            </form>
         </div>
     </div>
 </div>
