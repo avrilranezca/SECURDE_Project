@@ -1,13 +1,16 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 import model.AccountTypeEnum.AccountType;
 import model.Address;
 import model.Category;
 import model.Product;
+import model.Review;
 import model.User;
 import model.AccountTypeEnum;
 import database.CategoryDAO;
 import database.ProductDAO;
+import database.ReviewDAO;
 import database.UserDAO;
 
 
@@ -18,6 +21,7 @@ public class TestDriver {
 		UserDAO udao = new UserDAO();
 		ProductDAO pdao = new ProductDAO();
 		CategoryDAO cdao = new CategoryDAO(); 
+		ReviewDAO rdao = new ReviewDAO();
 		AccountTypeEnum customer = new AccountTypeEnum(AccountType.CUSTOMER);
 		/*User u = new User("user1", "user1", "u", "user_1", "user1@securde.com", customer.accountTypeDetails(), 1);
 		u.setPassword("password");
@@ -38,12 +42,31 @@ public class TestDriver {
 		pdao.addProduct(p);*/
 		
 		
-		Category c = cdao.getCategory("boots");
-		/*System.out.println(c.getId() + " " + c.getName());*/
+		/*Category c = cdao.getCategory("boots");
+		System.out.println(c.getId() + " " + c.getName());
 		
 		ArrayList<Product> productList = pdao.getAllProducts();
+		Product p = productList.get(0);
 		
-		System.out.println(productList);
+		p.setName("yo");
+		
+		pdao.updateProduct(p);
+		pdao.deleteProduct(p);
+		
+		System.out.println(productList);*/
+		
+/*		java.util.Date dt = new java.util.Date();
+
+		java.text.SimpleDateFormat sdf = 
+		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String currentTime = sdf.format(dt);*/
+		
+		/*Review r = new Review(1, 1, "review of 1 of 1", new Date(), 4);
+		rdao.addReview(r);*/
+		
+		
+		//System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));
 	}
 
 }
