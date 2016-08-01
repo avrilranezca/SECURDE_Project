@@ -31,11 +31,11 @@ public class TestDriver {
 		u.setPassword("password");
 		dc.addUser(u);*/
 		
-		User u = udao.getUser("user_1", "password");
+		/*User u = udao.getUser("user_1", "password");
 		if(u != null)
 			System.out.println(u.getEmail());
 		else
-			System.out.println("No such user");
+			System.out.println("No such user");*/
 		
 		//Address a = new Address("Uhouse1", "street1", "subdivision1", "city1", "postalcode1", "country1");
 		
@@ -85,6 +85,10 @@ public class TestDriver {
 		System.out.println(tdao.getSalesPerCategory());
 */
 		//System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));
+		
+		System.out.println(tdao.getTotalSales("yearly"));
+		System.out.println(tdao.getTotalSales("monthly"));
+		System.out.println(tdao.getTotalSales("daily"));
 	}
 
 }
