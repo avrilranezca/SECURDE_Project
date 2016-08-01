@@ -62,6 +62,8 @@
             <a href="<%=response.encodeURL("sign-up.jsp") %>" class="item top-nav-item">sign up</a>
         </div>
     </div>
+
+    <c:out value="Hello">Yo</c:out>
 </div>
 <div id="welcome-menu" class="ui container">
     <div class="ui right aligned basic segment">
