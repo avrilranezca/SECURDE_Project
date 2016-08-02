@@ -15,28 +15,61 @@ import java.io.IOException;
 public class AddToCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("itemID").split("-")[1];
+
+
+//        System.out.println("yes!");
 //        System.out.println(request.getSession().getAttribute("user"));
 
         Cookie[] cookies = request.getCookies();
 
-        String username=null;
+//        String username=null;
+        String item = null;
         if(cookies !=null){
             for(int i = 0; i < cookies.length; i++) {
                 Cookie c = cookies[i];
-                if (c.getName().equals("user")) {
-                    username=c.getValue();
+//                if (c.getName().equals("user")) {
+//                    username=c.getValue();
+//                }
+//                else
+                if (c.getName().equals("item")) {
+                    item=c.getValue();
                 }
             }
         }
 
-        if(request.getSession().getAttribute("user")!=null && username!=null){
-            Cookie item = new Cookie("item",id );
-            response.addCookie(item);
+//        System.out.println("woot");
+
+//        if(request.getSession().getAttribute("user")!=null && username!=null){
+//            System.out.println("here");
+
+
+        String s;
+        if(null != request.getSession().getAttribute("item")){
+            s = (String) request.getSession().getAttribute("item")+","+id;
         }
         else{
-            request.getSession().invalidate();
-            response.sendRedirect("login.jsp");
+//            PrintWriter writer = new PrintWriter()
+//            JsonGenerator jsonGenerator = (new JsonFactory()).createGenerator();
+
+            JSONObject obj = new JSONObject();
+            s = id;
         }
+
+
+        System.out.println("session: "+s);
+            request.getSession().setAttribute("item", s);
+//            Cookie cookie;
+//            if(item==null) cookie= new Cookie("item", id );
+//            else cookie=new Cookie("item", item+","+id);
+//            item = new Cookie()
+//            System.out.println(cookie.getValue());
+//            response.addCookie(cookie);
+//        }
+//        else{
+//            System.out.println("huhhh");
+//            request.getSession().invalidate();
+//            response.sendRedirect("login.jsp");
+//        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
