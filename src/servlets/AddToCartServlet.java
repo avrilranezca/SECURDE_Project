@@ -51,7 +51,7 @@ public class AddToCartServlet extends HttpServlet {
 //            PrintWriter writer = new PrintWriter()
 //            JsonGenerator jsonGenerator = (new JsonFactory()).createGenerator();
 
-            JSONObject obj = new JSONObject();
+           // JSONObject obj = new JSONObject();
             s = id;
         }
 
