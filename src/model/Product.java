@@ -6,32 +6,32 @@ public class Product {
 	private String name;
 	private String description;
 	private double price;
-	private int category_id;
+	private String category;
 	private int isActive;
 	
-	public Product(int id, String name, String description, double price, int category_id,
+	public Product(int id, String name, String description, double price, String category,
 			int isActive) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.category_id = category_id;
+		this.category = category;
 		this.isActive = isActive;
 	}
 	
-	public Product(String name, String description, double price, int category_id,
+	public Product(String name, String description, double price, String category,
 			int isActive) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.category_id = category_id;
+		this.category = category;
 		this.isActive = isActive;
 	}
 	
 	public String toString() {
-		return "\nID:" + id + " Name:" + name + " Description:" + description + " Price:" + price + " Category_Id:" + category_id + " isActive:" + isActive;
+		return "\nID:" + id + " Name:" + name + " Description:" + description + " Price:" + price + " Category:" + category + " isActive:" + isActive;
 	}
 
 	public int getId() {
@@ -66,12 +66,12 @@ public class Product {
 		this.price = price;
 	}
 
-	public int getCategory_id() {
-		return category_id;
+	public String getCategory() {
+		return category;
 	}
 
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public int getIsActive() {
