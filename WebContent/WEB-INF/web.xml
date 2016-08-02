@@ -36,4 +36,12 @@
     <servlet-name>DisplayProductsServlet</servlet-name>
     <url-pattern>/product_manager</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
+    <servlet-class>servlets.DisplayFinancialRecordsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
+    <url-pattern>/accounting_manager</url-pattern>
+  </servlet-mapping>
 </web-app>
