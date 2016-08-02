@@ -1,13 +1,13 @@
 package database;
 
+import model.Category;
+import model.Product;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import model.Category;
-import model.Product;
 
 public class ProductDAO {
 	
@@ -83,14 +83,14 @@ public class ProductDAO {
 		
 		try {
 
-			ps = conn.prepareStatement("SELECT product.id, product.name, description, category_id, category.name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;");
+			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;");
 			//ps = conn.prepareStatement("SELECT * FROM product WHERE isActive = 1;");
 
 			ResultSet rs = ps.executeQuery();
 			
 			
 			while(rs.next()) {
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), 1);
 				productList.add(p);
 			}
 			
@@ -131,7 +131,7 @@ public class ProductDAO {
 		PreparedStatement ps;
 		
 		try {
-			ps = conn.prepareStatement("SELECT product.id, product.name, description, category_id, category.name AS c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = ?;");
+			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name AS c_name, isActive FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = ?;");
 
 			ps.setInt(1, id);
 			

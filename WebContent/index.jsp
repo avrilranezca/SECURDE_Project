@@ -3,6 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="database.ProductDAO" %>
 <%@ page import="model.Product" %>
+<%@ page import="org.json.JSONArray" %>
+<%@ page import="org.json.JSONException" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -55,28 +57,29 @@
                     })
             ;
 
-            $('#cart-button').click(function () {
-                updateCart();
-
-            });
 
             function updateCart(){
                 <%
                 if(session.getAttribute("item") != null){
-                    String[] list = ((String)session.getAttribute("item")).split(",");
                     int capacity =0;
                     float sum = 0;
-
+                    Product prod = null;
                     ProductDAO dao = new ProductDAO();
-                    Product prod = dao.getProductOnID(Integer.parseInt(list[list.length-1]));
-                    for (int i =0; i<list.length; i++){
-                        Product temp = dao.getProductOnID(Integer.parseInt(list[i]));
-                        sum+=temp.getPrice();
-                        capacity++; //not yet implemented
+                    try {
+                        JSONArray arr = new JSONArray((String)session.getAttribute("item"));
+                        prod = dao.getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id")));
+                        for (int i =0; i<arr.length(); i++){
+                            Product temp = dao.getProductOnID(Integer.parseInt(arr.getJSONObject(i).getString("id")));
+                            int itemp= arr.getJSONObject(i).getInt("quantity");
+                            sum+=(temp.getPrice()*itemp);
+                            capacity+= itemp;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
                     %>
-                    $("#cart-button").attr("data-badge", "<%=list.length%>");
+                    $("#cart-button").attr("data-badge", "<%=capacity%>");
                     $("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
                     $("#empty-cart").hide();

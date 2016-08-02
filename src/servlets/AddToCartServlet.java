@@ -1,5 +1,9 @@
 package servlets;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -43,21 +47,60 @@ public class AddToCartServlet extends HttpServlet {
 //            System.out.println("here");
 
 
-        String s;
+        JSONArray arr = new JSONArray();
         if(null != request.getSession().getAttribute("item")){
-            s = (String) request.getSession().getAttribute("item")+","+id;
+            String s = (String) request.getSession().getAttribute("item");
+
+            try {
+                arr = new JSONArray(s);
+
+                boolean exist=false;
+                for (int i=0; i<arr.length()&&!exist; i++){
+                    JSONObject obj = arr.getJSONObject(i);
+
+                    if (obj.get("id").equals(id)) {
+                        obj.put("quantity", ((int)obj.get("quantity"))+1);
+                        exist=true;
+                    }
+
+                    arr.remove(i);
+
+                    arr.put(obj);
+
+//                    if(obj.get("quantity")==arr.getJSONObject(i).get("quantity")) System.out.println("YEY");
+                }
+
+                if(!exist){
+                    JSONObject obj = new JSONObject();
+                    obj.put("id", id);
+                    obj.put("quantity", 1);
+
+                    arr.put(obj);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         else{
-//            PrintWriter writer = new PrintWriter()
-//            JsonGenerator jsonGenerator = (new JsonFactory()).createGenerator();
 
             JSONObject obj = new JSONObject();
-            s = id;
+
+            try {
+                obj.put("id", id);
+                obj.put("quantity", 1);
+
+                arr.put(obj);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
 
 
-        System.out.println("session: "+s);
-            request.getSession().setAttribute("item", s);
+
+
+        System.out.println("session: "+arr.toString());
+            request.getSession().setAttribute("item", arr.toString());
 //            Cookie cookie;
 //            if(item==null) cookie= new Cookie("item", id );
 //            else cookie=new Cookie("item", item+","+id);
