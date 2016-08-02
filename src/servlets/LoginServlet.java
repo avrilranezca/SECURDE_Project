@@ -1,12 +1,15 @@
 package servlets;
 
+import database.ProductDAO;
 import database.UserDAO;
+import model.Product;
 import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Servlet implementation class LoginServlet
@@ -59,14 +62,20 @@ public class LoginServlet extends HttpServlet {
 		if (user != null)
 		{
 			HttpSession session = request.getSession();
-			session.setAttribute("user", user.getFirst_name());
+			session.setAttribute("user", user.getUser_name());
 			//setting session to expiry in 30 mins
 			session.setMaxInactiveInterval(30*60);
-			Cookie userName = new Cookie("user", user.getFirst_name());
+			Cookie userName = new Cookie("user", user.getUser_name());
 			response.addCookie(userName);
 			//Get the encoded URL string
+
+			ProductDAO dao2 = new ProductDAO();
+
+			ArrayList<Product> plist = dao2.getAllProducts();
+			request.setAttribute("products", plist);
+			request.setAttribute("filter", "All");
 			String encodedURL = response.encodeRedirectURL("index.jsp");
-			response.sendRedirect(encodedURL);
+			request.getRequestDispatcher(encodedURL).forward(request, response);
 			return;
 		}else{
 
