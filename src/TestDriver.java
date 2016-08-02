@@ -31,9 +31,25 @@ public class TestDriver {
 		u.setPassword("password");
 		dc.addUser(u);*/
 		
-		/*User u = udao.getUser("user_1", "password");
-		if(u != null)
+		User u = udao.getUser("user_1", "newpassword");
+		
+		udao.setUserSessionID(u, "newSessionID");
+		System.out.println(udao.getUserSessionID(u));
+		
+		//System.out.println(u.getId());
+		
+		//System.out.println(udao.getUserSessionID(u));
+		/*System.out.println(u.getAccount_type());*/
+		/*if(u != null) {
 			System.out.println(u.getEmail());
+			
+			udao.updatePassword(u, "newpassword");
+			
+			User u2 = udao.getUser(u.getUser_name(), "newpassword");
+			
+			System.out.println(u2.getEmail());
+			
+		}
 		else
 			System.out.println("No such user");*/
 		
@@ -86,9 +102,9 @@ public class TestDriver {
 */
 		//System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));
 		
-		System.out.println(tdao.getTotalSales("yearly"));
+		/*System.out.println(tdao.getTotalSales("yearly"));
 		System.out.println(tdao.getTotalSales("monthly"));
-		System.out.println(tdao.getTotalSales("daily"));
+		System.out.println(tdao.getTotalSales("daily"));*/
 	}
 
 }
