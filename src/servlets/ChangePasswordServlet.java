@@ -25,15 +25,7 @@ public class ChangePasswordServlet extends HttpServlet {
      */
     public ChangePasswordServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -55,13 +47,21 @@ public class ChangePasswordServlet extends HttpServlet {
            }
            
            if(!"".equals(username)){
+        	   //in progress not yet final
+        	   //verify if this is correct
         	   HttpSession session = request.getSession();
-        	   //session.getAttribute("user");
+        	   String sessionUser =  (String) session.getAttribute("user");
+        	   
         	   UserDAO uDAO = new UserDAO();
         	   User user = uDAO.getUser(username, request.getParameter("oldpw"));
         	   
-        	   if(user != null){
+        	   if(user != null && uDAO.getUserSessionID(user) != ""){
         		  //update old password
+        		   uDAO.updatePassword(user, request.getParameter("newpw"));
+        		   System.out.println("Updating password success....");
+        		   String encodedURL = response.encodeRedirectURL("index.jsp");
+//          		response.sendRedirect(encodedURL)
+        		   request.getRequestDispatcher(encodedURL).forward(request,response);
         	   }
            }else{
         	   request.setAttribute("error", "Incorrect password!");

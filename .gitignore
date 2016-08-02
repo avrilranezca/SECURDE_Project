@@ -67,3 +67,6 @@ META-INF/application.xml
 *.class
 src/database/DatabaseConnection.java
 src/database/DatabaseConnection.java
+*.class
+src/database/DatabaseConnection.java
+build/classes/database/DatabaseConnection.class

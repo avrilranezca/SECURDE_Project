@@ -33,8 +33,12 @@ public class TestDriver {
 		
 		User u = udao.getUser("user_1", "newpassword");
 		
-		udao.setUserSessionID(u, "newSessionID");
-		System.out.println(udao.getUserSessionID(u));
+		udao.updatePassword(u, "password");
+		
+		System.out.println(udao.getUser("user_1", "password").getEmail());
+		
+		/*udao.setUserSessionID(u, "newSessionID");
+		System.out.println(udao.getUserSessionID(u));*/
 		
 		//System.out.println(u.getId());
 		

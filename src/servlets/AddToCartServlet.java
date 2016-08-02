@@ -82,7 +82,6 @@ public class AddToCartServlet extends HttpServlet {
             }
         }
         else{
-
             JSONObject obj = new JSONObject();
 
             try {
@@ -93,7 +92,6 @@ public class AddToCartServlet extends HttpServlet {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
 

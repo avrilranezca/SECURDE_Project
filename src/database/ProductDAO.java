@@ -153,4 +153,25 @@ public class ProductDAO {
 	
 	//get product based on filtering criteria
 
+	public ArrayList<Product> searchProducts(String searchCriteria) {
+		ArrayList<Product> productList = new ArrayList<Product>();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT P.id, P.name AS p_name, P.description, P.price, C.name AS c_name, P.isActive FROM product P INNER JOIN category C ON P.category_id = C.id WHERE (P.name LIKE CONCAT('%', ?, '%') OR C.name LIKE CONCAT('%', ?, '%') OR P.description LIKE CONCAT('%', ?, '%')) AND isActive = 1;");
+			ps.setString(1, searchCriteria);
+			ps.setString(2, searchCriteria);
+			ps.setString(3, searchCriteria);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				productList.add(new Product(rs.getInt("id"), rs.getString("p_name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return productList;
+	}
 }
