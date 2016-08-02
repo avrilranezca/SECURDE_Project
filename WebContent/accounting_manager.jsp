@@ -181,7 +181,7 @@
 					<thead>
 						<tr>
 							<c:choose>
-								<c:when test="${filter eq 'All'}">
+								<c:when test="${filter eq 'Total'}">
 									<th class="eight wide">Date</th>
 								</c:when>
 								<c:otherwise>

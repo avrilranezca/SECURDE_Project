@@ -70,13 +70,13 @@ private Connection conn;
 		try {
 			String query = "";
 			
-			if("daily".equals(filter)) {
+			if("Daily".equals(filter)) {
 				query = "SELECT CONCAT(MONTHNAME(date), ' ', DAY(date), ' ', YEAR(date)) AS date, SUM(TE.quantity) AS quantity, SUM(TE.price * TE.quantity) AS total FROM transaction_entry TE INNER JOIN transaction T ON T.id = TE.transaction_id GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY YEAR(date), MONTH(date), DAY(date);";
 			}
-			else if("monthly".equals(filter)) {
+			else if("Monthly".equals(filter)) {
 				query = "SELECT CONCAT(MONTHNAME(date), ' ', YEAR(date)) AS date, SUM(TE.quantity) AS quantity, SUM(TE.price * TE.quantity) AS total FROM transaction_entry TE INNER JOIN transaction T ON T.id = TE.transaction_id GROUP BY YEAR(date), MONTH(date) ORDER BY YEAR(date), MONTH(date);";
 			}
-			else if("yearly".equals(filter)) {
+			else if("Yearly".equals(filter)) {
 				query = "SELECT YEAR(date) AS date, SUM(TE.quantity) AS quantity, SUM(TE.price * TE.quantity) AS total FROM transaction_entry TE INNER JOIN transaction T ON T.id = TE.transaction_id GROUP BY YEAR(date) ORDER BY YEAR(date);";
 			}
 			
