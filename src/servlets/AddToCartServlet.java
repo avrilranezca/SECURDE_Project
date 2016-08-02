@@ -58,8 +58,8 @@ public class AddToCartServlet extends HttpServlet {
                 for (int i=0; i<arr.length()&&!exist; i++){
                     JSONObject obj = arr.getJSONObject(i);
 
-                    if (obj.get("id").equals(id)) {
-                        obj.put("quantity", ((int)obj.get("quantity"))+1);
+                    if (obj.getString("id").equals(id)) {
+                        obj.put("quantity", (obj.getInt("quantity"))+1);
                         exist=true;
                     }
 

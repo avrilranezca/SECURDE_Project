@@ -12,6 +12,7 @@
 <%@ page import="model.Product" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
+<%@ page import="org.json.JSONObject" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -107,17 +108,62 @@
             $(".btnminus").click(function(){
                 var index = $(this).index(".btnminus");
                 var a = +$(".txtquantity:eq("+index+")").val();
+                a--;
+
+                updateTable(index, a);
+            });
+
+            Number.prototype.formatMoney = function(c, d, t){
+                var n = this,
+                        c = isNaN(c = Math.abs(c)) ? 2 : c,
+                        d = d == undefined ? "." : d,
+                        t = t == undefined ? "," : t,
+                        s = n < 0 ? "-" : "",
+                        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+                        j = (j = i.length) > 3 ? j % 3 : 0;
+                return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+            };
+
+            function updateTable(index, a){
+                $.ajax({
+                    url: "UpdateCartQuantityServlet",
+                    dataType : 'json',
+                    data: {"index": index, "value": a },
+                    type: "POST",
+                    success: function(data){
+//                        alert("asd "+JSON.stringify(data)+" "+data[0].subtotal+" "+data[0].totalsum);
+
+                        if(data[0].subtotal==-1){
+                            $("tr:eq(" + (index+1) + ")").remove();
+                        }
+                        else {
+                            $(".row-subtotal:eq(" + index + ")").html("PHP" + (data[0].subtotal).formatMoney(2));
+                            $("#table-total").html("Total: PHP" + (data[0].totalsum).formatMoney(2));
+                        }
+                        updateCart();
+
+                    }
+                });
+            }
+
+            $(".txtquantity").keyup(function(){
+                var index = $(this).index(".txtquantity");
+                var a = +$(this).val();
+                updateTable(index, a);
             });
 
             $(".btnplus").click(function(){
                 var index = $(this).index(".btnplus");
                 var a = +$(".txtquantity:eq("+index+")").val();
+                a++;
+                updateTable(index, a);
             });
 
 
             $(".remove.icon").click(function(){
                 var index = $(this).index(".remove.icon");
-//                $("tr").eq(index+1).remove();
+                var a = +0;
+                updateTable(index, a);
 //                console.log(index);
             });
         });
@@ -260,82 +306,79 @@
 <div class="ui container segment">
     <h2 class="ui header">Your Cart
     </h2>
-    <table class="ui single line basic table">
-        <thead>
-        <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-            <th></th>
-        </tr>
-        </thead>
+
+        <%
+            if(session.getAttribute("item") != null) {
+
+        %>
+        <table class="ui single line basic table">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+            </thead>
         <tbody>
+        <%
+                int capacity = 0;
+                float sum = 0;
+                Product prod = null;
+                ProductDAO dao = new ProductDAO();
+                try {
+                    JSONArray arr = new JSONArray((String) session.getAttribute("item"));
+                    prod = dao.getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length() - 1).getString("id")));
+                    for (int i = 0; i < arr.length(); i++) {
+                        Product temp = dao.getProductOnID(Integer.parseInt(arr.getJSONObject(i).getString("id")));
+                        int itemp = arr.getJSONObject(i).getInt("quantity");
+                        sum += (temp.getPrice() * itemp);
+                        capacity += itemp;
+
+
+        %>
+
         <tr>
             <td>
                 <h4 class="ui image header">
                     <img src="assets/bababoots.jpg" class="ui mini rounded image">
                     <div class="content">
-                        Bababoots
+                        <%=temp.getName()%>
                     </div>
                 </h4></td>
-            <td>PHP 1,500.00</td>
+            <td><fmt:formatNumber value="<%=temp.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber></td>
             <td>
 
                 <i class="btnminus minus link icon"></i>
                 <div class="ui input">
-                    <input type="number" class="txtquantity" name="quantity" value="3">
+                    <input type="number" class="txtquantity" name="quantity" value="<%=itemp%>">
                 </div>
                 <i class="btnplus plus link icon"></i></td>
-            <td>PHP 4,500.00</td>
+            <td class="row-subtotal"><fmt:formatNumber value="<%=itemp*temp.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber></td>
             <td><i class="link bordered inverted red remove icon"></i></td>
         </tr>
-        <tr>
-            <td>
-                <h4 class="ui image header">
-                    <img src="assets/bababoots.jpg" class="ui mini rounded image">
-                    <div class="content">
-                        Bababoots
-                    </div>
-                </h4></td>
-            <td>PHP 1,500.00</td>
-            <td>
-                <i class="btnminus minus link icon"></i>
-                <div class="ui input">
-                    <input type="number" class="txtquantity" name="quantity" value="2">
-                </div>
-                <i class="btnplus plus link icon"></i></td>
-            <td>PHP 3,000.00</td>
-            <td><i class="link bordered inverted red remove icon"></i></td>
-        </tr>
-        <tr>
-            <td>
-                <h4 class="ui image header">
-                    <img src="assets/bababoots.jpg" class="ui mini rounded image">
-                    <div class="content">
-                        Bababoots
-                    </div>
-                </h4></td>
-            <td>PHP 1,500.00</td>
-            <td>
-                <i class="btnminus minus link icon"></i>
-                <div class="ui input">
-                    <input type="number" class="txtquantity" name="quantity" value="4">
-                </div>
-                <i class="btnplus plus link icon"></i></td>
-            <td>PHP 6,000.00</td>
-            <td><i class="link bordered inverted red remove icon"></i></td>
-        </tr>
+        <%
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        %>
+
         </tbody>
-    </table>
+        </table>
 
-    <div class="ui basic right aligned segment">
-        <h3 class="ui header">Total: PHP 13,500.00</h3>
-        <div class="ui large orange submit button">
-            <div><span class="middle-align">CHECKOUT</span>
+        <div class="ui basic right aligned segment">
+            <h3 id="table-total" class="ui header table-total">Total: <fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber></h3>
+            <div class="ui large orange submit button">
+                <div><span class="middle-align">CHECKOUT</span>
+                </div>
             </div>
         </div>
-    </div>
+
+    <%
+        }
+    %>
 </div>
 
 </body>
