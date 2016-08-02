@@ -6,11 +6,14 @@ import model.Address;
 import model.Category;
 import model.Product;
 import model.Review;
+import model.Transaction;
+import model.TransactionEntry;
 import model.User;
 import model.AccountTypeEnum;
 import database.CategoryDAO;
 import database.ProductDAO;
 import database.ReviewDAO;
+import database.TransactionDAO;
 import database.UserDAO;
 
 
@@ -22,14 +25,31 @@ public class TestDriver {
 		ProductDAO pdao = new ProductDAO();
 		CategoryDAO cdao = new CategoryDAO(); 
 		ReviewDAO rdao = new ReviewDAO();
+		TransactionDAO tdao = new TransactionDAO();
 		AccountTypeEnum customer = new AccountTypeEnum(AccountType.CUSTOMER);
 		/*User u = new User("user1", "user1", "u", "user_1", "user1@securde.com", customer.accountTypeDetails(), 1);
 		u.setPassword("password");
 		dc.addUser(u);*/
 		
-		//User u = udao.getUser("user_1", "password");
-		/*if(u != null)
+		User u = udao.getUser("user_1", "newpassword");
+		
+		udao.setUserSessionID(u, "newSessionID");
+		System.out.println(udao.getUserSessionID(u));
+		
+		//System.out.println(u.getId());
+		
+		//System.out.println(udao.getUserSessionID(u));
+		/*System.out.println(u.getAccount_type());*/
+		/*if(u != null) {
 			System.out.println(u.getEmail());
+			
+			udao.updatePassword(u, "newpassword");
+			
+			User u2 = udao.getUser(u.getUser_name(), "newpassword");
+			
+			System.out.println(u2.getEmail());
+			
+		}
 		else
 			System.out.println("No such user");*/
 		
@@ -66,7 +86,25 @@ public class TestDriver {
 		rdao.addReview(r);*/
 		
 		
+		/*System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));*/
+		
+		/*Transaction t = new Transaction(1, new Date());
+		ArrayList<TransactionEntry> teList = new ArrayList<TransactionEntry>();
+		
+		teList.add(new TransactionEntry(1, 2, 1));
+		teList.add(new TransactionEntry(2, 3, 1.23));
+		teList.add(new TransactionEntry(3, 1, 2.34));
+		
+		tdao.addTransaction(t, teList);*/
+		
+		/*System.out.println(tdao.getSalesPerProduct());
+		System.out.println(tdao.getSalesPerCategory());
+*/
 		//System.out.println(rdao.getReviewByProduct(pdao.getProductOnID(1)));
+		
+		/*System.out.println(tdao.getTotalSales("yearly"));
+		System.out.println(tdao.getTotalSales("monthly"));
+		System.out.println(tdao.getTotalSales("daily"));*/
 	}
 
 }

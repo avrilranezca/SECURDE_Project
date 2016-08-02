@@ -5,18 +5,19 @@ public class User {
 	public static final String customer = "CUSTOMER";
 	public static final String admin = "ADMIN";
 
-	
 	private int id;
 	private String first_name;
 	private String last_name;
 	private String middle_initial;
 	private String user_name;
 	private String password;
+	private int password_permanent;
 	private String email;
 	private int billing_address_id;
 	private int shipping_address_id;
 	private String account_type;
 	private int isActive;
+	private String sessionID;
 	
 	public User(int id, String first_name, String last_name,
 			String middle_initial, String user_name, String email,
@@ -132,5 +133,23 @@ public class User {
 	public void setIsActive(int isActive) {
 		this.isActive = isActive;
 	}
+
+	public int getPassword_permanent() {
+		return password_permanent;
+	}
+
+	public void setPassword_permanent(int password_permanent) {
+		this.password_permanent = password_permanent;
+	}
+
+	public String getSessionID() {
+		return sessionID;
+	}
+
+	public void setSessionID(String sessionID) {
+		this.sessionID = sessionID;
+	}
+	
+	
 	
 }
