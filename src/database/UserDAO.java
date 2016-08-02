@@ -84,7 +84,7 @@ public class UserDAO {
 		//if(newUser != null) {
 			try {
 				
-				PreparedStatement ps = conn.prepareStatement("UPDATE user SET password = ? WHERE id = ?");
+				PreparedStatement ps = conn.prepareStatement("UPDATE user SET password = ?, password_permanent = 1 WHERE id = ?");
 				ps.setString(1, Password.hashPassword(newPassword));
 				ps.setInt(2, u.getId());
 				
