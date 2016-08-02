@@ -34,7 +34,6 @@
                                     }
                             }
 
-
                             if (!foundCookie || userName==null) {
             %>
             $('#welcome-menu').hide();
@@ -63,62 +62,103 @@
 
             function updateCart(){
                 <%
-                            String item = null;
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
-                                        }
-                                        if (c.getName().equals("item")) {
-                                            item = c.getValue();
-                                        }
-                                    }
-                            }
-                             if(item!=null){
+                if(session.getAttribute("item") != null){
+                    String[] list = ((String)session.getAttribute("item")).split(",");
+                    int capacity =0;
+                    float sum = 0;
 
-                            String[] list = item.split(",");
-                            float sum=0;
-
-                             ProductDAO dao = new ProductDAO();
-                             Product prod = dao.getProductOnID(Integer.parseInt(list[list.length-1]));
-                            for (int i =0; i<list.length; i++) sum+=dao.getProductOnID(Integer.parseInt(list[i])).getPrice();
-
-
-
-            %>
-                $("#cart-button").attr("data-badge", "<%=list.length%>");
-                $("#total").html("<%=sum%>");
-
-                $("#empty-cart").hide();
-
-                $("#cart-name").html("<%=prod.getName()%>");
-                $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
-                $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
-
-                $("#cart-capacity").html("<%=list.length%> Item/s");
-                <%
+                    ProductDAO dao = new ProductDAO();
+                    Product prod = dao.getProductOnID(Integer.parseInt(list[list.length-1]));
+                    for (int i =0; i<list.length; i++){
+                        Product temp = dao.getProductOnID(Integer.parseInt(list[i]));
+                        sum+=temp.getPrice();
+                        capacity++; //not yet implemented
                     }
-                    else{
 
+                    %>
+                    $("#cart-button").attr("data-badge", "<%=list.length%>");
+                    $("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
+                    $("#empty-cart").hide();
+
+                    $("#cart-name").html("<%=prod.getName()%>");
+                    $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+
+                    $("#cart-capacity").html("<%=capacity%> Item/s");
+                <%
+                }
+                else{
                 %>
-                    $("#recent-cart").hide();
+                $("#recent-cart").hide();
                 <%
                 }
                 %>
 
+                <%--<%--%>
+                            <%--String item = null;--%>
+                             <%--cookies = request.getCookies();--%>
+                            <%--if(cookies !=null){--%>
+                                    <%--for(int i = 0; i < cookies.length; i++) {--%>
+                                        <%--Cookie c = cookies[i];--%>
+                                        <%--if (c.getName().equals("user")) {--%>
+                                            <%--foundCookie = true;--%>
+                                        <%--}--%>
+                                        <%--if (c.getName().equals("item")) {--%>
+                                            <%--item = c.getValue();--%>
+                                        <%--}--%>
+                                    <%--}--%>
+                            <%--}--%>
+                             <%--if(item!=null){--%>
+
+                            <%--String[] list = item.split(",");--%>
+                            <%--int capacity=0;--%>
+                            <%--float sum=0;--%>
+
+                             <%--ProductDAO dao = new ProductDAO();--%>
+                             <%--Product prod = dao.getProductOnID(Integer.parseInt(list[list.length-1]));--%>
+                            <%--for (int i =0; i<list.length; i++){--%>
+                                   <%--Product temp = dao.getProductOnID(Integer.parseInt(list[i]));--%>
+                                   <%--sum+=temp.getPrice();--%>
+                                   <%--capacity++; //not yet implemented--%>
+                            <%--}--%>
+
+
+
+            <%--%>--%>
+                <%--$("#cart-button").attr("data-badge", "<%=list.length%>");--%>
+                <%--$("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');--%>
+
+                <%--$("#empty-cart").hide();--%>
+
+                <%--$("#cart-name").html("<%=prod.getName()%>");--%>
+                <%--$("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');--%>
+                <%--$("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');--%>
+
+                <%--$("#cart-capacity").html("<%=capacity%> Item/s");--%>
+                <%--<%--%>
+                    <%--}--%>
+                    <%--else{--%>
+
+
+                <%--%>--%>
+                    <%--$("#recent-cart").hide();--%>
+                <%--<%--%>
+                <%--}--%>
+                <%--%>--%>
             }
 
             $(".add-cart").click(function () {
                 var id = this.id;
-
+                var ind = $(this).index('.add-cart');
                 $.ajax({
                     url: "AddToCartServlet",
                     data: {"itemID": id},
                     type: "POST",
                     success: function(data){
+                        $(".add-cart:eq("+ind+")").attr("class", "big link green add to cart icon add-cart");
                         updateCart();
+
                     }
                 });
 
@@ -127,7 +167,8 @@
 //                $("#addtocart-form").submit();
             });
 
-            $(".item-name").click(function () {
+            $(".item-name").click(function ()
+            {
                 var id = this.id;
                 $("#display-form input[name=itemID]").val(id);
                 $("#display-form").submit();
@@ -138,18 +179,15 @@
                 $("#category-form").submit();
             });
 
-
             $("#cat-sandals").click(function () {
                 $("#category-form input[name=cat]").val("Sandals");
                 $("#category-form").submit();
             });
 
-
             $("#cat-shoes").click(function () {
                 $("#category-form input[name=cat]").val("Shoes");
                 $("#category-form").submit();
             });
-
 
             $("#cat-slippers").click(function () {
                 $("#category-form input[name=cat]").val("Slippers");

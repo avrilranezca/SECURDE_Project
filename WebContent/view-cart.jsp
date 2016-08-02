@@ -160,7 +160,7 @@
 
                 <i class="btnminus minus link icon"></i>
                 <div class="ui input">
-                    <input type="text" class="txtquantity" name="quantity" value="3">
+                    <input type="number" class="txtquantity" name="quantity" value="3">
                 </div>
                 <i class="btnplus plus link icon"></i></td>
             <td>PHP 4,500.00</td>
@@ -178,7 +178,7 @@
             <td>
                 <i class="btnminus minus link icon"></i>
                 <div class="ui input">
-                    <input type="text" class="txtquantity" name="quantity" value="2">
+                    <input type="number" class="txtquantity" name="quantity" value="2">
                 </div>
                 <i class="btnplus plus link icon"></i></td>
             <td>PHP 3,000.00</td>
@@ -196,7 +196,7 @@
             <td>
                 <i class="btnminus minus link icon"></i>
                 <div class="ui input">
-                    <input type="text" class="txtquantity" name="quantity" value="4">
+                    <input type="number" class="txtquantity" name="quantity" value="4">
                 </div>
                 <i class="btnplus plus link icon"></i></td>
             <td>PHP 6,000.00</td>

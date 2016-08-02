@@ -41,12 +41,29 @@ public class AddToCartServlet extends HttpServlet {
 
 //        if(request.getSession().getAttribute("user")!=null && username!=null){
 //            System.out.println("here");
-            Cookie cookie;
-            if(item==null) cookie= new Cookie("item", id );
-            else cookie=new Cookie("item", item+","+id);
+
+
+        String s;
+        if(null != request.getSession().getAttribute("item")){
+            s = (String) request.getSession().getAttribute("item")+","+id;
+        }
+        else{
+//            PrintWriter writer = new PrintWriter()
+//            JsonGenerator jsonGenerator = (new JsonFactory()).createGenerator();
+
+            JSONObject obj = new JSONObject();
+            s = id;
+        }
+
+
+        System.out.println("session: "+s);
+            request.getSession().setAttribute("item", s);
+//            Cookie cookie;
+//            if(item==null) cookie= new Cookie("item", id );
+//            else cookie=new Cookie("item", item+","+id);
 //            item = new Cookie()
 //            System.out.println(cookie.getValue());
-            response.addCookie(cookie);
+//            response.addCookie(cookie);
 //        }
 //        else{
 //            System.out.println("huhhh");
