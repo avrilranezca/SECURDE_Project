@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="database.ProductDAO" %>
 <%@ page import="model.Product" %>
@@ -94,58 +95,6 @@
                 <%
                 }
                 %>
-
-                <%--<%--%>
-                            <%--String item = null;--%>
-                             <%--cookies = request.getCookies();--%>
-                            <%--if(cookies !=null){--%>
-                                    <%--for(int i = 0; i < cookies.length; i++) {--%>
-                                        <%--Cookie c = cookies[i];--%>
-                                        <%--if (c.getName().equals("user")) {--%>
-                                            <%--foundCookie = true;--%>
-                                        <%--}--%>
-                                        <%--if (c.getName().equals("item")) {--%>
-                                            <%--item = c.getValue();--%>
-                                        <%--}--%>
-                                    <%--}--%>
-                            <%--}--%>
-                             <%--if(item!=null){--%>
-
-                            <%--String[] list = item.split(",");--%>
-                            <%--int capacity=0;--%>
-                            <%--float sum=0;--%>
-
-                             <%--ProductDAO dao = new ProductDAO();--%>
-                             <%--Product prod = dao.getProductOnID(Integer.parseInt(list[list.length-1]));--%>
-                            <%--for (int i =0; i<list.length; i++){--%>
-                                   <%--Product temp = dao.getProductOnID(Integer.parseInt(list[i]));--%>
-                                   <%--sum+=temp.getPrice();--%>
-                                   <%--capacity++; //not yet implemented--%>
-                            <%--}--%>
-
-
-
-            <%--%>--%>
-                <%--$("#cart-button").attr("data-badge", "<%=list.length%>");--%>
-                <%--$("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');--%>
-
-                <%--$("#empty-cart").hide();--%>
-
-                <%--$("#cart-name").html("<%=prod.getName()%>");--%>
-                <%--$("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');--%>
-                <%--$("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');--%>
-
-                <%--$("#cart-capacity").html("<%=capacity%> Item/s");--%>
-                <%--<%--%>
-                    <%--}--%>
-                    <%--else{--%>
-
-
-                <%--%>--%>
-                    <%--$("#recent-cart").hide();--%>
-                <%--<%--%>
-                <%--}--%>
-                <%--%>--%>
             }
 
             $(".add-cart").click(function () {
@@ -193,6 +142,31 @@
                 $("#category-form input[name=cat]").val("Slippers");
                 $("#category-form").submit();
             });
+            
+            $(".search").click(function(){
+            	$("#search-form input[name=isSearch]").val("true");
+                $("#search-form").submit();
+            });
+            
+            $("#searchQuery").keypress(function(e) {
+                if(e.which == 13) {
+                /*	 var query = $("#searchQuery").val();
+                     $.ajax({
+                         url: "IndexDisplayProductsServlet",
+                         data: {"searchQuery": query,
+                        	 	"isSearch": true,},
+                         type: "GET",
+                         success: function(data){
+                             
+
+                         }
+                     });*/
+                     
+                     var query = $("#searchQuery").val();
+                	$("#search-form input[name=isSearch]").val("true_"+query);
+                    $("#search-form").submit();
+                }
+            });
 
         });
     </script>
@@ -235,8 +209,13 @@
                     </div>
                 </div>
                 <div class="seven wide column center aligned">
+                	
+                	<form id="search-form" action="IndexDisplayProductsServlet" method="get">
+			            <input name="isSearch" type="hidden">
+			        </form>
+			        
                     <div class="ui icon input search-bar">
-                        <input placeholder="Search for products or categories" type="text">
+                        <input id="searchQuery" name="query" placeholder="Search for products or categories" type="text" >
                         <i class="search link icon"></i>
                     </div>
                 </div>
@@ -372,6 +351,22 @@
 </div>
 <div class="ui container segment">
 
+	<c:choose>
+		<c:when test="${isSearch eq true}">
+			<div class="ui hidden divider"></div>
+		    <div id="search-banner">
+		        <div class="ui basic segment">
+		
+		            <!--<div class="content">-->
+		                <div class="ui sub header">Search Results:</div>
+		                <em>${searchQuery}</em> / ${fn:length(products)} found
+		            <!--</div>-->
+		        </div>
+		    </div>
+		    <div class="ui hidden divider"></div>
+		</c:when>
+	</c:choose>
+	
     <div class="ui four column grid">
         <c:forEach var="item" items="${products}">
             <div class="column">
