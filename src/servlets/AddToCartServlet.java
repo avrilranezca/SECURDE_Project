@@ -60,12 +60,12 @@ public class AddToCartServlet extends HttpServlet {
 
                     if (obj.getString("id").equals(id)) {
                         obj.put("quantity", (obj.getInt("quantity"))+1);
+
+                        arr.remove(i);
+                        arr.put(obj);
+
                         exist=true;
                     }
-
-                    arr.remove(i);
-
-                    arr.put(obj);
 
 //                    if(obj.get("quantity")==arr.getJSONObject(i).get("quantity")) System.out.println("YEY");
                 }

@@ -371,8 +371,8 @@
         <div class="ui basic right aligned segment">
             <h3 id="table-total" class="ui header table-total">Total: <fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber></h3>
             <div class="ui large orange submit button">
-                <div><span class="middle-align">CHECKOUT</span>
-                </div>
+                <a href="checkout-shipping.jsp"><span class="middle-align">CHECKOUT</span>
+                </a>
             </div>
         </div>
 
