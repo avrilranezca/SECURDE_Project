@@ -1,13 +1,13 @@
 package database;
 
+import model.Category;
+import model.Product;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import model.Category;
-import model.Product;
 
 public class ProductDAO {
 	
@@ -81,17 +81,16 @@ public class ProductDAO {
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		
-		CategoryDAO cdao = new CategoryDAO();
-		
 		try {
-			ps = conn.prepareStatement("SELECT * FROM product WHERE isActive = 1;");
+
+			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;");
+			//ps = conn.prepareStatement("SELECT * FROM product WHERE isActive = 1;");
 
 			ResultSet rs = ps.executeQuery();
 			
 			
 			while(rs.next()) {
-				Category c = cdao.getCategory(rs.getInt("category_id"));
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), 1);
 				productList.add(p);
 			}
 			
@@ -131,10 +130,8 @@ public class ProductDAO {
 	public Product getProductOnID(int id) {
 		PreparedStatement ps;
 		
-		CategoryDAO cdao = new CategoryDAO();
-
 		try {
-			ps = conn.prepareStatement("SELECT * FROM product WHERE id = ?;");
+			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name AS c_name, isActive FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = ?;");
 
 			ps.setInt(1, id);
 			
@@ -142,8 +139,7 @@ public class ProductDAO {
 			
 			
 			while(rs.next()) {
-				Category c = cdao.getCategory(rs.getInt("category_id"));
-				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive"));
 				return p;
 			}
 			
@@ -157,4 +153,25 @@ public class ProductDAO {
 	
 	//get product based on filtering criteria
 
+	public ArrayList<Product> searchProducts(String searchCriteria) {
+		ArrayList<Product> productList = new ArrayList<Product>();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT P.id, P.name AS p_name, P.description, P.price, C.name AS c_name, P.isActive FROM product P INNER JOIN category C ON P.category_id = C.id WHERE (P.name LIKE CONCAT('%', ?, '%') OR C.name LIKE CONCAT('%', ?, '%') OR P.description LIKE CONCAT('%', ?, '%')) AND isActive = 1;");
+			ps.setString(1, searchCriteria);
+			ps.setString(2, searchCriteria);
+			ps.setString(3, searchCriteria);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				productList.add(new Product(rs.getInt("id"), rs.getString("p_name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return productList;
+	}
 }

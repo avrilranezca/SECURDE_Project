@@ -18,13 +18,15 @@
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
   </security-constraint>
+
   <servlet>
-    <servlet-name>LoginServlet</servlet-name>
-    <servlet-class>servlets.LoginServlet</servlet-class>
+    <servlet-name>IndexDisplayProductsServlet</servlet-name>
+    <servlet-class>servlets.IndexDisplayProductsServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>LoginServlet</servlet-name>
+    <servlet-name>IndexDisplayProductsServlet</servlet-name>
     <url-pattern></url-pattern>
+    <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>DisplayProductsServlet</servlet-name>
@@ -33,5 +35,13 @@
   <servlet-mapping>
     <servlet-name>DisplayProductsServlet</servlet-name>
     <url-pattern>/product_manager</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
+    <servlet-class>servlets.DisplayFinancialRecordsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
+    <url-pattern>/accounting_manager</url-pattern>
   </servlet-mapping>
 </web-app>

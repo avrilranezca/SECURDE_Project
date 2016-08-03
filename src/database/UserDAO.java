@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.AccountTypeEnum;
 import model.Address;
 import model.User;
 
@@ -29,7 +30,10 @@ public class UserDAO {
 			
 			while(rs.next()) {
 				
-				if(BCrypt.checkpw(password, rs.getString("password"))) {
+				//System.out.println("Password: " + password);
+				//System.out.println("From db password: " + rs.getString("password"));
+				
+				if(Password.checkPassword(password, rs.getString("password"))) {
 
 					User user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"),
 							rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
@@ -50,7 +54,7 @@ public class UserDAO {
 	
 	public void addUser(User u) {
 		try{
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO user (first_name, last_name, middle_initial, user_name, password, email, account_type_enum, isActive) VALUES(?, ?, ?, ?, ?, ?, ?, ?);");
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO user (first_name, last_name, middle_initial, user_name, password, email, account_type_enum, isActive, password_permanent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);");
 			ps.setString(1, u.getFirst_name());
 			ps.setString(2, u.getLast_name());
 			ps.setString(3, u.getMiddle_initial());
@@ -60,10 +64,41 @@ public class UserDAO {
 			ps.setString(7, u.getAccount_type());
 			ps.setInt(8, 1);
 			
+			if(u.getAccount_type().equals(AccountTypeEnum.AccountType.CUSTOMER)) {
+				ps.setInt(9, 1);
+			}
+			else {
+				ps.setInt(9, 0);
+			}
+			
+			
 			ps.execute();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void updatePassword(User u, String newPassword) {
+		//User newUser = getUser(u.getUser_name(), u.getPassword());
+		
+		//if(newUser != null) {
+			try {
+				
+				PreparedStatement ps = conn.prepareStatement("UPDATE user SET password = ?, password_permanent = 1 WHERE id = ?");
+				ps.setString(1, Password.hashPassword(newPassword));
+				ps.setInt(2, u.getId());
+				
+				ps.executeUpdate();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		//}
+		//else {
+			//System.out.println("newUser is null");
+		//}
+		
+		
 	}
 	
 	public void updateBillingAddress(User u, Address a) {
@@ -101,6 +136,45 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void setUserSessionID(User u, String sessionID) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE user SET session_id = ? WHERE id = ?;");
+			ps.setString(1, sessionID);
+			ps.setInt(2, u.getId());
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//returns null if session id does not exist
+	public String getUserSessionID(User u) {
+		
+		String session = "";
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT session_id FROM user WHERE id = ?;");
+			ps.setInt(1, u.getId());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				session = rs.getString("session_id");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if("".equals(session)) {
+			session = "null";
+		}
+		
+		return session;
 	}
 	
 }
