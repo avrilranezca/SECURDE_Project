@@ -53,7 +53,7 @@ body{
 }
 
 .custom-container{
-    margin-top: 2%;
+    margin-top: 2% !important;
 }
 
 
