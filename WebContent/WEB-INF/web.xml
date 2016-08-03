@@ -44,4 +44,10 @@
     <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
     <url-pattern>/accounting_manager</url-pattern>
   </servlet-mapping>
+  <session-config> 
+  	<tracking-mode>COOKIE</tracking-mode> 
+  </session-config>
+  <session-config> 
+  	<session-timeout>20</session-timeout> 
+  </session-config>
 </web-app>
