@@ -216,6 +216,8 @@ public class UserDAO {
 		}
 	}
 	
+	
+	//returns the Date if locked, returns null otherwise
 	public Date isLocked(int id) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT lockout_datetime FROM user WHERE id = ?;");
