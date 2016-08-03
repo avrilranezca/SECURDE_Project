@@ -10,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Servlet implementation class LoginServlet
@@ -58,13 +60,31 @@ public class LoginServlet extends HttpServlet {
 		System.out.println("password: "+ password);
 		UserDAO dao = new UserDAO();
 		User user = dao.getUser(username, password);
+		User temp = dao.getUser(username);
 
-		if (user != null)
+		if(request.getSession().getAttribute("lock")==null){
+			request.getSession().setAttribute("lock", 0);
+		}
+
+
+		if(temp!=null && dao.isLocked(temp.getId())!=null){
+			Date now = Calendar.getInstance().getTime();
+			Date d = dao.isLocked(temp.getId());
+			long diff = now.getTime() - d.getTime();
+			long diffMinutes = diff / (60 * 1000) % 60;
+			System.out.println("diff "+diffMinutes);
+			if(diffMinutes>=5){
+				dao.unlock(temp.getId());
+				request.getSession().setAttribute("lock", 0);
+			}
+		}
+		if (user != null && dao.isLocked(user.getId())==null)
 		{
 			request.getSession().invalidate();
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user.getUser_name());
 			session.setAttribute( "activation-time", System.currentTimeMillis() );
+			session.setAttribute("lock", 0);
 			//setting session to expiry in 30 mins
 
 			Cookie userName = new Cookie("user", user.getUser_name());
@@ -82,7 +102,31 @@ public class LoginServlet extends HttpServlet {
 		}else{
 
 			if(username.equals("")||password.equals("")) request.setAttribute("error", "Fill up all fields.");
-				else request.setAttribute("error", "Incorrect username/password!");
+			else{
+				request.setAttribute("error", "Incorrect username/password!");
+
+				if(temp!=null || (temp!=null&&dao.isLocked(temp.getId())!=null)){
+					System.out.print("lck: ");System.out.println(request.getSession().getAttribute("lock"));
+					int i = (int) request.getSession().getAttribute("lock");
+					request.getSession().setAttribute("lock", i+1);
+
+					if(i+1>=5){
+						if(dao.isLocked(temp.getId())==null){
+							System.out.println("here");
+							dao.lock(temp.getId());
+							request.setAttribute("error", "Incorrect username/password! Too many failed attempts at logging in. This account has been locked for five minutes.");
+						}
+						else{
+							System.out.println("there");
+							request.setAttribute("error", "Too many failed attempts at logging in. This account has been locked for five minutes.");
+						}
+					}
+				}
+			}
+
+
+
+
 			String encodedURL = response.encodeRedirectURL("login.jsp");
 //			response.sendRedirect(encodedURL);
 			request.getRequestDispatcher(encodedURL).forward(request,response);
