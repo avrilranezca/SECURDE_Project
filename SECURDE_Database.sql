@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `securde_eshopping` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `securde_eshopping`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: localhost    Database: securde_eshopping
@@ -210,6 +208,7 @@ CREATE TABLE `user` (
   `account_type_enum` varchar(255) NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `session_id` varchar(255) DEFAULT NULL,
+  `lockout_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `billing_address_FK_idx` (`billing_address_id`),
   KEY `shipping_address_FK_idx` (`shipping_address_id`),
@@ -224,7 +223,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$BTEF7l8BayUpKgb2HweApuZ7jeXeLE8zdbP0KKcY3euK63ykZdmhy',1,'user1@securde.com',1,NULL,'CUSTOMER',1,'newSessionID'),(2,'user2','user2','u','user_2','$2a$12$Ml1gCI0.4VvVsRIZVSPxIeqUeqiaHk0Q3.v2ytOw3ZqnAJRELnh.q',1,'user2@securde.com',NULL,NULL,'CUSTOMER',1,NULL);
+INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$BTEF7l8BayUpKgb2HweApuZ7jeXeLE8zdbP0KKcY3euK63ykZdmhy',1,'user1@securde.com',1,NULL,'CUSTOMER',1,'newSessionID',NULL),(2,'user2','user2','u','user_2','$2a$12$Ml1gCI0.4VvVsRIZVSPxIeqUeqiaHk0Q3.v2ytOw3ZqnAJRELnh.q',1,'user2@securde.com',NULL,NULL,'CUSTOMER',1,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -237,4 +236,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-02 22:51:28
+-- Dump completed on 2016-08-03 23:08:19
