@@ -31,11 +31,15 @@ public class TestDriver {
 		u.setPassword("password");
 		dc.addUser(u);*/
 		
-		User u = udao.getUser("user_1", "newpassword");
+		User u = udao.getUser("user_1", "password");
 		
-		udao.updatePassword(u, "password");
+		//udao.lock(u.getId());
+		System.out.println(udao.isLocked(u.getId()));
+		//udao.unlock(u.getId());
 		
-		System.out.println(udao.getUser("user_1", "password").getEmail());
+		//udao.updatePassword(u, "password");
+		
+		//System.out.println(udao.getUser("user_1", "password").getEmail());
 		
 		/*udao.setUserSessionID(u, "newSessionID");
 		System.out.println(udao.getUserSessionID(u));*/
