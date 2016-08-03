@@ -45,14 +45,17 @@
     <url-pattern>/accounting_manager</url-pattern>
   </servlet-mapping>
 
-  <session-config> 
-  	<tracking-mode>COOKIE</tracking-mode> 
+  <session-config>
+    <session-timeout>20</session-timeout>
+    <cookie-config>
+      <http-only>true</http-only>
+      <secure>true</secure>
+    </cookie-config>
+    <tracking-mode>COOKIE</tracking-mode>
   </session-config>
-  <session-config> 
-  	<session-timeout>20</session-timeout> 
-  </session-config>
+
   <filter>
-    <filter-name>ClickjackFilterDeny</filter-name>
+    <filter-name>ClickjackFilter</filter-name>
     <filter-class>org.owasp.esapi.filters.ClickjackFilter</filter-class>
     <init-param>
       <param-name>mode</param-name>
@@ -62,6 +65,19 @@
 
   <filter-mapping>
     <filter-name>ClickjackFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>SessionFilter</filter-name>
+    <filter-class>filter.SessionFilter</filter-class>
+    <init-param>
+      <param-name>max-period</param-name>
+      <param-value>60000</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
