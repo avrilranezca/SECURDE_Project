@@ -16,7 +16,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
+        	$("#search-form input[name=search]").val(null);
             <%
                 String userName=null;
 
@@ -147,8 +147,9 @@
             });
             
             $(".search").click(function(){
-            	$("#search-form input[name=isSearch]").val("true");
-                $("#search-form").submit();
+            	 var query = $("#searchQuery").val();
+             	 $("#search-form input[name=search]").val(query);
+                 $("#search-form").submit();
             });
             
             $("#searchQuery").keypress(function(e) {
@@ -159,14 +160,14 @@
                          data: {"searchQuery": query,
                         	 	"isSearch": true,},
                          type: "GET",
-                         success: function(data){
+                        success: function(data){
                              
 
                          }
                      });*/
                      
                      var query = $("#searchQuery").val();
-                	$("#search-form input[name=isSearch]").val("true_"+query);
+                	$("#search-form input[name=search]").val(query);
                     $("#search-form").submit();
                 }
             });
@@ -214,7 +215,7 @@
                 <div class="seven wide column center aligned">
                 	
                 	<form id="search-form" action="IndexDisplayProductsServlet" method="get">
-			            <input name="isSearch" type="hidden">
+			            <input name="search" type="hidden">
 			        </form>
 			        
                     <div class="ui icon input search-bar">
@@ -355,7 +356,7 @@
 <div class="ui container segment">
 
 	<c:choose>
-		<c:when test="${isSearch eq true}">
+		<c:when test="${search ne null}">
 			<div class="ui hidden divider"></div>
 		    <div id="search-banner">
 		        <div class="ui basic segment">
