@@ -54,6 +54,29 @@ public class UserDAO {
 		
 	}
 	
+	public User getUser(String user_name) {
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE user_name = ?");
+			ps.setString(1, user_name);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+					User user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"),
+							rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+					return user;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
 	public void addUser(User u) {
 		try{
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO user (first_name, last_name, middle_initial, user_name, password, email, account_type_enum, isActive, password_permanent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);");
