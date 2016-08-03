@@ -47,5 +47,6 @@
     </orderEntry>
     <orderEntry type="library" name="jackson-core-2.2.2" level="project" />
     <orderEntry type="library" name="org.json" level="project" />
+    <orderEntry type="library" name="esapi-2.1.0" level="project" />
   </component>
 </module>

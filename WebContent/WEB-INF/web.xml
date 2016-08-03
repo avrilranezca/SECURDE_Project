@@ -44,10 +44,25 @@
     <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
     <url-pattern>/accounting_manager</url-pattern>
   </servlet-mapping>
+
   <session-config> 
   	<tracking-mode>COOKIE</tracking-mode> 
   </session-config>
   <session-config> 
   	<session-timeout>20</session-timeout> 
   </session-config>
+  <filter>
+    <filter-name>ClickjackFilterDeny</filter-name>
+    <filter-class>org.owasp.esapi.filters.ClickjackFilter</filter-class>
+    <init-param>
+      <param-name>mode</param-name>
+      <param-value>DENY</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>ClickjackFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 </web-app>
