@@ -62,7 +62,14 @@
                     })
             ;
 
-
+            $('.rating')
+	            .rating({
+	              initialRating: 0,
+	              maxRating: 5,
+	              interactive: false
+	            })
+	        ;
+            
             function updateCart(){
                 <%
                 if(session.getAttribute("item") != null){
@@ -388,10 +395,15 @@
                         <div class="ui grid">
                             <div class="twelve wide column">
                                 <a id="cart-${item.id}" class="item-name">${item.name}</a>
-                                <div class="meta"><span class="price-label"><fmt:formatNumber value="${item.price}"
-                                                                                              type="currency"
-                                                                                              currencyCode="PHP"></fmt:formatNumber></span>
+                                <div class="meta">
+                                	<span class="price-label"><fmt:formatNumber value="${item.price}"
+                                                                                type="currency"
+                                                                                currencyCode="PHP">
+                                       	</fmt:formatNumber>
+                                    </span>
                                 </div>
+                                <br>
+                            	<div class="ui tiny star rating"></div>
                             </div>
                             <div class="four wide column middle aligned center aligned">
 

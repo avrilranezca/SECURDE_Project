@@ -26,7 +26,21 @@
                 $("#quantity").val(a+1);
             });
 
-
+            $('.rating')
+            .rating({
+              initialRating: 0,
+              maxRating: 5,
+              interactive: false
+            })
+           ;
+          
+          $('.editable.rating')
+            .rating({
+              initialRating: 0,
+              maxRating: 5,
+              interactive: true
+            })
+          ;
 
 
             $('#cart-button')
@@ -177,12 +191,17 @@
         </div>
         <div class="seven wide column">
             <h1 class="ui header">${product.name}
-                <div class="sub header price-label">${product.price}</div>
+                 <div class="sub header">
+                    <div class="ui grid">
+                        <div class="eight wide column"><div class="price-label">${product.price}</div></div>
+                        <div class="eight wide column right aligned">
+                            <a href="#comments"> <div class="ui star rating"></div></a>
+                        </div>
+                    </div>
+                </div>
             </h1>
 
-
-            <p>${product.description}
-            </p>
+            <p>${product.description}</p>
 
             <div class="ui divider"></div>
 
@@ -203,6 +222,39 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <div id="comments" class="ui comments">
+                    <div class="ui dividing header">Top Customer Reviews</div>
+                    <!--show this if the user still hasn't logged in--->
+                    <div id="error-review" class="ui segment center aligned hidden">
+                        Please login to review this product
+                    </div>
+                    <div class="ui form">
+                        <div class="field">
+                            <label>Shayane Tan</label>
+                            <div class="ui editable huge star rating" style="margin-bottom: 10px;"></div>
+                            <textarea rows="2" placeholder="Enter review here.."></textarea>
+                        </div>
+                        <div class="ui basic clearing segment">
+                            <button class="ui right floated orange submit button">
+                                <span class="middle-align">SUBMIT REVIEW</span>
+                            </button>
+                        </div>
+                    </div>
+                
+                  <div class="comment">
+                      <div class="content">
+                          <a class="author">Matt</a>
+                          <div class="metadata">
+                              <div class="ui star rating"></div>
+                          </div>
+                          <div class="text">How artistic!</div>
+                      </div>
+                  </div>
+            </div>
         </div>
     </div>
 </div>

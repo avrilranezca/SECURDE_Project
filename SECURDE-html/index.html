@@ -32,7 +32,14 @@
                 ;
             });
 
-
+            $('.rating')
+              .rating({
+                initialRating: 0,
+                maxRating: 5,
+                interactive: false
+              })
+            ;
+            
             $('#cart-button')
                     .popup({
 //                        movePopup: false,
@@ -185,6 +192,8 @@
                         <div class="twelve wide column">
                             <a class="header">Rissa Bababoots (Red)</a>
                             <div class="meta"><span class="price-label">900.00</span></div>
+                            <br>
+                            <div class="ui tiny star rating"></div>
                         </div>
                         <div class="four wide column middle aligned center aligned">
                             <i class="big link add to cart icon"></i>
@@ -203,6 +212,8 @@
                         <div class="twelve wide column">
                             <a class="header">Rissa Bababoots (Red)</a>
                             <div class="meta"><span class="price-label">900.00</span></div>
+                            <br>
+                            <div class="ui tiny star rating"></div>   
                         </div>
                         <div class="four wide column middle aligned center aligned">
                             <i class="big link add to cart icon"></i>
@@ -221,6 +232,8 @@
                         <div class="twelve wide column">
                             <a class="header">Rissa Bababoots (Red)</a>
                             <div class="meta"><span class="price-label">900.00</span></div>
+                            <br>
+                            <div class="ui tiny star rating"></div>
                         </div>
                         <div class="four wide column middle aligned center aligned">
                             <i class="big link add to cart icon"></i>
