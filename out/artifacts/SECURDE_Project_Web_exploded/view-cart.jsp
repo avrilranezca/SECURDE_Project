@@ -131,16 +131,6 @@
                     data: {"index": index, "value": a },
                     type: "POST",
                     success: function(data){
-//                        alert("asd "+JSON.stringify(data)+" "+data[0].subtotal+" "+data[0].totalsum);
-
-                        if(data[0].subtotal==-1){
-                            $("tr:eq(" + (index+1) + ")").remove();
-                        }
-                        else {
-                            $(".row-subtotal:eq(" + index + ")").html("PHP" + (data[0].subtotal).formatMoney(2));
-                            $("#table-total").html("Total: PHP" + (data[0].totalsum).formatMoney(2));
-                        }
-                        updateCart();
 
                     }
                 });

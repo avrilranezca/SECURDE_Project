@@ -1,14 +1,14 @@
 package database;
 
+import model.Product;
+import model.Review;
+import model.User;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import model.Product;
-import model.Review;
-import model.User;
 
 public class ReviewDAO {
 	
@@ -68,9 +68,9 @@ public class ReviewDAO {
 		//Double value = null;
 		
 		int numOfReviews = getNumberOfReviews(p);
-		
+		System.out.println("rev: "+numOfReviews);
 		if(numOfReviews == 0) {
-			return null;
+			return Double.valueOf(0);
 		}
 		
 		try {
@@ -88,16 +88,16 @@ public class ReviewDAO {
 			e.printStackTrace();
 		}
 		
-		return -1.0;
+		return 0.0;
 	}
 	
 	public int getNumberOfReviews(Product p) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM review WHERE product_id = ?;");
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS 'count' FROM review WHERE product_id = ?;");
 			ps.setInt(1, p.getId());
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				return rs.getInt("count");
 			}

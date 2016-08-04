@@ -6,6 +6,7 @@
 <%@ page import="model.Product" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
+<%@ page import="database.ReviewDAO" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -18,6 +19,8 @@
         $(document).ready(function () {
         	$("#search-form input[name=search]").val(null);
             <%
+
+                ReviewDAO reviewDAO = new ReviewDAO();
                 String userName=null;
 
                 boolean foundCookie = false;
@@ -62,7 +65,14 @@
                     })
             ;
 
-
+            $('.rating')
+	            .rating({
+	              initialRating: 0,
+	              maxRating: 5,
+	              interactive: false
+	            })
+	        ;
+            
             function updateCart(){
                 <%
                 if(session.getAttribute("item") != null){
@@ -376,9 +386,16 @@
 		    <div class="ui hidden divider"></div>
 		</c:when>
 	</c:choose>
-	
+
+
     <div class="ui four column grid">
         <c:forEach var="item" items="${products}">
+            <%
+
+                Product p =(Product) pageContext.getAttribute("item");
+                System.out.println("reviewww"+p);
+                int i = reviewDAO.getAverageRating(p).intValue();
+            %>
             <div class="column">
                 <div class="ui fluid card">
                     <div class="image">
@@ -388,14 +405,20 @@
                         <div class="ui grid">
                             <div class="twelve wide column">
                                 <a id="cart-${item.id}" class="item-name">${item.name}</a>
-                                <div class="meta"><span class="price-label"><fmt:formatNumber value="${item.price}"
-                                                                                              type="currency"
-                                                                                              currencyCode="PHP"></fmt:formatNumber></span>
+                                <div class="meta">
+                                	<span class="price-label"><fmt:formatNumber value="${item.price}"
+                                                                                type="currency"
+                                                                                currencyCode="PHP">
+                                       	</fmt:formatNumber>
+                                    </span>
                                 </div>
-                            </div>
-                            <div class="four wide column middle aligned center aligned">
+                                <br>
 
-                                <form id="display-form" action="DisplaySpecificItemServlet" method="post">
+                                <div class="ui tiny star rating"  data-rating="<%=i%>"></div>
+                            </div>
+                            <div class="four wide column middle aligned center aligned" >
+
+                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
                                     <input name="itemID" type="hidden">
                                 </form>
 
