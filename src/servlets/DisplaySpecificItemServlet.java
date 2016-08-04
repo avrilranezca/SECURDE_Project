@@ -19,6 +19,10 @@ import java.util.ArrayList;
 @WebServlet("/DisplaySpecificItemServlet")
 public class DisplaySpecificItemServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         System.out.println("fu "+request.getParameter("itemID"));
         String id = request.getParameter("itemID").split("-")[1];
         System.out.println(id);
@@ -32,9 +36,5 @@ public class DisplaySpecificItemServlet extends HttpServlet {
         request.setAttribute("product", prod);
         request.setAttribute("reviews", reviews);
         request.getRequestDispatcher("view-product.jsp").forward(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }

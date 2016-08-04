@@ -407,7 +407,7 @@
                             </div>
                             <div class="four wide column middle aligned center aligned">
 
-                                <form id="display-form" action="DisplaySpecificItemServlet" method="post">
+                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
                                     <input name="itemID" type="hidden">
                                 </form>
 
