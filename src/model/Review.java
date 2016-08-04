@@ -6,26 +6,27 @@ public class Review {
 	
 	private int id;
 	private int user_id;
+	private String user_name;
 	private int product_id;
 	private String review;
 	private Date date;
 	private int rating;
 	
-	public Review(int id, int user_id, int product_id, String review,
+	public Review(int id, String user_name, int product_id, String review,
 			Date date, int rating) {
 		super();
 		this.id = id;
-		this.user_id = user_id;
+		this.user_name = user_name;
 		this.product_id = product_id;
 		this.review = review;
 		this.date = date;
 		this.rating = rating;
 	}
 	
-	public Review(int user_id, int product_id, String review,
+	public Review(String user_name, int product_id, String review,
 			Date date, int rating) {
 		super();
-		this.user_id = user_id;
+		this.user_name = user_name;
 		this.product_id = product_id;
 		this.review = review;
 		this.date = date;
@@ -42,6 +43,14 @@ public class Review {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
 	public int getUser_id() {
