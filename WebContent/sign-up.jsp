@@ -12,6 +12,28 @@
         <script src="semantic-ui/dist/semantic.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
+            	
+            	var password = $('[name="password"]');
+            	var confirmpassword = $('[name="confirmpassword"]');
+            	
+            	 $.fn.form.settings.rules.passwordMinLength = function(value) {
+           		    var currentPassValue = password.length > 0 ? password.val() : undefined;
+           		    if(currentPassValue === undefined || currentPassValue.length === 0) {
+           		      return true;
+           		    }
+           		    return value.length >= 7;
+           		  };
+
+           		  $.fn.form.settings.rules.repeatPasswordMatch = function(value) {
+           		    var currentPassValue = password.length > 0 ? password.val() : undefined,
+           		        newPassValue = confirmpassword.length > 0 ? confirmpassword.val() : undefined;
+           		    if(currentPassValue === undefined || currentPassValue.length === 0) {
+           		      return true;
+           		    }
+           		    return value.toString() === currentPassValue.toString();
+           		  };
+            	
+            	
                 <%
                             Cookie[] cookies = request.getCookies();
                             boolean foundCookie = false;
@@ -42,6 +64,196 @@
                             on    : 'click'
                         })
                 ;
+                
+                $('.ui.form')
+	                .form({
+	                  fields: {
+	                    firstname: {
+	                      identifier: 'firstname',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your firstname'
+	                        }
+	                      ]
+	                    },
+	                    middleInitial: {
+		                      identifier: 'middleInitial',
+		                      rules: [
+		                        {
+		                          type   : 'empty',
+		                          prompt : 'Please enter your middle initial'
+		                        }		                        
+		                      ]
+		                    },
+	                    lastname: {
+		                      identifier: 'lastname',
+		                      rules: [
+		                        {
+		                          type   : 'empty',
+		                          prompt : 'Please enter your lastname'
+		                        }
+		                      ]
+		                    },    
+	                    email: {
+	                      identifier: 'email',
+	                      rules: [
+	                        {
+	                          type   : 'email',
+	                          prompt : 'Please enter a valid email address'
+	                        }
+	                      ]
+	                    },
+	                    username: {
+	                      identifier: 'username',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter a username'
+	                        }
+	                      ]
+	                    },
+	                    password: {
+	                      identifier: 'password',
+	                      rules: [
+	                        {
+	                        	type   : 'empty',
+	                        	prompt : 'Please enter a password'
+	                        },{
+	                        	type 	: 'passwordMinLength',
+	                        	prompt 	: 'Your password must contain at least 7 characters'
+	                        },{
+	                        	type	: 'regExp[/([a-z].*[A-Z])|([A-Z].*[a-z])/]',
+	                        	prompt	: 'Your password must contain at least one lowercase and uppercase letter'
+	                        },{
+	                        	type	: 'regExp[/([0-9])/]',
+	                        	prompt	: 'Your password must contain at least one number'
+	                        },{
+	                        	type 	: 'regExp[/([!,%,&,@,#,$,^,*,?,_,~,:,.])/]',
+	                        	prompt	: 'Your password must contain at least one special character'
+	                        }
+	                      ]
+	                    },
+	                    confirmpassword: {
+	                      identifier: 'confirmpassword',
+	                      rules: [
+	                        {
+	                          	type   : 'repeatPasswordMatch',
+	                          	prompt : 'Your confirmation password does not match with your password'
+	                        }
+	                      ]
+	                    },
+	                    bHouseNo: {
+	                      identifier: 'bHouseNo',
+	                      rules: [
+	                        {
+	                          type   : 'integer',
+	                          prompt : 'Please enter your Billing House Number'
+	                        }
+	                      ]
+	                    },
+	                    bSubdivision: {
+	                      identifier: 'bSubdivision',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Billing Subdivision'
+	                        }
+	                      ]
+	                    },
+	                    bPostalCode: {
+	                      identifier: 'bPostalCode',
+	                      rules: [
+	                        {
+	                          type   : 'integer',
+	                          prompt : 'Please enter your Billing House Postal Code'
+	                        }
+	                      ]
+	                    },
+	                    bStreet: {
+	                      identifier: 'bStreet',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Billing House Street'
+	                        }
+	                      ]
+	                    },
+	                    bCity: {
+	                      identifier: 'bCity',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Billing House City'
+	                        }
+	                      ]
+	                    },
+	                    bCountry: {
+	                      identifier: 'bCountry',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Billing Country'
+	                        }
+	                      ]
+	                    },
+	                    sHouseNo: {
+	                      identifier: 'sHouseNo',
+	                      rules: [
+	                        {
+	                          type   : 'integer',
+	                          prompt : 'Please enter your Shipping House Number'
+	                        }
+	                      ]
+	                    },
+	                    sSubdivision: {
+	                      identifier: 'sSubdivision',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Shipping Subdivision'
+	                        }
+	                      ]
+	                    },
+	                    sPostalCode: {
+	                      identifier: 'sPostalCode',
+	                      rules: [
+	                        {
+	                          type   : 'integer',
+	                          prompt : 'Please enter your Shipping House Postal Code'
+	                        }
+	                      ]
+	                    },
+	                    sStreet: {
+	                      identifier: 'sStreet',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Shipping House Street'
+	                        }
+	                      ]
+	                    },
+	                    sCity: {
+	                      identifier: 'sCity',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Shipping House City'
+	                        }
+	                      ]
+	                    },
+	                    sCountry: {
+	                      identifier: 'sCountry',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter your Shipping Country'
+	                        }
+	                      ]
+	                    }
+	                  }
+	                })
+	              ;
             });
         </script>
     </head>
@@ -143,29 +355,33 @@
                     <div class="ui grid">
                         <div class="seven wide computer sixteen wide tablet column">
                             <h4 class="ui dividing header">Basic Information</h4>
-                            <div class="ui grid middle aligned">
+                            <div class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Firstname</label></div>
                                 <div class="ten wide column"><input placeholder="Juan" name="firstname" type="text"></div>
                             </div>
-                            <div class="ui grid middle aligned">
+                            <div class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Middle Initial</label></div>
                                 <div class="ten wide column"><input placeholder="A." name="middleInitial" type="text"></div>
                             </div>
-                            <div class="ui grid middle aligned">
+                            <div class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Lastname</label></div>
                                 <div class="ten wide column"><input placeholder="Dela Cruz" name="lastname" type="text"></div>
                             </div>
-                             <div class="ui grid middle aligned">
+                             <div class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Email</label></div>
                                 <div class="ten wide column"><input placeholder="example@abc.com" name="email" type="email"></div>
                             </div>
-                             <div class="ui grid middle aligned">
+                             <div class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Username</label></div>
                                 <div class="ten wide column"><input placeholder="exampleABC" name="username" type="text"></div>
                             </div>
-                             <div class="ui grid middle aligned">
+                             <div id= "password-field" class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Password</label></div>
-                                <div class="ten wide column"><input placeholder="*******" name="password" type="password"></div>
+                                <div class="ten wide column"><input placeholder="*******" id="password" name="password" type="password"></div>
+                            </div>
+                             <div class="ui grid middle aligned field">
+                                <div class="six wide column"><label>Confirm Password</label></div>
+                                <div class="ten wide column"><input placeholder="*******" name="confirmpassword" type="password"></div>
                             </div>
                         </div>
                         <div class="nine wide computer sixteen wide tablet column">
@@ -173,29 +389,29 @@
                                 <h4 class="ui dividing header">Billing Address</h4>
                                 <div class="ui grid">
                                     <div class="eight wide computer sixteen wide tablet column">
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>House No.</label></div>
                                             <div class="ten wide column"><input placeholder="123" name="bHouseNo" type="number"></div>
                                         </div>
-                                         <div class="ui grid middle aligned">
+                                         <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Subdivision</label></div>
                                             <div class="ten wide column"><input placeholder="subdivi" name="bSubdivision" type="text"></div>
                                         </div>
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Postal Code</label></div>
                                             <div class="ten wide column"><input placeholder="1440" name="bPostalCode" type="number"></div>
                                         </div>
                                     </div>
                                     <div class="eight wide computer sixteen wide tablet column">
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Street</label></div>
                                             <div class="ten wide column"><input placeholder="Santo Domingo" name="bStreet" type="text"></div>
                                         </div>
-                                         <div class="ui grid middle aligned">
+                                         <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>City</label></div>
                                             <div class="ten wide column"><input placeholder="Quezon City" name="bCity" type="text"></div>
                                         </div>
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Country</label></div>
                                             <div class="ten wide column"><input placeholder="Philippines" name="bCountry" type="text"></div>
                                         </div>
@@ -208,29 +424,29 @@
                                 <h4 class="ui dividing header">Shipping Address</h4>
                                 <div class="ui grid">
                                     <div class="eight wide computer sixteen wide tablet column">
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>House No.</label></div>
                                             <div class="ten wide column"><input placeholder="123" name="sHouseNo" type="number"></div>
                                         </div>
-                                         <div class="ui grid middle aligned">
+                                         <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Subdivision</label></div>
                                             <div class="ten wide column"><input placeholder="subdivi" name="sSubdivision" type="text"></div>
                                         </div>
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Postal Code</label></div>
                                             <div class="ten wide column"><input placeholder="1440" name="sPostalCode" type="number"></div>
                                         </div>
                                     </div>
                                     <div class="eight wide computer sixteen wide tablet column">
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Street</label></div>
                                             <div class="ten wide column"><input placeholder="Santo Domingo" name="sStreet" type="text"></div>
                                         </div>
-                                         <div class="ui grid middle aligned">
+                                         <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>City</label></div>
                                             <div class="ten wide column"><input placeholder="Quezon City" name="sCity" type="text"></div>
                                         </div>
-                                        <div class="ui grid middle aligned">
+                                        <div class="ui grid middle aligned field">
                                             <div class="six wide column"><label>Country</label></div>
                                             <div class="ten wide column"><input placeholder="Philippines" name="sCountry" type="text"></div>
                                         </div>
@@ -240,11 +456,13 @@
                             </div>
                         </div>
                     </div>
+                    <div id="error-message" class="ui error message"></div>
                     <div class="ui grid">
                         <div class=" six wide computer sixteen wide tablet column right floated">
-                             <button type="submit" class="ui blue button" style="width: 100%;" form="signup-form">REGISTER</button>
+                       		 <button id="register" class="ui blue button" style="width: 100%;">REGISTER</button>
                         </div>
                     </div>
+                   
                 </form>
             </div>
         </div>

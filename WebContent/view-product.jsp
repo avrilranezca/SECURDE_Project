@@ -57,8 +57,8 @@
 <div id="#login-menu" class="ui top attached menu">
     <div class="right menu">
         <div class="ui right aligned item top-nav">
-            <a href="login.html" class="item top-nav-item">login</a>
-            <a href="sign-up.html" class="item top-nav-item">sign up</a>
+            <a href="login.jsp" class="item top-nav-item">login</a>
+            <a href="sign-up.jsp" class="item top-nav-item">sign up</a>
         </div>
     </div>
 </div>
@@ -81,7 +81,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="index.html">
+                            <a href="index.jsp">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>
