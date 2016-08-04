@@ -76,21 +76,41 @@ public class ProductDAO {
 		}
 	}
 	
-	/*public int getAllProductsCount() {
-		
-	}*/
-	
-	public ArrayList<Product> getAllProducts(/*int offset, int noOfRecords*/) {
+	public ArrayList<Product> getAllProducts() {
 		PreparedStatement ps;
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		
 		try {
 
-			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;"); // LIMIT ?, ?
-			//ps = conn.prepareStatement("SELECT * FROM product WHERE isActive = 1;");
-			/*ps.setInt(1, offset);
-			ps.setInt(2, noOfRecords);*/
+			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;");
+
+			ResultSet rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), 1);
+				productList.add(p);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return productList;
+	}
+	
+	public ArrayList<Product> getAllProductsPagination(int offset, int noOfProducts) {
+		PreparedStatement ps;
+
+		ArrayList<Product> productList = new ArrayList<Product>();
+		
+		try {
+			
+			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1 LIMIT ?, ?;");
+			ps.setInt(1, offset);
+			ps.setInt(2, noOfProducts);
 
 			ResultSet rs = ps.executeQuery();
 			
@@ -116,6 +136,33 @@ public class ProductDAO {
 			ps = conn.prepareStatement("SELECT * FROM product WHERE category_id = (SELECT id FROM category WHERE name = ?);");
 
 			ps.setString(1, c.getName());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
+				productList.add(p);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return productList;
+	}
+	
+	public ArrayList<Product> getProductOnCategoryPagination(Category c, int offset, int noOfProducts) {
+		PreparedStatement ps;
+
+		ArrayList<Product> productList = new ArrayList<Product>();
+		try {
+			ps = conn.prepareStatement("SELECT * FROM product WHERE category_id = (SELECT id FROM category WHERE name = ?) LIMIT ?, ?;");
+
+			ps.setString(1, c.getName());
+			ps.setInt(2, offset);
+			ps.setInt(3, noOfProducts);
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -179,5 +226,50 @@ public class ProductDAO {
 		}
 		
 		return productList;
+	}
+	
+	public ArrayList<Product> searchProductsPagination(String searchCriteria, int offset, int noOfProducts) {
+		ArrayList<Product> productList = new ArrayList<Product>();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT P.id, P.name AS p_name, P.description, P.price, C.name AS c_name, P.isActive FROM product P INNER JOIN category C ON P.category_id = C.id WHERE (P.name LIKE CONCAT('%', ?, '%') OR C.name LIKE CONCAT('%', ?, '%') OR P.description LIKE CONCAT('%', ?, '%')) AND isActive = 1 LIMIT ?, ?;");
+			ps.setString(1, searchCriteria);
+			ps.setString(2, searchCriteria);
+			ps.setString(3, searchCriteria);
+			ps.setInt(4, offset);
+			ps.setInt(5, noOfProducts);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				productList.add(new Product(rs.getInt("id"), rs.getString("p_name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive")));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return productList;
+	}
+	
+	
+	
+	
+	
+	public int getNoOfProducts() {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM product;");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				return rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 }

@@ -6,6 +6,7 @@
 <%@ page import="model.Product" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
+<%@ page import="database.ReviewDAO" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -18,6 +19,8 @@
         $(document).ready(function () {
         	$("#search-form input[name=search]").val(null);
             <%
+
+                ReviewDAO reviewDAO = new ReviewDAO();
                 String userName=null;
 
                 boolean foundCookie = false;
@@ -383,9 +386,16 @@
 		    <div class="ui hidden divider"></div>
 		</c:when>
 	</c:choose>
-	
+
+
     <div class="ui four column grid">
         <c:forEach var="item" items="${products}">
+            <%
+
+                Product p =(Product) pageContext.getAttribute("item");
+                System.out.println("reviewww"+p);
+                int i = reviewDAO.getAverageRating(p).intValue();
+            %>
             <div class="column">
                 <div class="ui fluid card">
                     <div class="image">
@@ -403,11 +413,12 @@
                                     </span>
                                 </div>
                                 <br>
-                            	<div class="ui tiny star rating"></div>
-                            </div>
-                            <div class="four wide column middle aligned center aligned">
 
-                                <form id="display-form" action="DisplaySpecificItemServlet" method="post">
+                                <div class="ui tiny star rating"  data-rating="<%=i%>"></div>
+                            </div>
+                            <div class="four wide column middle aligned center aligned" >
+
+                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
                                     <input name="itemID" type="hidden">
                                 </form>
 

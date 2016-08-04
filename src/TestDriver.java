@@ -31,10 +31,10 @@ public class TestDriver {
 		u.setPassword("password");
 		dc.addUser(u);*/
 		
-		User u = udao.getUser("user_1", "password");
+		//User u = udao.getUser("user_1", "password");
 		
 		//udao.lock(u.getId());
-		System.out.println(udao.isLocked(u.getId()));
+		//System.out.println(udao.isLocked(u.getId()));
 		//udao.unlock(u.getId());
 		
 		//udao.updatePassword(u, "password");
@@ -113,6 +113,34 @@ public class TestDriver {
 		/*System.out.println(tdao.getTotalSales("yearly"));
 		System.out.println(tdao.getTotalSales("monthly"));
 		System.out.println(tdao.getTotalSales("daily"));*/
+		
+		/*Product p = pdao.getProductOnID(4);
+		
+		System.out.println(rdao.getAverageRating(p));*/
+		
+		// Pagination stuff
+		/*int page = 1;
+		int productsPerPage = 2;
+		int noOfProducts = pdao.getNoOfProducts();
+		Category c = cdao.getCategory(1);
+		
+		System.out.println(pdao.searchProductsPagination("boot", (page-1)*productsPerPage,
+                productsPerPage));
+		
+		page++;
+		
+		System.out.println(pdao.searchProductsPagination("boot", (page-1)*productsPerPage,
+                productsPerPage));*/
+		
+		//int noOfPages = (int) Math.ceil(noOfProducts * 1.0 / productsPerPage);
+		
+		/*User u = udao.getUser("user_1", "password");
+		Product p = pdao.getProductOnID(4);
+		
+		System.out.println(rdao.hasBought(u, p));*/
+		
+		Review r = new Review("user_2", 2, "my review 2-2", new Date(), 3);
+		rdao.addReview(r);
 	}
 
 }

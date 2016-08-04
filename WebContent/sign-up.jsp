@@ -1,4 +1,10 @@
+<%@ page import="database.ProductDAO" %>
+<%@ page import="database.ReviewDAO" %>
+<%@ page import="model.Product" %>
+<%@ page import="org.json.JSONArray" %>
+<%@ page import="org.json.JSONException" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
     
@@ -35,8 +41,17 @@
             	
             	
                 <%
+
+                ReviewDAO reviewDAO = new ReviewDAO();
+                String userName=null;
+
+                boolean foundCookie = false;
+                if(session.getAttribute("user") != null){
+
+	                userName = (String) session.getAttribute("user");
+	                foundCookie=true;
+                }
                             Cookie[] cookies = request.getCookies();
-                            boolean foundCookie = false;
 
                             if(cookies !=null){
                                     for(int i = 0; i < cookies.length; i++) {
@@ -46,8 +61,9 @@
                                         }
                                     }
                             }
-                            if (!foundCookie) {
-                        %>
+
+                            if (!foundCookie || userName==null) {
+            %>
                 $('#welcome-menu').hide();
                 <%
                     } else {
@@ -57,6 +73,50 @@
                     }
                 %>
 
+                updateCart();
+                function updateCart(){
+                    <%
+                    if(session.getAttribute("item") != null){
+                        int capacity =0;
+                        float sum = 0;
+                        Product prod = null;
+                        ProductDAO dao = new ProductDAO();
+                        try {
+                            JSONArray arr = new JSONArray((String)session.getAttribute("item"));
+                            prod = dao.getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id")));
+                            for (int i =0; i<arr.length(); i++){
+                                Product temp = dao.getProductOnID(Integer.parseInt(arr.getJSONObject(i).getString("id")));
+                                int itemp= arr.getJSONObject(i).getInt("quantity");
+                                sum+=(temp.getPrice()*itemp);
+                                capacity+= itemp;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        %>
+                    $("#cart-button").attr("data-badge", "<%=capacity%>");
+                    $("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+
+                    $("#empty-cart").hide();
+
+                    $("#cart-name").html("<%=prod.getName()%>");
+                    $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+
+                    $("#cart-capacity").html("<%=capacity%> Item/s");
+                    <%
+                    }
+                    else{
+                    %>
+                    $("#recent-cart").hide();
+                    <%
+                    }
+                    %>
+                }
+                $('#logout').click(function(){
+                    $('#logout-form').submit();
+                });
                 $('#cart-button')
                         .popup({
 //                        movePopup: false,
@@ -273,14 +333,16 @@
                     <div class="ui sub header"> Welcome !</div>
                 </div>
                 <div class="two wide column">
-                    <div class="ui tiny right aligned basic button">Logout</div>
+                    <div class="ui tiny right aligned basic button" id="logout">Logout</div>
+
+                    <form id="logout-form" action="LogoutServlet" method="post"></form>
                 </div>
             </div>
         </div>
     </div>
-    <div  id="menubar">
+    <div id="menubar">
         <div class="ui  attached container">
-            <div class =" ui basic inverted segment">
+            <div class=" ui basic inverted segment">
                 <div class="ui grid">
                     <div class="four wide column center aligned">
                         <div class="ui header center aligned">
@@ -295,51 +357,64 @@
                         </div>
                     </div>
                     <div class="seven wide column center aligned">
+
+                        <form id="search-form" action="IndexDisplayProductsServlet" method="get">
+                            <input name="search" type="hidden">
+                        </form>
+
                         <div class="ui icon input search-bar">
-                            <input placeholder="Search for products or categories" type="text">
+                            <input id="searchQuery" name="query" placeholder="Search for products or categories" type="text" >
                             <i class="search link icon"></i>
                         </div>
                     </div>
 
                     <div class="five wide column middle aligned ">
                         <div class="ui grid sixteen wide column">
-                            <div class="eight wide column right aligned"><i class="badge big link shop icon"  id="cart-button" data-badge="0"></i></div>
-                            <div class="eight wide column left aligned"><span class="price-label">0.00</span></div>
+                            <div class="eight wide column right aligned"><i class="badge big link shop icon"
+                                                                            id="cart-button" data-badge="0"></i></div>
+                            <div class="eight wide column left aligned"><span id="total" class="price-label">0.00</span></div>
                         </div>
 
 
                     </div>
                 </div>
                 <div class="ui custom flowing bottom center popup transition left aligned" id="cart-popup">
-                    <div class="ui sub header left aligned">Recently added:</div>
-                    <div class="ui grid">
-                        <div class="eight wide column left aligned">
+                    <div id="empty-cart">
+                        <div class="ui sub header left aligned">Add items to your cart!</div>
+                    </div>
+                    <div id="recent-cart">
+                        <div class="ui sub header left aligned">Recently added:</div>
 
-                            Bababoots
+                        <div class="ui grid">
+                            <div id="cart-name" class="eight wide column left aligned">
+
+                                Bababoots
+                            </div>
+                            <div id="cart-subtotal" class="eight wide column right aligned">
+
+                                PHP 1,500.00
+                            </div>
                         </div>
-                        <div class="eight wide column right aligned">
+                        <div class="ui divider"></div>
 
-                            PHP 1,500.00
+                        <div class="ui grid">
+                            <div id="cart-capacity" class="eight wide column left aligned">
+
+                                5 Items
+                            </div>
+                            <div class="eight wide column right aligned">
+
+                                <h4 id="cart-total" class="ui header">TOTAL: PHP 7,500.00</h4>
+                            </div>
+                        </div>
+
+                        <div class="ui hidden divider"></div>
+                        <div class="ui fluid large orange submit button">
+                            <a href="view-cart.jsp"><span class="middle-align">CHECKOUT</span>
+                            </a>
                         </div>
                     </div>
-                    <div class="ui divider"></div>
 
-                    <div class="ui grid">
-                        <div class="eight wide column left aligned">
-
-                            5 Items
-                        </div>
-                        <div class="eight wide column right aligned">
-
-                            <h4 class="ui header">TOTAL: PHP 7,500.00</h4>
-                        </div>
-                    </div>
-
-                    <div class="ui hidden divider"></div>
-                    <div class="ui fluid large orange submit button">
-                        <div><span class="middle-align">CHECKOUT</span>
-                        </div>
-                    </div>
                 </div>
 
             </div>
