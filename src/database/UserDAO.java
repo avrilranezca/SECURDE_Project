@@ -1,10 +1,12 @@
 package database;
 
 import java.sql.Connection;
-import java.sql.Date;
+//import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import model.AccountTypeEnum;
 import model.Address;
@@ -48,6 +50,29 @@ public class UserDAO {
 		}
 		
 		
+		return null;
+		
+	}
+	
+	public User getUser(String user_name) {
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE user_name = ?");
+			ps.setString(1, user_name);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+					User user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"),
+							rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+					return user;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 		
 	}
@@ -175,6 +200,66 @@ public class UserDAO {
 		}
 		
 		return session;
+	}
+	
+	public void lock(int id) {
+		
+		java.util.Date dt = new java.util.Date();
+		
+		java.text.SimpleDateFormat sdf = 
+			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String currentTime = sdf.format(dt);
+		
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement("UPDATE user SET lockout_datetime = ? WHERE id = ?;");
+			ps.setString(1, currentTime);
+			ps.setInt(2, id);
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void unlock(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE user SET lockout_datetime = ? WHERE id = ?;");
+			ps.setNull(1, java.sql.Types.TIMESTAMP);
+			ps.setInt(2, id);
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	//returns the Date if locked, returns null otherwise
+	public Date isLocked(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT lockout_datetime FROM user WHERE id = ?;");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {
+				
+				Timestamp timestamp = rs.getTimestamp("lockout_datetime");
+				java.util.Date date = timestamp;
+				return date;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

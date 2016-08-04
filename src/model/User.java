@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 public class User {
 	
 	public static final String customer = "CUSTOMER";
@@ -18,6 +20,7 @@ public class User {
 	private String account_type;
 	private int isActive;
 	private String sessionID;
+	private Date lockout_datetime;
 	
 	public User(int id, String first_name, String last_name,
 			String middle_initial, String user_name, String email,
@@ -149,7 +152,22 @@ public class User {
 	public void setSessionID(String sessionID) {
 		this.sessionID = sessionID;
 	}
+
+	public Date getLockout_datetime() {
+		return lockout_datetime;
+	}
+
+	public void setLockout_datetime(Date lockout_datetime) {
+		this.lockout_datetime = lockout_datetime;
+	}
 	
-	
+	public String getLockoutDateTime() {
+		java.text.SimpleDateFormat sdf = 
+			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String currentTime = sdf.format(lockout_datetime);
+		
+		return currentTime;
+	}
 	
 }

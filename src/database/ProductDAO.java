@@ -76,15 +76,21 @@ public class ProductDAO {
 		}
 	}
 	
-	public ArrayList<Product> getAllProducts() {
+	/*public int getAllProductsCount() {
+		
+	}*/
+	
+	public ArrayList<Product> getAllProducts(/*int offset, int noOfRecords*/) {
 		PreparedStatement ps;
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		
 		try {
 
-			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;");
+			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;"); // LIMIT ?, ?
 			//ps = conn.prepareStatement("SELECT * FROM product WHERE isActive = 1;");
+			/*ps.setInt(1, offset);
+			ps.setInt(2, noOfRecords);*/
 
 			ResultSet rs = ps.executeQuery();
 			
