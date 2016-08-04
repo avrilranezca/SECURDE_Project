@@ -5,6 +5,8 @@
 <%@ page import="model.Product" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
+<%@ page import="database.UserDAO" %>
+<%@ page import="database.ReviewDAO" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,9 @@
             $("#search-form input[name=search]").val(null);
             <%
                 String userName=null;
-
+                UserDAO userDAO = new UserDAO();
+                ReviewDAO reviewDAO = new ReviewDAO();
+                ProductDAO productDAO = new ProductDAO();
                 boolean foundCookie = false;
                 if(session.getAttribute("user") != null){
 
@@ -48,8 +52,23 @@
                 } else {
             %>
             $('#login-menu').hide();
-            $('#error-login').hide();
+            $('#error-review-login').hide();
             <%
+                    Product resultBean = (Product) request.getAttribute("product");
+                    System.out.println(request.getAttribute("productID"));
+
+                    boolean bool = reviewDAO.hasBought(userDAO.getUser(userName),  resultBean );
+                    if(bool){
+                        %>
+            $('#error-review-buy').hide();
+                    <%
+                    }
+                    else{
+                    %>
+            $('#review-form').hide();
+
+            <%
+                    }
                 }
             %>
 
@@ -401,6 +420,10 @@
                         </a>
     </div>
 </div>
+<%
+    Product p =(Product) request.getAttribute("product");
+    int i = reviewDAO.getAverageRating(p).intValue();
+%>
 <div class="ui container segment">
     <div class="ui grid">
         <div class="nine wide column">
@@ -415,7 +438,8 @@
                         </div>
                         <div class="eight wide column right aligned">
                             <a href="#comments">
-                                <div class="ui star rating"></div>
+
+                                <div class="ui star rating" data-rating="<%=i%>"></div>
                             </a>
                         </div>
                     </div>
@@ -472,28 +496,10 @@
                     </div>
                 </form>
                 <div id="actualcomments">
-                    <div class="comment">
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <div class="ui star rating"></div>
-                            </div>
-                            <div class="text">How artistic!</div>
-                        </div>
-                    </div>
-                    <div class="comment">
-                        <div class="content">
-                            <a class="author">Matt</a>
-                            <div class="metadata">
-                                <div class="ui star rating"></div>
-                            </div>
-                            <div class="text">How artistic!</div>
-                        </div>
-                    </div>
                     <c:forEach var="review" items="${reviews}">
                         <div class="comment">
                             <div class="content">
-                                <a class="author"></a>
+                                <a class="author">${review.user_name}</a>
                                 <div class="metadata">
                                     <div class="ui star rating" data-rating="${review.rating}"></div>
                                 </div>

@@ -34,6 +34,7 @@ public class DisplaySpecificItemServlet extends HttpServlet {
         ArrayList<Review> reviews = reviewDAO.getReviewByProduct(prod);
 
         request.setAttribute("product", prod);
+        request.setAttribute("productID", prod.getId());
         request.setAttribute("reviews", reviews);
         request.getRequestDispatcher("view-product.jsp").forward(request, response);
     }
