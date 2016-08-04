@@ -55,5 +55,51 @@ public class ReviewDAO {
 		
 		return reviewList;
 	}
+	
+	// returns negative if no ratings exist
+	public Double getAverageRating(Product p) {
+		
+		//Double value = null;
+		
+		int numOfReviews = getNumberOfReviews(p);
+		
+		if(numOfReviews == 0) {
+			return null;
+		}
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT AVG(rating) AS average FROM review WHERE product_id = ?;");
+			ps.setInt(1, p.getId());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				return rs.getDouble("average");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return -1.0;
+	}
+	
+	public int getNumberOfReviews(Product p) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM review WHERE product_id = ?;");
+			ps.setInt(1, p.getId());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				return rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 }

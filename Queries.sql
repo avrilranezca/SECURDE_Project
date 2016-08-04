@@ -58,3 +58,8 @@ SELECT YEAR(date) AS date, SUM(TE.quantity) AS quantity, SUM(TE.price * TE.quant
 SELECT CONCAT(MONTHNAME(date), ' ', YEAR(date)) AS date, SUM(TE.quantity) AS quantity, SUM(TE.price * TE.quantity) AS total FROM transaction_entry TE INNER JOIN transaction T ON T.id = TE.transaction_id GROUP BY YEAR(date), MONTH(date) ORDER BY YEAR(date), MONTH(date);
 /*date*/
 SELECT CONCAT(MONTHNAME(date), ' ', DAY(date), ' ', YEAR(date)) AS date, SUM(TE.quantity) AS quantity, SUM(TE.price * TE.quantity) AS total FROM transaction_entry TE INNER JOIN transaction T ON T.id = TE.transaction_id GROUP BY YEAR(date), MONTH(date), DAY(date) ORDER BY YEAR(date), MONTH(date), DAY(date);
+
+SELECT * FROM review;
+INSERT INTO review (user_id, product_id, review, date, rating) VALUES (1, 1, 'hi', NOW(), 1);
+
+SELECT AVG(rating) FROM review WHERE product_id = 3;
