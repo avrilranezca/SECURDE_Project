@@ -21,7 +21,6 @@ public class AddToCartQuantityServlet extends HttpServlet {
         String id = request.getParameter("index");
         int amt = Integer.parseInt(request.getParameter("value"));
 
-
         Cookie[] cookies = request.getCookies();
         String item = null;
         if(cookies !=null){

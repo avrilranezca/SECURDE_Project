@@ -38,6 +38,9 @@
 
                             if (!foundCookie || userName==null) {
             %>
+
+            updateCart();
+
             $('#review-form').hide();
             $('#error-review-buy').hide();
             $('#welcome-menu').hide();
@@ -124,14 +127,18 @@
             }
 
             $('#addtocart').click(function () {
-                var id = $(product.id);
-                var a = +$("#quantity").val()
+                alert("heere");
+                var id = ${product.id};
+                alert("heeere");
+                var a = +$("#quantity").val();
+                alert("heeere");
 
                 $.ajax({
                     url: "AddToCartQuantityServlet",
                     dataType: 'json',
                     data: {"index": id, "value": a},
                     type: "POST",
+                    error: function(ts) { alert(ts.responseText) },
                     success: function (data) {
                         updateCart();
                         $('#addtocart').attr("class", "ui fluid large green submit button");
@@ -321,39 +328,77 @@
 
 <div class="ui container custom-container">
     <div class="ui four item pointing menu">
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/boots.png">
+
+
+        <form id="category-form" action="SelectDisplayCategoryServlet" method="post">
+            <input name="cat" type="hidden">
+        </form>
+
+
+        <c:choose>
+        <c:when test="${filter eq 'Boots'}">
+        <a id="cat-boots" class="active item">
+            </c:when>
+            <c:otherwise>
+            <a id="cat-boots" class="item">
+                </c:otherwise>
+                </c:choose>
+                <div class="ui grid">
+                    <div class="sixteen wide column categ-label-container">
+                        <img class="ui mini image middle aligned" src="assets/boots.png">
+                    </div>
+                    <div class="sixteen wide column categ-label-container"><span class="category-label">boots</span>
+                    </div>
                 </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">boots</span></div>
-            </div>
-        </a>
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/shoes.png">
-                </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">shoes</span></div>
-            </div>
-        </a>
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/sandals.png">
-                </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">sandals</span></div>
-            </div>
-        </a>
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/slippers.png">
-                </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">slippers</span>
-                </div>
-            </div>
-        </a>
+            </a>
+            <c:choose>
+            <c:when test="${filter eq 'Shoes'}">
+            <a id="cat-shoes" class="active item">
+                </c:when>
+                <c:otherwise>
+                <a id="cat-shoes" class="item">
+                    </c:otherwise>
+                    </c:choose>
+                    <div class="ui grid">
+                        <div class="sixteen wide column categ-label-container">
+                            <img class="ui mini image middle aligned" src="assets/shoes.png">
+                        </div>
+                        <div class="sixteen wide column categ-label-container"><span class="category-label">shoes</span>
+                        </div>
+                    </div>
+                </a>
+                <c:choose>
+                <c:when test="${filter eq 'Sandals'}">
+                <a id="cat-sandals" class="active item">
+                    </c:when>
+                    <c:otherwise>
+                    <a id="cat-sandals" class="item">
+                        </c:otherwise>
+                        </c:choose>
+                        <div class="ui grid">
+                            <div class="sixteen wide column categ-label-container">
+                                <img class="ui mini image middle aligned" src="assets/sandals.png">
+                            </div>
+                            <div class="sixteen wide column categ-label-container"><span
+                                    class="category-label">sandals</span></div>
+                        </div>
+                    </a>
+                    <c:choose>
+                    <c:when test="${filter eq 'Slippers'}">
+                    <a id="cat-slippers" class="active item">
+                        </c:when>
+                        <c:otherwise>
+                        <a id="cat-slippers" class="item">
+                            </c:otherwise>
+                            </c:choose>
+                            <div class="ui grid">
+                                <div class="sixteen wide column categ-label-container">
+                                    <img class="ui mini image middle aligned" src="assets/slippers.png">
+                                </div>
+                                <div class="sixteen wide column categ-label-container"><span class="category-label">slippers</span>
+                                </div>
+                            </div>
+                        </a>
     </div>
 </div>
 <div class="ui container segment">
@@ -393,11 +438,11 @@
                     <!--</button>-->
                 </div>
 
-                <div id="addtocart" class="ui fluid large orange submit button">
+                <button id="addtocart" class="ui fluid large orange submit button">
                     <div><i class="big shop icon element"></i><span id="carttext"
                                                                     class="middle-align">ADD TO CART</span>
                     </div>
-                </div>
+                </button>
             </form>
         </div>
     </div>
