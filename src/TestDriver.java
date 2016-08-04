@@ -117,7 +117,9 @@ public class TestDriver {
 		/*Product p = pdao.getProductOnID(4);
 		
 		System.out.println(rdao.getAverageRating(p));*/
-		int page = 1;
+		
+		// Pagination stuff
+		/*int page = 1;
 		int productsPerPage = 2;
 		int noOfProducts = pdao.getNoOfProducts();
 		Category c = cdao.getCategory(1);
@@ -128,10 +130,17 @@ public class TestDriver {
 		page++;
 		
 		System.out.println(pdao.searchProductsPagination("boot", (page-1)*productsPerPage,
-                productsPerPage));
+                productsPerPage));*/
 		
 		//int noOfPages = (int) Math.ceil(noOfProducts * 1.0 / productsPerPage);
 		
+		/*User u = udao.getUser("user_1", "password");
+		Product p = pdao.getProductOnID(4);
+		
+		System.out.println(rdao.hasBought(u, p));*/
+		
+		Review r = new Review("user_2", 2, "my review 2-2", new Date(), 3);
+		rdao.addReview(r);
 	}
 
 }
