@@ -114,9 +114,23 @@ public class TestDriver {
 		System.out.println(tdao.getTotalSales("monthly"));
 		System.out.println(tdao.getTotalSales("daily"));*/
 		
-		Product p = pdao.getProductOnID(4);
+		/*Product p = pdao.getProductOnID(4);
 		
-		System.out.println(rdao.getAverageRating(p));
+		System.out.println(rdao.getAverageRating(p));*/
+		int page = 1;
+		int productsPerPage = 2;
+		int noOfProducts = pdao.getNoOfProducts();
+		Category c = cdao.getCategory(1);
+		
+		System.out.println(pdao.searchProductsPagination("boot", (page-1)*productsPerPage,
+                productsPerPage));
+		
+		page++;
+		
+		System.out.println(pdao.searchProductsPagination("boot", (page-1)*productsPerPage,
+                productsPerPage));
+		
+		//int noOfPages = (int) Math.ceil(noOfProducts * 1.0 / productsPerPage);
 		
 	}
 

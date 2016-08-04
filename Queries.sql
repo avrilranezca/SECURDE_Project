@@ -63,3 +63,9 @@ SELECT * FROM review;
 INSERT INTO review (user_id, product_id, review, date, rating) VALUES (1, 1, 'hi', NOW(), 1);
 
 SELECT AVG(rating) FROM review WHERE product_id = 3;
+
+SELECT FOUND_ROWS(product);
+
+
+SELECT * FROM product;
+SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1 LIMIT 2 OFFSET 0;
