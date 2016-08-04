@@ -32,7 +32,6 @@ public class Review {
 		this.date = date;
 		this.rating = rating;
 	}
-
 	
 	public String toString() {
 		return "\nID: " + id + " UserID: " + user_id + " ProductID: " + product_id + " Review: " + review + " Date: " + date + " Rating: " + rating;
