@@ -148,20 +148,21 @@
             $('#addtocart').click(function () {
                 alert("heere");
                 var id = ${product.id};
-                alert("heeere");
                 var a = +$("#quantity").val();
-                alert("heeere");
 
                 $.ajax({
                     url: "AddToCartQuantityServlet",
-                    dataType: 'json',
                     data: {"index": id, "value": a},
-                    type: "POST",
-                    error: function(ts) { alert(ts.responseText) },
+                    type: "GET",
                     success: function (data) {
+//                        alert("no error");
                         updateCart();
+//                        alert("wut")
                         $('#addtocart').attr("class", "ui fluid large green submit button");
+//                        alert("the");
+
                         $('#carttext').html("ADDED TO CART");
+//                        alert("hell");
                     }
                 });
 
@@ -173,9 +174,10 @@
                 var rate = $('#rate').val();
                 $.ajax({
                     url: "AddReviewServlet",
-                    data: {"product": prod, "reviewtext": a, "rate": rate},
+                    data: {"product": prod, "reviewtext": review, "rate": rate},
                     type: "POST",
                     success: function (data) {
+                        alert("here");
                         $('actualcomments').prepend('<div class="comment"> <div class="content"> <a class="author">Matt</a> <div class="metadata"> <div class="ui star rating"></div> </div><div class="text">How artistic!</div> </div> </div>');
                     }
                 });
@@ -450,7 +452,7 @@
 
             <div class="ui divider"></div>
 
-            <form class="ui form" method="post">
+            <div class="ui form" method="post">
                 <div class="inline field">
                     <label>Quantity</label>
                     <!--<button class="ui icon button middle">-->
@@ -467,7 +469,7 @@
                                                                     class="middle-align">ADD TO CART</span>
                     </div>
                 </button>
-            </form>
+            </div>
         </div>
     </div>
     <div class="ui grid">
@@ -482,7 +484,7 @@
                 <div id="error-review-buy" class="ui info message">
                     Purchase the product to give a review.
                 </div>
-                <form class="ui form" method="post" id="review-form">
+                <div class="ui form" method="post" id="review-form">
                     <div class="field">
                         <label>Shayane Tan</label>
                         <div class="ui editable huge star rating" style="margin-bottom: 10px;"></div>
@@ -494,7 +496,7 @@
                             <span class="middle-align">SUBMIT REVIEW</span>
                         </button>
                     </div>
-                </form>
+                </div>
                 <div id="actualcomments">
                     <c:forEach var="review" items="${reviews}">
                         <div class="comment">

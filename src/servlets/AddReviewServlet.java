@@ -1,6 +1,7 @@
 package servlets;
 
 import database.ReviewDAO;
+import model.Review;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by rissa on 8/4/2016.
@@ -27,7 +29,7 @@ public class AddReviewServlet extends HttpServlet {
         }
 
         ReviewDAO reviewDAO = new ReviewDAO();
-//        reviewDAO.addReview(new Review(username, request.getParameter("product"), request.getParameter("reviewtext"), new Date(), request.getParameter("rate")));
+        reviewDAO.addReview(new Review(username, Integer.parseInt((String) request.getParameter("product")), request.getParameter("reviewtext"), new Date(), Integer.parseInt((String)request.getParameter("rate"))));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

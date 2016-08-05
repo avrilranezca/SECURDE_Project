@@ -23,8 +23,9 @@ public class DisplaySpecificItemServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println("fu "+request.getParameter("itemID"));
-        String id = request.getParameter("itemID").split("-")[1];
+//        System.out.println("fu "+request.getParameter("itemID"));
+//        String id = request.getParameter("itemID").split("-")[1];
+        String id = "cart-3".split("-")[1];
         System.out.println(id);
 
         ProductDAO dao = new ProductDAO();
