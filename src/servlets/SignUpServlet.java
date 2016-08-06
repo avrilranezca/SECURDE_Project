@@ -39,6 +39,8 @@ public class SignUpServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("adding user information");
+		
 		// TODO Auto-generated method stub
 		String first_name = request.getParameter("firstname");
 		String last_name = request.getParameter("lastname");
@@ -78,7 +80,8 @@ public class SignUpServlet extends HttpServlet {
 		uDao.updateBillingAddress(u, bAddress);
 		uDao.updateShippingAddress(u, bAddress);
 		
-		response.sendRedirect("index.jsp");
+		String encodedURL = response.encodeRedirectURL("index.jsp");
+		request.getRequestDispatcher(encodedURL).forward(request,response);
 	}
 
 }
