@@ -139,8 +139,13 @@ public class TestDriver {
 		
 		System.out.println(rdao.hasBought(u, p));*/
 		
-		Review r = new Review("user_2", 2, "my review 2-2", new Date(), 3);
-		rdao.addReview(r);
+		/*Review r = new Review("user_2", 2, "my review 2-2", new Date(), 3);
+		rdao.addReview(r);*/
+		
+		Address a = new Address("1", "shippingstreet1", "shippingsubdivision1", "shippingcity1", "shipping1", "shippingcountry1");
+		User u = udao.getUser("user_1", "password");
+		//udao.updateShippingAddress(u, a);
+		System.out.println(udao.getShippingAddress(u.getId()));
 	}
 
 }

@@ -34,7 +34,7 @@ public class Address {
 	}
 	
 	public String toString() {
-		return "\nId:" + id + " House_No:" + house_no + " Street:" + street + " Subdivision:" + subdivision + " City:" + city + " Postal_Code:" + postal_code + " Country:" + country;
+		return "Id:" + id + " House_No:" + house_no + " Street:" + street + " Subdivision:" + subdivision + " City:" + city + " Postal_Code:" + postal_code + " Country:" + country;
 	}
 
 	public int getId() {
