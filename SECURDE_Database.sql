@@ -86,7 +86,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `category_id_FK_idx` (`category_id`),
   CONSTRAINT `p_category_id_FK` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'yo','boot1des',1,1,0),(2,'shoe2','shoe1des',1.23,2,1),(3,'boot2','boot2des',2.34,1,1);
+INSERT INTO `product` VALUES (1,'yo','boot1des',1,1,0),(2,'shoe2','shoe1des',1.23,2,1),(3,'boot2','boot2des',2.34,1,1),(4,'boot3','boot3des',7,1,1);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,7 +108,8 @@ DROP TABLE IF EXISTS `review`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `review` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  `user_name` varchar(255) NOT NULL,
   `product_id` int(11) unsigned NOT NULL,
   `review` text NOT NULL,
   `date` datetime NOT NULL,
@@ -118,7 +119,7 @@ CREATE TABLE `review` (
   KEY `product_id_FK_idx` (`product_id`),
   CONSTRAINT `r_product_id_FK` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `r_user_id_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +128,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES (1,1,1,'review of 1 of 1','2016-07-27 00:00:00',4),(2,1,1,'review of 1 of 1','2016-07-27 23:06:48',4);
+INSERT INTO `review` VALUES (1,1,'user_1',1,'review of 1 of 1','2016-07-27 00:00:00',4),(2,1,'user_1',1,'review of 1 of 1','2016-07-27 23:06:48',4),(3,1,'user_1',2,'hi','2016-08-04 13:00:26',3),(4,1,'user_1',2,'hi','2016-08-04 13:00:34',2),(5,1,'user_1',1,'hi','2016-08-04 13:00:43',1),(6,2,'user_2',2,'my review 2-2','2016-08-04 22:42:01',3);
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,4 +239,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-03 23:12:08
+-- Dump completed on 2016-08-06  9:19:28
