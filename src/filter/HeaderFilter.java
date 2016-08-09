@@ -16,7 +16,7 @@ public class HeaderFilter implements Filter {
         res.addHeader("Strict-Transport-Security", "max-age=31536000 ; includeSubDomains");
         res.addHeader("X-XSS-Protection", "1; mode=block");
         res.addHeader("X-Content-Type-Options", "nosniff");
-        //res.addHeader("Content-Security-Policy", "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';");
+        res.addHeader("Content-Security-Policy", "unsafe-inline 'unsafe-eval'; connect-src 'self'; img-src 'self'; object-src 'self'; media-src 'self';");
         chain.doFilter(request, response);
     }
 
