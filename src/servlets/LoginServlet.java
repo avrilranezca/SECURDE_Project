@@ -63,11 +63,6 @@ public class LoginServlet extends HttpServlet {
 		User user = dao.getUser(username, password);
 		User temp = dao.getUser(username);
 
-		if(request.getSession().getAttribute("lock")==null){
-			request.getSession().setAttribute("lock", 0);
-		}
-
-
 		if(temp!=null && dao.isLocked(temp.getId())!=null){
 			Date now = Calendar.getInstance().getTime();
 			Date d = dao.isLocked(temp.getId());
@@ -76,7 +71,8 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("diff "+diffMinutes);
 			if(diffMinutes>=5){
 				dao.unlock(temp.getId());
-				request.getSession().setAttribute("lock", 0);
+//				request.getSession().setAttribute("lock", 0);
+				dao.resetLogInAttempts(temp.getId());
 				Logger.write(temp.getId() + "", request.getRemoteAddr(), "unlocked account");
 			}
 		}
@@ -90,7 +86,7 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user.getUser_name());
 			session.setAttribute( "activation-time", System.currentTimeMillis() );
-			session.setAttribute("lock", 0);
+			dao.setLastLogin(user.getId());
 			if(s!=null) session.setAttribute("item", s);
 			//setting session to expiry in 30 mins
 
@@ -117,8 +113,9 @@ public class LoginServlet extends HttpServlet {
 
 				if(temp!=null || (temp!=null&&dao.isLocked(temp.getId())!=null)){
 					System.out.print("lck: ");System.out.println(request.getSession().getAttribute("lock"));
-					int i = (int) request.getSession().getAttribute("lock");
-					request.getSession().setAttribute("lock", i+1);
+					int i = dao.getLogInAttempts(temp.getId());
+//					request.getSession().setAttribute("lock", i+1);
+					dao.incrementLogInAttempts(temp.getId());
 
 					if(i+1>=5){
 						if(dao.isLocked(temp.getId())==null){

@@ -273,6 +273,7 @@
                     <div class="ui header center aligned">
                         <div class="content brand-container">
                             <a href="<%=response.encodeURL("index.jsp") %>">
+
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>
