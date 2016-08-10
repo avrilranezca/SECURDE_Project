@@ -114,6 +114,17 @@ public class UserDAO {
 		}
 	}
 	
+	public void deactivateUser(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE user SET isActive = 0 WHERE id = ?;");
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean checkIfUserNameExists(String user_name) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT user_name FROM user WHERE user_name LIKE ?");
