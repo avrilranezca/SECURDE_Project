@@ -38,7 +38,7 @@ public class IndexDisplayProductsServlet extends HttpServlet {
 		if(request.getParameter("page")!=null) page = Integer.parseInt(request.getParameter("page"));
     	
     	if(!("".equals(search) || "null".equals(search))){
-    		System.out.println("Searching for: "+ search);
+    		if(search == null) search = "";
     		plist = dao.searchProductsPagination(search, (page-1)*16, 16);
     		request.setAttribute("products", plist);
     		request.setAttribute("searchQuery", search);
