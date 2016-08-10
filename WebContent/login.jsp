@@ -219,9 +219,9 @@
     </div>
 </div>
 
-
-<div class="ui container custom-container" style="padding-top: 5%;">
-    <div class="ui header">LOGIN OR CREATE AN ACCOUNT</div>
+<div class="ui container custom-container" >
+	<div class="ui warning message">Please login or create an account to continue with your purchase</div>
+    <div class="ui header" style="margin-top: 3%;">LOGIN OR CREATE AN ACCOUNT</div>
     <div class="ui segment very padded">
         <%--<form>--%>
             <div class="ui two column very relaxed stackable grid">
@@ -253,7 +253,7 @@
                 </div>
                 <div class="ui vertical divider"> Or</div>
                 <div class="center aligned column">
-                    <a href="sign-up.html">
+                    <a href="<%=response.encodeURL("sign-up.jsp") %>">
                         <div class="ui big green labeled icon button">
                             <i class="signup icon"></i>Sign Up
                         </div>

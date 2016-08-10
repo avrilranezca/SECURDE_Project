@@ -117,6 +117,7 @@
             $(".add-cart").click(function () {
                 var id = this.id;
                 var ind = $(this).index('.add-cart');
+               
                 $.ajax({
                     url: "AddToCartServlet",
                     data: {"itemID": id},
@@ -124,14 +125,14 @@
                     success: function(data){
                         $(".add-cart:eq("+ind+")").attr("class", "big link green add to cart icon add-cart");
                         updateCart();
-
                     }
                 });
-
-
-//                $("#addtocart-form input[name=itemID]").val(id);
-//                $("#addtocart-form").submit();
+                
+                $("#addtocart-form input[name=itemID]").val(id);
+                $("#addtocart-form").submit();
             });
+            
+           
 
             $(".item-name").click(function ()
             {
@@ -236,7 +237,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome !</div>
+                <div class="ui sub header"> Welcome  ${user}!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button" id="logout">Logout</div>
@@ -422,54 +423,62 @@
 	</c:choose>
 
 
-    <div class="ui four column grid">
-        <c:forEach var="item" items="${products}">
-            <%
-
-                Product p =(Product) pageContext.getAttribute("item");
-                System.out.println("reviewww"+p);
-                int i = reviewDAO.getAverageRating(p).intValue();
-            %>
-            <div class="column">
-                <div class="ui fluid card">
-                    <div class="image">
-                        <img src="assets/bababoots.jpg">
-                    </div>
-                    <div class="content">
-                        <div class="ui grid">
-                            <div class="twelve wide column">
-                                <a id="cart-${item.id}" class="item-name">${item.name}</a>
-                                <div class="meta">
-                                	<span class="price-label"><fmt:formatNumber value="${item.price}"
-                                                                                type="currency"
-                                                                                currencyCode="PHP">
-                                       	</fmt:formatNumber>
-                                    </span>
-                                </div>
-                                <br>
-
-                                <div class="ui tiny star rating"  data-rating="<%=i%>"></div>
-                            </div>
-                            <div class="four wide column middle aligned center aligned" >
-
-                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
-                                    <input name="itemID" type="hidden">
-                                </form>
-
-
-                                <form id="addtocart-form" action="AddToCartServlet" method="post">
-                                    <input name="itemID" type="hidden">
-                                </form>
-
-                                <i id="cart-${item.id}" class="big link add to cart icon add-cart"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
-
-    </div>
+   
+    <c:choose>
+    	<c:when test="${products.size() > 0}">
+    		<div class="ui four column grid">
+    			<c:forEach var="item" items="${products}">
+		            <%
+		
+		                Product p =(Product) pageContext.getAttribute("item");
+		                System.out.println("reviewww"+p);
+		                int i = reviewDAO.getAverageRating(p).intValue();
+		            %>
+		            <div class="column">
+		                <div class="ui fluid card">
+		                    <div class="image">
+		                        <img src="assets/bababoots.jpg">
+		                    </div>
+		                    <div class="content">
+		                        <div class="ui grid">
+		                            <div class="twelve wide column">
+		                                <a id="cart-${item.id}" class="item-name">${item.name}</a>
+		                                <div class="meta">
+		                                	<span class="price-label"><fmt:formatNumber value="${item.price}"
+		                                                                                type="currency"
+		                                                                                currencyCode="PHP">
+		                                       	</fmt:formatNumber>
+		                                    </span>
+		                                </div>
+		                                <br>
+		
+		                                <div class="ui tiny star rating"  data-rating="<%=i%>"></div>
+		                            </div>
+		                            <div class="four wide column middle aligned center aligned" >
+		
+		                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
+		                                    <input name="itemID" type="hidden">
+		                                </form>
+		
+		
+		                                <form id="addtocart-form" action="AddToCartServlet" method="post">
+		                                    <input name="itemID" type="hidden">
+		                                </form>
+		
+		                                <i id="cart-${item.id}" class="big link add to cart icon add-cart"></i>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </c:forEach>
+	        </div>
+   		</c:when>
+   		<c:otherwise>
+   			<div class ="ui header center aligned">No Products</div>
+   		</c:otherwise>
+   	</c:choose>
+    
     <div class="container pagination-container ">
         <c:choose>
             <c:when test="${products.size() ne 0}">

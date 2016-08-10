@@ -307,4 +307,28 @@ public class UserDAO {
 		return null;
 	}
 	
+	public int getLogInAttempts(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT log_in_atttempts FROM user WHERE id = ?;");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				return rs.getInt("log_in_attempts");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	/*public Date getLastLoginDate(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT ");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}*/
+	
 }

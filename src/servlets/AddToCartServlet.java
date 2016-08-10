@@ -10,7 +10,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by rissa on 8/1/2016.
@@ -19,7 +21,7 @@ import java.io.IOException;
 public class AddToCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("itemID").split("-")[1];
-
+        
 
 //        System.out.println("yes!");
 //        System.out.println(request.getSession().getAttribute("user"));
@@ -87,8 +89,10 @@ public class AddToCartServlet extends HttpServlet {
             try {
                 obj.put("id", id);
                 obj.put("quantity", 1);
-
+               
                 arr.put(obj);
+                
+                
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -99,6 +103,12 @@ public class AddToCartServlet extends HttpServlet {
 
         System.out.println("session: "+arr.toString());
             request.getSession().setAttribute("item", arr.toString());
+            //trying out passing json from server to jsp
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println(arr);
+  //          out.flush();
 //            Cookie cookie;
 //            if(item==null) cookie= new Cookie("item", id );
 //            else cookie=new Cookie("item", item+","+id);

@@ -427,6 +427,7 @@
             <div class="ui header">Create new account</div>
             <div class="ui segment">
                 <form data-abide class="ui form" method="POST" action="SignUpServlet" id="signup-form">
+                	<div id="error-message" class="ui error message"></div>
                     <div class="ui grid">
                         <div class="seven wide computer sixteen wide tablet column">
                             <h4 class="ui dividing header">Basic Information</h4>
@@ -452,11 +453,11 @@
                             </div>
                              <div id= "password-field" class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Password</label></div>
-                                <div class="ten wide column"><input placeholder="*******" id="password" name="password" type="password"></div>
+                                <div class="ten wide column"><input id="password" name="password" type="password"></div>
                             </div>
                              <div class="ui grid middle aligned field">
                                 <div class="six wide column"><label>Confirm Password</label></div>
-                                <div class="ten wide column"><input placeholder="*******" name="confirmpassword" type="password"></div>
+                                <div class="ten wide column"><input name="confirmpassword" type="password"></div>
                             </div>
                         </div>
                         <div class="nine wide computer sixteen wide tablet column">
@@ -531,7 +532,6 @@
                             </div>
                         </div>
                     </div>
-                    <div id="error-message" class="ui error message"></div>
                     <div class="ui grid">
                         <div class=" six wide computer sixteen wide tablet column right floated">
                        		 <button id="register" class="ui blue button" style="width: 100%;">REGISTER</button>

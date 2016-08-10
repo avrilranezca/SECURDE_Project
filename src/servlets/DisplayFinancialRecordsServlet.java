@@ -31,6 +31,7 @@ public class DisplayFinancialRecordsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("PASOK dsplay finance manager");
 		String filter = "Total";
 		String subfilter = "Daily";
 		
