@@ -119,14 +119,18 @@
                     <div class="grouped fields">
                         <div class="field">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="example2" checked="checked">
+                                <input type="radio" id="cash" name="payment" checked="checked">
                                 <label>Cash</label>
                             </div>
                         </div>
                         <div class="field">
                             <div class="ui radio checkbox">
-                                <input type="radio" name="example2">
-                                <label>Card (-----1452) </label>
+                                <input type="radio" id="card" name="payment">
+                                <label>Card
+                                    <div class="ui field">
+                                        <input name="card[number]" maxlength="16" placeholder="Card #" type="text">
+                                    </div>
+                                </label>
                             </div>
                         </div>
                     </div>
