@@ -28,11 +28,13 @@ public class TestDriver {
 		TransactionDAO tdao = new TransactionDAO();
 		AccountTypeEnum customer = new AccountTypeEnum(AccountType.CUSTOMER);
 		AccountTypeEnum accountManager = new AccountTypeEnum(AccountType.ACCOUNTING_MANAGER);
-		User u = new User("user5", "user5", "u", "user_5", "user5@securde.com", accountManager.accountTypeDetails(), 1);
+		/*User u = new User("user5", "user5", "u", "user_5", "user5@securde.com", accountManager.accountTypeDetails(), 1);
 		u.setPassword("password");
-		udao.addUser(u);
+		udao.addUser(u);*/
 		
-		//User u = udao.getUser("user_1", "password");
+		User u = udao.getUser("user_1", "password");
+		//udao.incrementLogInAttempts(u.getId());
+		udao.resetLogInAttempts(u.getId());
 		
 		//udao.lock(u.getId());
 		//System.out.println(udao.isLocked(u.getId()));
