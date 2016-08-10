@@ -2,6 +2,7 @@ package servlets;
 
 import database.CategoryDAO;
 import database.ProductDAO;
+import log.Logger;
 import model.Product;
 
 import javax.servlet.ServletException;
@@ -101,6 +102,7 @@ public class IndexDisplayProductsServlet extends HttpServlet {
 			if(pages>5) request.setAttribute("fullbackbtn", true);
 		}
 
+		Logger.write("unknown", request.getRemoteAddr(), "viewed products");
 		request.setAttribute("max", pages);
 		request.setAttribute("pages", list);
 		request.setAttribute("page", page);

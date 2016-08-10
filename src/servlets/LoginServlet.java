@@ -2,6 +2,7 @@ package servlets;
 
 import database.ProductDAO;
 import database.UserDAO;
+import log.Logger;
 import model.Product;
 import model.User;
 
@@ -76,6 +77,7 @@ public class LoginServlet extends HttpServlet {
 			if(diffMinutes>=5){
 				dao.unlock(temp.getId());
 				request.getSession().setAttribute("lock", 0);
+				Logger.write(temp.getId() + "", request.getRemoteAddr(), "unlocked account");
 			}
 		}
 		if (user != null && dao.isLocked(user.getId())==null)
