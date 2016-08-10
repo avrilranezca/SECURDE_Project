@@ -48,6 +48,10 @@ public class User {
 		this.account_type = account_type;
 		this.isActive = isActive;
 	}
+	
+	public String toString() {
+		return "\nUsername: " + user_name + " AccountType: " + account_type;
+	}
 
 	public int getId() {
 		return id;
