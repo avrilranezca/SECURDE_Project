@@ -42,10 +42,6 @@ public class TestDriver {
 		System.out.println();
 		System.out.println(udao.getAllAccountingManagers());
 		
-		//User u = udao.getUser("user_1", "password");
-		//udao.incrementLogInAttempts(u.getId());
-		//udao.resetLogInAttempts(u.getId());
-		
 		//udao.lock(u.getId());
 		//System.out.println(udao.isLocked(u.getId()));
 		//udao.unlock(u.getId());

@@ -87,6 +87,7 @@ SELECT * FROM category;
 SELECT * FROM user;
 
 UPDATE user SET log_in_attempts = log_in_attempts + 1 WHERE id = 1;
+<<<<<<< HEAD
 	
 	/*public User(String first_name, String last_name,
 			String middle_initial, String user_name, String email,
@@ -94,3 +95,7 @@ UPDATE user SET log_in_attempts = log_in_attempts + 1 WHERE id = 1;
             
 SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum NOT LIKE "CUSTOMER" ORDER BY account_type_enum;
 SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE "ACCOUNTING_MANAGER" ORDER BY user_name;
+=======
+
+SELECT user_name FROM user WHERE user_name LIKE "user";
+>>>>>>> feature/admin

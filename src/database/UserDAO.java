@@ -114,6 +114,25 @@ public class UserDAO {
 		}
 	}
 	
+	public boolean checkIfUserNameExists(String user_name) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT user_name FROM user WHERE user_name LIKE ?");
+			ps.setString(1, user_name);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if (!rs.next()) {
+			    //System.out.println("no data");
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+	
 	public void updatePassword(User u, String newPassword) {
 		//User newUser = getUser(u.getUser_name(), u.getPassword());
 		
