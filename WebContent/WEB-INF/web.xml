@@ -44,6 +44,14 @@
     <url-pattern>/accounting_manager</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>DisplayManagersServlet</servlet-name>
+    <servlet-class>servlets.DisplayManagersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DisplayManagersServlet</servlet-name>
+    <url-pattern>/admin</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>CheckoutShippingServlet</servlet-name>
     <servlet-class>servlets.CheckoutShippingServlet</servlet-class>
   </servlet>

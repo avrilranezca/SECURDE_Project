@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -13,6 +15,11 @@
 
 
         });
+        
+        function changeFilter(form, filter) {
+        	document.getElementById("filter").value = filter;
+        	form.submit();
+        }
     </script>
 </head>
 <body>
@@ -58,6 +65,10 @@
     </div>
 </div>
 
+<form id="filter-form" action="DisplayManagersServlet" method="post">
+	<input id="filter" type="hidden" name="filter" value="${filter }">
+</form>
+
 <div class="ui container basic segment">
     <div class="ui grid">
         <div class="nine wide column">
@@ -66,49 +77,59 @@
                     Managers
                 </h2>
                 <div class="headingsubc">
-                    <b><a href="#">All</a> </b> | <a href="#">Product</a> | <a href="#">Accounting</a>
-                </div>
+                    <c:choose>
+                    	<c:when test="${filter eq 'All' }">
+                    		<b>
+                    	</c:when>
+                    </c:choose>
+                    <a href="#" onClick=" changeFilter(document.getElementById('filter-form'), 'All');return false;">All</a></b>
+                    <c:choose>
+						<c:when test="${filter eq 'All'}">
+							</b>
+						</c:when>
+					</c:choose>
+                    |
+					<c:choose>
+						<c:when test="${filter eq 'Product'}">
+							<b>
+						</c:when>
+					</c:choose>
+					<a href="#" onClick="changeFilter(document.getElementById('filter-form'), 'Product');return false;">Product</a></b>
+					<c:choose>
+						<c:when test="${filter eq 'Product'}">
+							</b>
+						</c:when>
+					</c:choose>
+					|
+					<c:choose>
+						<c:when test="${filter eq 'Accounting'}">
+							<b>
+						</c:when>
+					</c:choose>
+					<a href="#" onClick="changeFilter(document.getElementById('filter-form'), 'Accounting');return false;">Accounting</a></b>
+					<c:choose>
+						<c:when test="${filter eq 'Accounting'}">
+							</b>
+						</c:when>
+					</c:choose>
+				</div>
             </div>
 
-            <div class="ui  segment">
-                <div class="ui grid">
-                    <div class="ten wide column">
-                        <h3 class="ui header">Avril Fernandez
-                            <div class="ui sub header">Doculord</div>
-                        </h3>
-                    </div>
-                    <div class="six wide column right aligned">
-                        <h1 class="ui sub header">Product</h1>
-                        <i class="trash link icon bottom aligned"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="ui  segment">
-                <div class="ui grid">
-                    <div class="ten wide column">
-                        <h3 class="ui header">Kristoffer Cheng
-                            <div class="ui sub header">Loverboi</div>
-                        </h3>
-                    </div>
-                    <div class="six wide column right aligned">
-                        <h1 class="ui sub header">Product</h1>
-                        <i class="trash link icon bottom aligned"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="ui  segment">
-                <div class="ui grid">
-                    <div class="ten wide column">
-                        <h3 class="ui header">Rissa Quindoza
-                            <div class="ui sub header">Kulkid</div>
-                        </h3>
-                    </div>
-                    <div class="six wide column right aligned">
-                        <h1 class="ui sub header">Finance</h1>
-                        <i class="trash link icon bottom aligned"></i>
-                    </div>
-                </div>
-            </div>
+			<c:forEach var="manager" items="${managers}">
+				<div class="ui segment">
+	                <div class="ui grid">
+	                    <div class="ten wide column">
+	                        <h3 class="ui header">${manager.user_name}
+	                            <div class="ui sub header"></div>
+	                        </h3>
+	                    </div>
+	                    <div class="six wide column right aligned">
+	                        <h1 class="ui sub header">${manager.account_type}</h1>
+	                        <i class="trash link icon bottom aligned"></i>
+	                    </div>
+	                </div>
+	            </div>
+			</c:forEach>
         </div>
         <div class="seven wide column">
 
@@ -116,17 +137,17 @@
             <div class="ui segment">
 
 
-                <div class="ui form">
+                <form class="ui form" action="AddManagerServlet" method="post">
 
                     <h2 class="ui header">Add Manager</h2>
                     <div>
                         <div class="ui grid middle aligned">
                             <div class="four wide column"><label>Username:</label></div>
-                            <div class="twelve wide column"><input name="uname" type="text"></div>
+                            <div class="twelve wide column"><input name="username" type="text"></div>
                         </div>
                         <div class="ui grid middle aligned">
                             <div class="four wide column"><label>Temporary Password:</label></div>
-                            <div class="twelve wide column"><input name="tempass" type="text"></div>
+                            <div class="twelve wide column"><input name="temppass" type="text"></div>
                         </div>
                         <div class="ui grid">
                             <div class="four wide column"><label>Type:</label></div>
@@ -134,14 +155,14 @@
                                 <div class="grouped fields">
                                     <div class="field">
                                         <div class="ui radio checkbox">
-                                            <input type="radio" name="type" checked="checked">
+                                            <input type="radio" name="type" value="PRODUCT" checked="checked">
                                             <label>Product</label>
                                         </div>
                                     </div>
                                     <div class="field">
                                         <div class="ui radio checkbox">
-                                            <input type="radio" name="type">
-                                            <label>Finance</label>
+                                            <input type="radio" name="type" value="ACCOUNTING">
+                                            <label>Accounting</label>
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +175,7 @@
 
                         <button class="ui  large orange submit button" type="submit">Add Manager</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
