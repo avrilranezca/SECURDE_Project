@@ -38,8 +38,13 @@ public class UserDAO {
 				
 				if(Password.checkPassword(password, rs.getString("password"))) {
 
-					User user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"),
+					int id = rs.getInt("id");
+					
+					User user = new User(id, rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"),
 							rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+					
+					setLastLogin(id);
+					
 					return user;
 				}
 				
@@ -307,6 +312,30 @@ public class UserDAO {
 		return null;
 	}
 	
+	public void resetLogInAttempts(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE user SET log_in_attempts = 0 WHERE id = ?;");
+			ps.setInt(1, id);
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void incrementLogInAttempts(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE user SET log_in_attempts = log_in_attempts + 1 WHERE id = ?;");
+			ps.setInt(1, id);
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public int getLogInAttempts(int id) {
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT log_in_atttempts FROM user WHERE id = ?;");
@@ -322,13 +351,43 @@ public class UserDAO {
 		}
 		return 0;
 	}
-	
-	/*public Date getLastLoginDate(int id) {
+	//returns the Date of last Login, null otherwise (but should be very rare)
+	public Date getLastLoginDate(int id) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT ");
+			PreparedStatement ps = conn.prepareStatement("SELECT last_login FROM user WHERE id = ?;");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Timestamp timestamp = rs.getTimestamp("last_login");
+				java.util.Date date = timestamp;
+				return date;
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}*/
+		return null;
+	}
+	
+	public void setLastLogin(int id) {
+		java.util.Date dt = new java.util.Date();
+		
+		java.text.SimpleDateFormat sdf = 
+			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		String currentTime = sdf.format(dt);
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("UPDATE user SET last_login = ? WHERE id = ?;");
+			ps.setString(1, currentTime);
+			ps.setInt(2, id);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

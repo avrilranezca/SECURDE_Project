@@ -85,3 +85,5 @@ SELECT A.* FROM user U INNER JOIN address A ON U.billing_address_id = A.id WHERE
 SELECT * FROM product;
 SELECT * FROM category;
 SELECT * FROM user;
+
+UPDATE user SET log_in_attempts = log_in_attempts + 1 WHERE id = 1;
