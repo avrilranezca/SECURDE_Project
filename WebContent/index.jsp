@@ -540,9 +540,6 @@
                     </c:choose>
                 </div>
             </c:when>
-            <c:otherwise>
-                <div class="ui header">NO PRODUCTS</div>
-            </c:otherwise>
         </c:choose>
 
 
