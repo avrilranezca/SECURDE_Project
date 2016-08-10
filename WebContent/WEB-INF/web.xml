@@ -60,6 +60,7 @@
     <url-pattern>/checkout_billing</url-pattern>
   </servlet-mapping>
   <session-config>
+    <session-timeout>20000</session-timeout>
     <cookie-config>
       <http-only>true</http-only>
       <secure>true</secure>

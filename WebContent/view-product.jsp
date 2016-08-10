@@ -148,20 +148,21 @@
             $('#addtocart').click(function () {
                 alert("heere");
                 var id = ${product.id};
-                alert("heeere");
                 var a = +$("#quantity").val();
-                alert("heeere");
 
                 $.ajax({
                     url: "AddToCartQuantityServlet",
-                    dataType: 'json',
                     data: {"index": id, "value": a},
-                    type: "POST",
-                    error: function(ts) { alert(ts.responseText) },
+                    type: "GET",
                     success: function (data) {
+//                        alert("no error");
                         updateCart();
+//                        alert("wut")
                         $('#addtocart').attr("class", "ui fluid large green submit button");
+//                        alert("the");
+
                         $('#carttext').html("ADDED TO CART");
+//                        alert("hell");
                     }
                 });
 
@@ -173,10 +174,13 @@
                 var rate = $('#rate').val();
                 $.ajax({
                     url: "AddReviewServlet",
-                    data: {"product": prod, "reviewtext": a, "rate": rate},
+                    data: {"product": prod, "reviewtext": review, "rate": rate},
                     type: "POST",
                     success: function (data) {
-                        $('actualcomments').prepend('<div class="comment"> <div class="content"> <a class="author">Matt</a> <div class="metadata"> <div class="ui star rating"></div> </div><div class="text">How artistic!</div> </div> </div>');
+                        $('#reviewbtn').attr("class", "ui right floated disabled orange submit button");
+                        $('#reviewtext').val("");
+                        $('.editable.rating').rating('set rating', 0);
+                        $('#actualcomments').prepend('<div class="comment"> <div class="content"> <a class="author"><%=userName%></a> <div class="metadata"> <div class="ui star rating"></div> </div><div class="text">'+review+'</div> </div> </div>');
                     }
                 });
             });
@@ -350,7 +354,7 @@
     <div class="ui four item pointing menu">
 
 
-        <form id="category-form" action="SelectDisplayCategoryServlet" method="post">
+        <form id="category-form" action="SelectDisplayCategoryServlet" method="get">
             <input name="cat" type="hidden">
         </form>
 
@@ -451,7 +455,7 @@
 
             <div class="ui divider"></div>
 
-            <form class="ui form" method="post">
+            <div class="ui form" method="post">
                 <div class="inline field">
                     <label>Quantity</label>
                     <!--<button class="ui icon button middle">-->
@@ -468,14 +472,14 @@
                                                                     class="middle-align">ADD TO CART</span>
                     </div>
                 </button>
-            </form>
+            </div>
         </div>
     </div>
     <div class="ui grid">
         <div class="sixteen wide column">
             <div id="comments" class="ui comments">
 
-                <div class="ui dividing header">Top Customer Reviews</div>
+                <div class="ui dividing header">Recent Customer Reviews</div>
                 <!--show this if the user still hasn't logged in--->
                 <div id="error-review-login" class="ui info message">
                     Please login to review this product.
@@ -483,9 +487,9 @@
                 <div id="error-review-buy" class="ui info message">
                     Purchase the product to give a review.
                 </div>
-                <form class="ui form" method="post" id="review-form">
+                <div class="ui form" method="post" id="review-form">
                     <div class="field">
-                        <label>Shayane Tan</label>
+                        <label><%=userName%></label>
                         <div class="ui editable huge star rating" style="margin-bottom: 10px;"></div>
                         <textarea rows="2" id="reviewtext" placeholder="Enter review here.."></textarea>
                     </div>
@@ -495,7 +499,7 @@
                             <span class="middle-align">SUBMIT REVIEW</span>
                         </button>
                     </div>
-                </form>
+                </div>
                 <div id="actualcomments">
                     <c:forEach var="review" items="${reviews}">
                         <div class="comment">

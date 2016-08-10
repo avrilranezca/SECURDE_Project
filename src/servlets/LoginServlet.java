@@ -80,11 +80,16 @@ public class LoginServlet extends HttpServlet {
 		}
 		if (user != null && dao.isLocked(user.getId())==null)
 		{
+			String s=null;
+			if(request.getSession().getAttribute("item")!=null){
+				s= (String) request.getSession().getAttribute("item");
+			}
 			request.getSession().invalidate();
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user.getUser_name());
 			session.setAttribute( "activation-time", System.currentTimeMillis() );
 			session.setAttribute("lock", 0);
+			if(s!=null) session.setAttribute("item", s);
 			//setting session to expiry in 30 mins
 
 			Cookie userName = new Cookie("user", user.getUser_name());

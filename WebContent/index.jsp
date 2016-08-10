@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="database.ProductDAO" %>
 <%@ page import="model.Product" %>
@@ -201,7 +201,41 @@
                 	$("#search-form input[name=search]").val(query);
                     $("#search-form").submit();
                 }
+
             });
+
+            $('#fullbackbtn').click(function(){
+                var ind = +1;
+                updateForm(ind);
+            });
+
+            $('#backbtn').click(function(){
+                var ind = +${page};
+                ind--;
+                updateForm(ind);
+            });
+
+            $('#fullnextbtn').click(function(){
+                var ind = +${max};
+                updateForm(ind);
+            });
+
+            $('#nextbtn').click(function(){
+                var ind = +${page};
+                ind++;
+                updateForm(ind);
+            });
+
+            $('.navbtn').click(function(){
+                var ind = +$(this).html();
+                updateForm(ind);
+            });
+
+            function updateForm(ind){
+                alert(ind);
+                $('#nav-form input[name=page]').val(ind);
+                $('#nav-form').submit();
+            }
 
         });
     </script>
@@ -315,7 +349,7 @@
     <div class="ui four item pointing menu">
 
 
-        <form id="category-form" action="SelectDisplayCategoryServlet" method="post">
+        <form id="category-form" action="SelectDisplayCategoryServlet" method="get">
             <input name="cat" type="hidden">
         </form>
 
@@ -462,12 +496,72 @@
    	</c:choose>
     
     <div class="container pagination-container ">
-        <div class="ui pagination menu">
-            <a class="icon item"><i class="left arrow icon"></i></a>
-            <a class="active item"> 1</a>
-            <a class="item">2</a>
-            <a class="icon item"><i class="right arrow icon"></i></a>
-        </div>
+        <c:choose>
+            <c:when test="${products.size() ne 0}">
+                <c:choose>
+                    <c:when test="${filter ne 'All'}">
+                        <form id = "nav-form" action="SelectDisplayCategoryServlet" method="Get">
+                            <input type="hidden" name="page">
+                            <input type="hidden" name="cat" value="${filter}">
+                        </form>
+                    </c:when>
+                    <c:when test="${search ne null}">
+                        <form id = "nav-form" action="IndexDisplayProductsServlet" method="Get">
+                            <input type="hidden" name="page">
+                            <input type="hidden" name="search" value="${search}">
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <form id = "nav-form" action="IndexDisplayProductsServlet" method="Get">
+                            <input type="hidden" name="page">
+                        </form>
+                    </c:otherwise>
+                </c:choose>
+                <div class="ui pagination menu">
+                    <c:choose>
+                        <c:when test="${fullbackbtn}">
+                            <a id="fullbackbtn" class="icon item mnavbtn"><i class="left arrow icon"></i></a>
+                        </c:when>
+                    </c:choose>
+
+                    <c:choose>
+                        <c:when test="${backbtn}">
+                            <a id="backbtn" class="icon item mnavbtn"><i class="left arrow icon"></i></a>
+                        </c:when>
+                    </c:choose>
+                    <c:forEach var="currpage" items="${pages}">
+                        <c:choose>
+                            <c:when test="${currpage eq '..'}">
+                                <a class="disabled item navbtn">${currpage}</a>
+                            </c:when>
+                            <c:when test="${currpage eq page}">
+                                <a class="  item navbtn">${currpage}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="item navbtn">${currpage}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <c:choose>
+                        <c:when test="${nextbtn}">
+                            <a id="nextbtn mnavbtn" class="icon item"><i class="right arrow icon"></i></a>
+                        </c:when>
+                    </c:choose>
+
+                    <c:choose>
+                        <c:when test="${fullnextbtn}">
+                            <a id="fullnextbtn mnavbtn" class="icon item"><i class="right arrow icon"></i></a>
+                        </c:when>
+                    </c:choose>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="ui header">NO PRODUCTS</div>
+            </c:otherwise>
+        </c:choose>
+
+
     </div>
 </div>
 

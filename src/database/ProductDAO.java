@@ -158,7 +158,7 @@ public class ProductDAO {
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		try {
-			ps = conn.prepareStatement("SELECT * FROM product WHERE category_id = (SELECT id FROM category WHERE name = ?) LIMIT ?, ?;");
+			ps = conn.prepareStatement("SELECT * FROM product WHERE category_id = (SELECT id FROM category WHERE name = ?) LIMIT ? , ? ;");
 
 			ps.setString(1, c.getName());
 			ps.setInt(2, offset);
@@ -270,6 +270,27 @@ public class ProductDAO {
 			e.printStackTrace();
 		}
 		
+		return 0;
+	}
+
+
+
+
+	public int getNoOfProductsWithCategory(Category c) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS 'count' FROM product WHERE category_id = ?;");
+			ps.setInt(1, c.getId());
+
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next()) {
+				return rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return 0;
 	}
 }
