@@ -91,8 +91,8 @@ public class LoginServlet extends HttpServlet {
 			//setting session to expiry in 30 mins
 
 			Cookie userName = new Cookie("user", user.getUser_name());
-			userName.setSecure(true);
-			userName.setHttpOnly(true);
+//			userName.setSecure(true);
+//			userName.setHttpOnly(true);
 			response.addCookie(userName);
 			//Get the encoded URL string
 
@@ -103,7 +103,8 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("filter", "All");
 			String encodedURL = response.encodeRedirectURL("index.jsp");
 			Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
-			request.getRequestDispatcher(encodedURL).forward(request, response);
+//			request.getRequestDispatcher(encodedURL).forward(request, response);
+			response.sendRedirect("/");
 			return;
 		}else{
 

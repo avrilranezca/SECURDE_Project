@@ -40,13 +40,13 @@
                                     }
                             }
 
-                            if (!foundCookie || userName==null) {
+                            if (!foundCookie || userName==null) { System.out.println("BROOM");
             %>
-            $('#welcome-menu').hide();
+                    $('#welcome-menu').hide();
             <%
-                } else {
+                } else { System.out.println("broom");
             %>
-            $('#login-menu').hide();
+                    $('#login-menu').hide();
             <%
                 }
             %>
@@ -72,7 +72,7 @@
 	              interactive: false
 	            })
 	        ;
-            
+
             function updateCart(){
                 <%
                 if(session.getAttribute("item") != null){
@@ -117,7 +117,7 @@
             $(".add-cart").click(function () {
                 var id = this.id;
                 var ind = $(this).index('.add-cart');
-               
+
                 $.ajax({
                     url: "AddToCartServlet",
                     data: {"itemID": id},
@@ -127,12 +127,12 @@
                         updateCart();
                     }
                 });
-                
+
                 $("#addtocart-form input[name=itemID]").val(id);
                 $("#addtocart-form").submit();
             });
-            
-           
+
+
 
             $(".item-name").click(function ()
             {
@@ -160,13 +160,13 @@
                 $("#category-form input[name=cat]").val("Slippers");
                 $("#category-form").submit();
             });
-            
+
             $(".search").click(function(){
             	 var query = $("#searchQuery").val();
              	 $("#search-form input[name=search]").val(query);
                  $("#search-form").submit();
             });
-            
+
             $("#searchQuery").keypress(function(e) {
                 if(e.which == 13) {
                 /*	 var query = $("#searchQuery").val();
@@ -176,11 +176,11 @@
                         	 	"isSearch": true,},
                          type: "GET",
                         success: function(data){
-                             
+
 
                          }
                      });*/
-                     
+
                      var query = $("#searchQuery").val();
                 	$("#search-form input[name=search]").val(query);
                     $("#search-form").submit();
