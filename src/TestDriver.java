@@ -32,9 +32,11 @@ public class TestDriver {
 		u.setPassword("password");
 		udao.addUser(u);*/
 		
-		User u = udao.getUser("user_1", "password");
+		//User u = udao.getUser("user_1", "password");
 		//udao.incrementLogInAttempts(u.getId());
-		udao.resetLogInAttempts(u.getId());
+		//udao.resetLogInAttempts(u.getId());
+		
+		System.out.println(udao.checkIfUserNameExists("user_"));
 		
 		//udao.lock(u.getId());
 		//System.out.println(udao.isLocked(u.getId()));
