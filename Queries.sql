@@ -87,3 +87,5 @@ SELECT * FROM category;
 SELECT * FROM user;
 
 UPDATE user SET log_in_attempts = log_in_attempts + 1 WHERE id = 1;
+
+SELECT user_name FROM user WHERE user_name LIKE "user";
