@@ -33,7 +33,7 @@ CREATE TABLE `address` (
   `postal_code` varchar(45) NOT NULL,
   `country` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,6 +42,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES (1,'1','street1','subdivision1','city1','1','country1'),(2,'1','shippingstreet1','shippingsubdivision1','shippingcity1','shipping1','shippingcountry1');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +87,7 @@ CREATE TABLE `product` (
   PRIMARY KEY (`id`),
   KEY `category_id_FK_idx` (`category_id`),
   CONSTRAINT `p_category_id_FK` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +96,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'yo','boot1des',1,1,0),(2,'shoe2','shoe1des',1.23,2,1),(3,'boot2','boot2des',2.34,1,1),(4,'boot3','boot3des',7,1,1);
+INSERT INTO `product` VALUES (1,'yo','boot1des',1,1,0),(2,'shoe2','shoe1des',1.23,2,1),(3,'boot2','boot2des',2.34,1,1),(4,'boot3','boot3des',7,1,1),(5,'slipper1','slipper1des',2.97,4,1),(6,'slipper2','slipper2des',1.23,4,1),(7,'sandal1','sandal1des',45.9,3,1),(8,'sandal2','sandal2des',13.9,3,1);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,13 +212,15 @@ CREATE TABLE `user` (
   `account_type_enum` varchar(255) NOT NULL,
   `isActive` tinyint(1) NOT NULL,
   `session_id` varchar(255) DEFAULT NULL,
+  `log_in_attempts` int(11) DEFAULT '0',
   `lockout_datetime` datetime DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `billing_address_FK_idx` (`billing_address_id`),
   KEY `shipping_address_FK_idx` (`shipping_address_id`),
   CONSTRAINT `u_billing_address_FK` FOREIGN KEY (`billing_address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `u_shipping_address_FK` FOREIGN KEY (`shipping_address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -226,7 +229,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$BTEF7l8BayUpKgb2HweApuZ7jeXeLE8zdbP0KKcY3euK63ykZdmhy',1,'user1@securde.com',1,NULL,'CUSTOMER',1,'newSessionID',NULL),(2,'user2','user2','u','user_2','$2a$12$Ml1gCI0.4VvVsRIZVSPxIeqUeqiaHk0Q3.v2ytOw3ZqnAJRELnh.q',1,'user2@securde.com',NULL,NULL,'CUSTOMER',1,NULL,NULL);
+INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$BTEF7l8BayUpKgb2HweApuZ7jeXeLE8zdbP0KKcY3euK63ykZdmhy',1,'user1@securde.com',1,2,'CUSTOMER',1,'newSessionID',0,NULL,NULL),(2,'user2','user2','u','user_2','$2a$12$Ml1gCI0.4VvVsRIZVSPxIeqUeqiaHk0Q3.v2ytOw3ZqnAJRELnh.q',1,'user2@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(3,'user3','user3','u','user_3','$2a$12$WRgiH.W2FyIHyJy9YZBYjO4V4aZ4zYzgREQ9WFolVm03miLOxix2e',0,'user3@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(4,'user4','user4','u','user_4','$2a$12$QO5/oO/MBqCpbVQleJiLkeJEmutm8YpZtgM2rWL9.ln6H0KcbxOuO',1,'user4@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(5,'user5','user5','u','user_5','$2a$12$aYJA9GXW/CoDZM0Y2Vr38O6ZzFozV3ubBD9./BJvlGolqpWi0XngG',0,'user5@securde.com',NULL,NULL,'ACCOUNTING_MANAGER',1,NULL,0,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -239,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-06  9:19:28
+-- Dump completed on 2016-08-10 11:54:09

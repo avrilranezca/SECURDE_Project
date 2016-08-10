@@ -66,6 +66,22 @@ SELECT AVG(rating) FROM review WHERE product_id = 3;
 
 SELECT FOUND_ROWS(product);
 
+SELECT * FROM product;
+
+SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1 ORDER BY id LIMIT 2;
+
+SELECT R.id, R.user_id, U.user_name, R.product_id, R.review, R.date, R.rating FROM review R INNER JOIN user U ON R.user_id = U.id WHERE product_id = 1;
+
+SELECT * FROM transaction;
+SELECT * FROM transaction_entry;
+
+SELECT T.id, user_id, user_name FROM transaction T INNER JOIN transaction_entry TE ON T.id = TE.transaction_id INNER JOIN user U on U.id = T.user_id WHERE U.user_name = 'user_2' AND TE.product_id = 1;
+
+SELECT * FROM review;
+SELECT * FROM address;
+
+SELECT A.* FROM user U INNER JOIN address A ON U.billing_address_id = A.id WHERE U.id = 2;
 
 SELECT * FROM product;
-SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1 LIMIT 2 OFFSET 0;
+SELECT * FROM category;
+SELECT * FROM user;

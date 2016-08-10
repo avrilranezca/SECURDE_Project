@@ -27,9 +27,10 @@ public class TestDriver {
 		ReviewDAO rdao = new ReviewDAO();
 		TransactionDAO tdao = new TransactionDAO();
 		AccountTypeEnum customer = new AccountTypeEnum(AccountType.CUSTOMER);
-		/*User u = new User("user1", "user1", "u", "user_1", "user1@securde.com", customer.accountTypeDetails(), 1);
+		AccountTypeEnum accountManager = new AccountTypeEnum(AccountType.ACCOUNTING_MANAGER);
+		User u = new User("user5", "user5", "u", "user_5", "user5@securde.com", accountManager.accountTypeDetails(), 1);
 		u.setPassword("password");
-		dc.addUser(u);*/
+		udao.addUser(u);
 		
 		//User u = udao.getUser("user_1", "password");
 		
@@ -142,10 +143,10 @@ public class TestDriver {
 		/*Review r = new Review("user_2", 2, "my review 2-2", new Date(), 3);
 		rdao.addReview(r);*/
 		
-		Address a = new Address("1", "shippingstreet1", "shippingsubdivision1", "shippingcity1", "shipping1", "shippingcountry1");
+		/*Address a = new Address("1", "shippingstreet1", "shippingsubdivision1", "shippingcity1", "shipping1", "shippingcountry1");
 		User u = udao.getUser("user_1", "password");
 		//udao.updateShippingAddress(u, a);
-		System.out.println(udao.getShippingAddress(u.getId()));
+		System.out.println(udao.getShippingAddress(u.getId()));*/
 	}
 
 }
