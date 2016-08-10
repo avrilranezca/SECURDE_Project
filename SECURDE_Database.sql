@@ -220,7 +220,7 @@ CREATE TABLE `user` (
   KEY `shipping_address_FK_idx` (`shipping_address_id`),
   CONSTRAINT `u_billing_address_FK` FOREIGN KEY (`billing_address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `u_shipping_address_FK` FOREIGN KEY (`shipping_address_id`) REFERENCES `address` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +229,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$BTEF7l8BayUpKgb2HweApuZ7jeXeLE8zdbP0KKcY3euK63ykZdmhy',1,'user1@securde.com',1,2,'CUSTOMER',1,'newSessionID',0,NULL,NULL),(2,'user2','user2','u','user_2','$2a$12$Ml1gCI0.4VvVsRIZVSPxIeqUeqiaHk0Q3.v2ytOw3ZqnAJRELnh.q',1,'user2@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(3,'user3','user3','u','user_3','$2a$12$WRgiH.W2FyIHyJy9YZBYjO4V4aZ4zYzgREQ9WFolVm03miLOxix2e',0,'user3@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(4,'user4','user4','u','user_4','$2a$12$QO5/oO/MBqCpbVQleJiLkeJEmutm8YpZtgM2rWL9.ln6H0KcbxOuO',1,'user4@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(5,'user5','user5','u','user_5','$2a$12$aYJA9GXW/CoDZM0Y2Vr38O6ZzFozV3ubBD9./BJvlGolqpWi0XngG',0,'user5@securde.com',NULL,NULL,'ACCOUNTING_MANAGER',1,NULL,0,NULL,NULL);
+INSERT INTO `user` VALUES (1,'user1','user1','u','user_1','$2a$12$BTEF7l8BayUpKgb2HweApuZ7jeXeLE8zdbP0KKcY3euK63ykZdmhy',1,'user1@securde.com',1,2,'CUSTOMER',1,'newSessionID',0,NULL,'2016-08-10 13:22:07'),(2,'user2','user2','u','user_2','$2a$12$Ml1gCI0.4VvVsRIZVSPxIeqUeqiaHk0Q3.v2ytOw3ZqnAJRELnh.q',1,'user2@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(3,'user3','user3','u','user_3','$2a$12$WRgiH.W2FyIHyJy9YZBYjO4V4aZ4zYzgREQ9WFolVm03miLOxix2e',0,'user3@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(4,'user4','user4','u','user_4','$2a$12$QO5/oO/MBqCpbVQleJiLkeJEmutm8YpZtgM2rWL9.ln6H0KcbxOuO',1,'user4@securde.com',NULL,NULL,'CUSTOMER',1,NULL,0,NULL,NULL),(5,'user5','user5','u','user_5','$2a$12$aYJA9GXW/CoDZM0Y2Vr38O6ZzFozV3ubBD9./BJvlGolqpWi0XngG',0,'user5@securde.com',NULL,NULL,'ACCOUNTING_MANAGER',1,NULL,0,NULL,NULL),(6,'user6','user6','u','user_6','$2a$12$q6eNNN58DG3MK2nyusq75OEAiMuYWctJ7fhq4znOaS32OVP4J9.5K',0,'user6@securde.com',NULL,NULL,'ADMIN',1,NULL,0,NULL,NULL),(7,'user7','user7','u','user_7','$2a$12$frxnKSRXQiIhe5P3eUYnQehrLX8BS9C3/UGvjNvdoWiCkNjQgSGkW',0,'user7@securde.com',NULL,NULL,'PRODUCT_MANAGER',1,NULL,0,NULL,NULL),(8,'user8','user8','u','user_8','$2a$12$iAbOaGwcrGXdfvtApjzX/uIJJRG7Wz.km9yDbeWGrFDOyQLgJ4l8e',0,'user8@securde.com',NULL,NULL,'ACCOUNTING_MANAGER',1,NULL,0,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -242,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-10 11:54:09
+-- Dump completed on 2016-08-10 16:08:23
