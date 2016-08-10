@@ -69,7 +69,8 @@
     <servlet-name>CheckoutBillingServlet</servlet-name>
     <url-pattern>/checkout_billing</url-pattern>
   </servlet-mapping>
-  
+
+
   <servlet>
     <servlet-name>CheckoutConfirmServlet</servlet-name>
     <servlet-class>servlets.CheckoutConfirmServlet</servlet-class>

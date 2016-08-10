@@ -1,18 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: rissa
-  Date: 8/2/2016
-  Time: 1:22 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="database.ProductDAO" %>
 <%@ page import="model.Product" %>
-<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
+<%@ page import="org.json.JSONObject" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -23,7 +16,6 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
             <%
                 String userName=null;
 
@@ -57,6 +49,15 @@
 
             updateCart();
 
+            $('#cart-button')
+                    .popup({
+//                        movePopup: false,
+                        popup: $('#cart-popup'),
+                        on: 'click'
+                    })
+            ;
+
+
             function updateCart(){
                 <%
                 if(session.getAttribute("item") != null){
@@ -83,7 +84,7 @@
 
                 $("#empty-cart").hide();
 
-                $("#cart-name").html(" <%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
+                $("#cart-name").html("<%=prod.getName()%>");
                 $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
                 $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
@@ -97,65 +98,6 @@
                 }
                 %>
             }
-            $('#cart-button')
-                    .popup({
-//                        movePopup: false,
-                        popup: $('#cart-popup'),
-                        on: 'click'
-                    })
-            ;
-
-            $(".btnminus").click(function(){
-                var index = $(this).index(".btnminus");
-                var a = +$(".txtquantity:eq("+index+")").val();
-                a--;
-
-                updateTable(index, a);
-            });
-
-            Number.prototype.formatMoney = function(c, d, t){
-                var n = this,
-                        c = isNaN(c = Math.abs(c)) ? 2 : c,
-                        d = d == undefined ? "." : d,
-                        t = t == undefined ? "," : t,
-                        s = n < 0 ? "-" : "",
-                        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
-                        j = (j = i.length) > 3 ? j % 3 : 0;
-                return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-            };
-
-            function updateTable(index, a){
-                $.ajax({
-                    url: "UpdateCartQuantityServlet",
-                    dataType : 'json',
-                    data: {"index": index, "value": a },
-                    type: "POST",
-                    success: function(data){
-
-                    }
-                });
-            }
-
-            $(".txtquantity").keyup(function(){
-                var index = $(this).index(".txtquantity");
-                var a = +$(this).val();
-                updateTable(index, a);
-            });
-
-            $(".btnplus").click(function(){
-                var index = $(this).index(".btnplus");
-                var a = +$(".txtquantity:eq("+index+")").val();
-                a++;
-                updateTable(index, a);
-            });
-
-
-            $(".remove.icon").click(function(){
-                var index = $(this).index(".remove.icon");
-                var a = +0;
-                updateTable(index, a);
-//                console.log(index);
-            });
         });
     </script>
 </head>
@@ -172,7 +114,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome <c:out value="${user}"></c:out>!</div>
+                <div class="ui sub header"> Welcome  ${user}!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button">Logout</div>
@@ -205,9 +147,8 @@
 
                 <div class="five wide column middle aligned ">
                     <div class="ui grid sixteen wide column">
-                        <div class="eight wide column right aligned">
-                        	<i class="badge big link shop icon" id="cart-button" data-badge="0"></i>
-                        </div>
+                        <div class="eight wide column right aligned"><i class="badge big link shop icon"
+                                                                        id="cart-button" data-badge="0"></i></div>
                         <div class="eight wide column left aligned"><span id="total" class="price-label">0.00</span></div>
                     </div>
 
@@ -257,63 +198,88 @@
 
     </div>
 </div>
-<div class="ui container custom-container">
-    <div class="ui four item pointing menu">
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/boots.png">
-                </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">boots</span></div>
-            </div>
-        </a>
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/shoes.png">
-                </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">shoes</span></div>
-            </div>
-        </a>
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/sandals.png">
-                </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">sandals</span></div>
-            </div>
-        </a>
-        <a class="item">
-            <div class="ui grid">
-                <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/slippers.png">
-                </div>
-                <div class="sixteen wide column categ-label-container"><span class="category-label">slippers</span>
-                </div>
-            </div>
-        </a>
+<div class="ui container grid custom-container">
+
+    <div class="ui hidden divider"></div>
+    <!--<div class="ui grid">-->
+    <div class="ten wide computer sixteen wide tablet column">
+        <div class="ui segment">
+            <div class="ui mini steps">
+                  <div class="step">
+                      <i class="truck icon"></i>
+                      <div class="content">
+                          <div class="title">Shipping</div>
+                          <!--<div class="description">Choose your shipping options</div>-->
+                      </div>
+                  </div>
+                  <div class="active step">
+                      <i class="payment icon"></i>
+                      <div class="content">
+                          <div class="title">Billing</div>
+                          <!--<div class="description">Enter billing information</div>-->
+                      </div>
+                  </div>
+                  <div class="disabled step">
+                      <i class="info icon"></i>
+                      <div class="content">
+                          <div class="title">Confirm Order</div>
+                          <!--<div class="description">Verify order details</div>-->
+                      </div>
+                  </div>
+              </div>
+
+            <!--<h3 class="ui header">Payment</h3>-->
+            <div class="ui form">
+            	<form action="CheckoutConfirmServlet" method="POST">
+	              <div class="ui grid">
+                       <div class="eight wide column">
+                            <h3 class="ui dividing header">Ship To</h3>
+                           <div class="grouped fields">
+                               <div class="ui text">
+                                  <p><b>Name:</b> ${user}</p>
+                               </div>
+                               <div class="ui text">
+                                  <p> <b>Address:</b><br>
+                                   ${shipping.getHouse_no()} ${shipping.getSubdivision()}  ${shipping.getStreet()} ST. <br>
+                                   ${shipping.getCity()}, ${shipping.getCountry()} ${shipping.getPostal_code()}
+                                  </p> 
+                               </div>
+                           </div>
+                       </div>
+                       <div class="eight wide column">
+                           <h3 class="ui dividing header">Bill To</h3>
+                           <div class="grouped fields">
+                               <div class="ui text">
+                                  <p><b>Name:</b> ${user}</p>
+                               </div>
+                               <div class="ui text">
+                                  <p> <b>Address:</b><br>
+                                   ${billing.getHouse_no()} ${billing.getSubdivision()}  ${billing.getStreet()} ST. <br>
+                                   ${billing.getCity()}, ${billing.getCountry()} ${billing.getPostal_code()}
+                                  </p> 
+                               </div>
+                           </div>
+                       </div>
+                   </div>                   
+                    
+		            <h4 class="ui hidden divider"></h4>
+		            <div class="ui basic right aligned segment">
+		                <button class="ui  large blue submit button">Confirm Billing Information</button>
+		            </div>
+	            </form>
+	        </div>
+        </div>
     </div>
-</div>
-<div class="ui container segment">
-    <h2 class="ui header">Your Cart
-    </h2>
+    <div class="six wide computer sixteen wide tablet column ">
 
-        <%
-            if(session.getAttribute("item") != null) {
+        <div class="ui secondary segment">
 
-        %>
-        <table class="ui single line basic table">
-            <thead>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-                <th></th>
-            </tr>
-            </thead>
-        <tbody>
-        <%
+            <h3 class="ui dividing header">Cart</h3>
+
+            <%
+                if(session.getAttribute("item") != null) {
+
+
                 int capacity = 0;
                 float sum = 0;
                 Product prod = null;
@@ -328,60 +294,49 @@
                         capacity += itemp;
 
 
-        %>
+            %>
 
-        <tr>
-            <td>
-                <h4 class="ui image header">
-                    <img src="assets/bababoots.jpg" class="ui mini rounded image">
-                    <div class="content">
-                        <%=StringEscapeUtils.escapeHtml4(temp.getName())%>
-                    </div>
-                </h4></td>
-            <td><fmt:formatNumber value="<%=temp.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber></td>
-            <td>
+            <div class="ui two column grid middle aligned">
+                <div class="ten wide column">
+                    <h5 class="ui header">
 
-                <i class="btnminus minus link icon"></i>
-                <div class="ui input">
-                    <input type="number" class="txtquantity" name="quantity" value="<%=itemp%>">
+                        <div class="ui tiny image">
+                            <div class="floating ui circular orange label"><%=itemp%></div>
+                            <img src="assets/bababoots.jpg">
+                        </div>
+                        <%=temp.getName()%></h5>
                 </div>
-                <i class="btnplus plus link icon"></i></td>
-            <td class="row-subtotal"><fmt:formatNumber value="<%=itemp*temp.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber></td>
-            <td><i class="link bordered inverted red remove icon"></i></td>
-        </tr>
-        <%
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        %>
+                <div class="six wide column right aligned">
 
-        </tbody>
-        </table>
-
-        <div class="ui basic right aligned segment">
-            <h3 id="table-total" class="ui header table-total">Total: <fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber></h3>
-            <div class="ui large orange submit button">
-            	<c:choose>
-            		<c:when test="${user eq null}">
-            			<a href="login.jsp">
-            				<span class="middle-align">CHECKOUT</span>
-                		</a>
-            		</c:when>
-            		<c:otherwise>
-            			<a href="checkout_shipping.jsp">
-            				<span class="middle-align">CHECKOUT</span>
-                		</a>
-            		</c:otherwise>
-            	</c:choose>
-            	
-             
+                    <h5 class="ui header"><fmt:formatNumber value="<%=itemp*temp.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber></h5>
+                </div>
             </div>
-        </div>
+            <%
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-    <%
-        }
-    %>
+            %>
+
+
+
+
+            <div class="ui divider"></div>
+
+
+            <div class="ui basic segment right aligned">
+                <h3 class="ui header">Total: <fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber></h3>
+            </div>
+
+            <%
+                }
+            %>
+        </div>
+    </div>
+    <!--</div>-->
+
+
 </div>
 
 </body>
