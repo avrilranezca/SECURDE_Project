@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 /database/
 /model/
 /servlets/
+=======
+/servlets/
+/filter/
+/database/
+>>>>>>> feature/filters
