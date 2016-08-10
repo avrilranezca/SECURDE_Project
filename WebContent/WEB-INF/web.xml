@@ -43,6 +43,7 @@
     <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
     <url-pattern>/accounting_manager</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <servlet-name>DisplayManagersServlet</servlet-name>
     <servlet-class>servlets.DisplayManagersServlet</servlet-class>
@@ -59,6 +60,7 @@
     <servlet-name>CheckoutShippingServlet</servlet-name>
     <url-pattern>/checkout_shipping</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <servlet-name>CheckoutBillingServlet</servlet-name>
     <servlet-class>servlets.CheckoutBillingServlet</servlet-class>
@@ -67,6 +69,16 @@
     <servlet-name>CheckoutBillingServlet</servlet-name>
     <url-pattern>/checkout_billing</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>CheckoutConfirmServlet</servlet-name>
+    <servlet-class>servlets.CheckoutConfirmServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckoutConfirmServlet</servlet-name>
+    <url-pattern>/checkout_confirm</url-pattern>
+  </servlet-mapping>
+  
   <session-config>
     <session-timeout>20000</session-timeout>
     <cookie-config>
