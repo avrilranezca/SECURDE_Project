@@ -18,7 +18,6 @@
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
   </security-constraint>
-
   <servlet>
     <servlet-name>IndexDisplayProductsServlet</servlet-name>
     <servlet-class>servlets.IndexDisplayProductsServlet</servlet-class>
@@ -44,7 +43,22 @@
     <servlet-name>DisplayFinancialRecordsServlet</servlet-name>
     <url-pattern>/accounting_manager</url-pattern>
   </servlet-mapping>
-
+  <servlet>
+    <servlet-name>CheckoutShippingServlet</servlet-name>
+    <servlet-class>servlets.CheckoutShippingServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckoutShippingServlet</servlet-name>
+    <url-pattern>/checkout_shipping</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>CheckoutBillingServlet</servlet-name>
+    <servlet-class>servlets.CheckoutBillingServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckoutBillingServlet</servlet-name>
+    <url-pattern>/checkout_billing</url-pattern>
+  </servlet-mapping>
   <session-config>
     <cookie-config>
       <http-only>true</http-only>
@@ -52,7 +66,6 @@
     </cookie-config>
     <tracking-mode>COOKIE</tracking-mode>
   </session-config>
-
   <filter>
     <filter-name>ClickjackFilter</filter-name>
     <filter-class>org.owasp.esapi.filters.ClickjackFilter</filter-class>
@@ -61,12 +74,10 @@
       <param-value>DENY</param-value>
     </init-param>
   </filter>
-
   <filter-mapping>
     <filter-name>ClickjackFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
   <filter>
     <filter-name>SessionFilter</filter-name>
     <filter-class>filter.SessionFilter</filter-class>
@@ -79,5 +90,4 @@
     <filter-name>SessionFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
 </web-app>

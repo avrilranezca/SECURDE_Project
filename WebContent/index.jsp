@@ -117,21 +117,38 @@
             $(".add-cart").click(function () {
                 var id = this.id;
                 var ind = $(this).index('.add-cart');
+               
                 $.ajax({
                     url: "AddToCartServlet",
                     data: {"itemID": id},
                     type: "POST",
                     success: function(data){
+                   	  // $.each(data, function(index, item) { // Iterate over the JSON array.
+                        //    	alert("index: "+JSON.parse(index));
+                        //    	alert("item: "+item.getInt("quantity"));
+                          	// $("<li>").text(item).appendTo($ul);      // Create HTML <li> element, set its text content with currently iterated item and append it to the <ul>.
+                        //  });
                         $(".add-cart:eq("+ind+")").attr("class", "big link green add to cart icon add-cart");
                         updateCart();
 
                     }
                 });
-
-
+                
+               // $.get("AddToCartServlet", function(responseJson) {
+                	//alert("gello: "+responseJSON);
+                	// Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...
+                  //  var $ul = $("<ul>").appendTo($("#somediv")); // Create HTML <ul> element and append it to HTML DOM element with ID "somediv".
+                    //$.each(responseJson, function(index, item) { // Iterate over the JSON array.
+                      //	alert("item: "+JSON.parse(item));
+                    	// $("<li>").text(item).appendTo($ul);      // Create HTML <li> element, set its text content with currently iterated item and append it to the <ul>.
+                   // });
+             //   });
+              
 //                $("#addtocart-form input[name=itemID]").val(id);
 //                $("#addtocart-form").submit();
             });
+            
+           
 
             $(".item-name").click(function ()
             {
@@ -202,7 +219,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome !</div>
+                <div class="ui sub header"> Welcome  ${user}!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button" id="logout">Logout</div>
@@ -388,54 +405,62 @@
 	</c:choose>
 
 
-    <div class="ui four column grid">
-        <c:forEach var="item" items="${products}">
-            <%
-
-                Product p =(Product) pageContext.getAttribute("item");
-                System.out.println("reviewww"+p);
-                int i = reviewDAO.getAverageRating(p).intValue();
-            %>
-            <div class="column">
-                <div class="ui fluid card">
-                    <div class="image">
-                        <img src="assets/bababoots.jpg">
-                    </div>
-                    <div class="content">
-                        <div class="ui grid">
-                            <div class="twelve wide column">
-                                <a id="cart-${item.id}" class="item-name">${item.name}</a>
-                                <div class="meta">
-                                	<span class="price-label"><fmt:formatNumber value="${item.price}"
-                                                                                type="currency"
-                                                                                currencyCode="PHP">
-                                       	</fmt:formatNumber>
-                                    </span>
-                                </div>
-                                <br>
-
-                                <div class="ui tiny star rating"  data-rating="<%=i%>"></div>
-                            </div>
-                            <div class="four wide column middle aligned center aligned" >
-
-                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
-                                    <input name="itemID" type="hidden">
-                                </form>
-
-
-                                <form id="addtocart-form" action="AddToCartServlet" method="post">
-                                    <input name="itemID" type="hidden">
-                                </form>
-
-                                <i id="cart-${item.id}" class="big link add to cart icon add-cart"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
-
-    </div>
+   
+    <c:choose>
+    	<c:when test="${products.size() > 0}">
+    		<div class="ui four column grid">
+    			<c:forEach var="item" items="${products}">
+		            <%
+		
+		                Product p =(Product) pageContext.getAttribute("item");
+		                System.out.println("reviewww"+p);
+		                int i = reviewDAO.getAverageRating(p).intValue();
+		            %>
+		            <div class="column">
+		                <div class="ui fluid card">
+		                    <div class="image">
+		                        <img src="assets/bababoots.jpg">
+		                    </div>
+		                    <div class="content">
+		                        <div class="ui grid">
+		                            <div class="twelve wide column">
+		                                <a id="cart-${item.id}" class="item-name">${item.name}</a>
+		                                <div class="meta">
+		                                	<span class="price-label"><fmt:formatNumber value="${item.price}"
+		                                                                                type="currency"
+		                                                                                currencyCode="PHP">
+		                                       	</fmt:formatNumber>
+		                                    </span>
+		                                </div>
+		                                <br>
+		
+		                                <div class="ui tiny star rating"  data-rating="<%=i%>"></div>
+		                            </div>
+		                            <div class="four wide column middle aligned center aligned" >
+		
+		                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
+		                                    <input name="itemID" type="hidden">
+		                                </form>
+		
+		
+		                                <form id="addtocart-form" action="AddToCartServlet" method="post">
+		                                    <input name="itemID" type="hidden">
+		                                </form>
+		
+		                                <i id="cart-${item.id}" class="big link add to cart icon add-cart"></i>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+		        </c:forEach>
+	        </div>
+   		</c:when>
+   		<c:otherwise>
+   			<div class ="ui header center aligned">No Products</div>
+   		</c:otherwise>
+   	</c:choose>
+    
     <div class="container pagination-container ">
         <div class="ui pagination menu">
             <a class="icon item"><i class="left arrow icon"></i></a>

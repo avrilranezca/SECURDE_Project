@@ -262,4 +262,44 @@ public class UserDAO {
 		return null;
 	}
 	
+	public Address getBillingAddress(int id) {
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement("SELECT A.* FROM user U INNER JOIN address A ON U.billing_address_id = A.id WHERE U.id = ?;");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Address a = new Address(rs.getInt("id"), rs.getString("house_no"), rs.getString("street"), rs.getString("subdivision"), rs.getString("city"), rs.getString("postal_code"), rs.getString("country"));
+				return a;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Address getShippingAddress(int id) {
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement("SELECT A.* FROM user U INNER JOIN address A ON U.shipping_address_id = A.id WHERE U.id = ?;");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Address a = new Address(rs.getInt("id"), rs.getString("house_no"), rs.getString("street"), rs.getString("subdivision"), rs.getString("city"), rs.getString("postal_code"), rs.getString("country"));
+				return a;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

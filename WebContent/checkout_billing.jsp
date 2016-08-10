@@ -98,6 +98,75 @@
                 }
                 %>
             }
+            
+            $('.ui.form')
+	            .form({
+	              fields: {
+	            	  card: {
+	            		  identifier  : 'card',
+	            		  rules: [
+	            		          {
+	            		        	  type   : 'creditCard',
+	            		        	  prompt : 'Please enter a valid credit card'
+	            		          }
+	            		         ]
+	            		},
+	                bHouseNo: {
+	                  identifier: 'bHouseNo',
+	                  rules: [
+	                    {
+	                      type   : 'integer',
+	                      prompt : 'Please enter your Billing House Number'
+	                    }
+	                  ]
+	                },
+	                bSubdivision: {
+	                  identifier: 'bSubdivision',
+	                  rules: [
+	                    {
+	                      type   : 'empty',
+	                      prompt : 'Please enter your Billing Subdivision'
+	                    }
+	                  ]
+	                },
+	                bPostalCode: {
+	                  identifier: 'bPostalCode',
+	                  rules: [
+	                    {
+	                      type   : 'integer',
+	                      prompt : 'Please enter your Billing House Postal Code'
+	                    }
+	                  ]
+	                },
+	                bStreet: {
+	                  identifier: 'bStreet',
+	                  rules: [
+	                    {
+	                      type   : 'empty',
+	                      prompt : 'Please enter your Billing House Street'
+	                    }
+	                  ]
+	                },
+	                bCity: {
+	                  identifier: 'bCity',
+	                  rules: [
+	                    {
+	                      type   : 'empty',
+	                      prompt : 'Please enter your Billing House City'
+	                    }
+	                  ]
+	                },
+	                bCountry: {
+	                  identifier: 'bCountry',
+	                  rules: [
+	                    {
+	                      type   : 'empty',
+	                      prompt : 'Please enter your Billing Country'
+	                    }
+	                  ]
+	                }
+	              }
+	            });
         });
     </script>
 </head>
@@ -114,7 +183,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome !</div>
+                <div class="ui sub header"> Welcome  ${user}!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button">Logout</div>
@@ -205,68 +274,98 @@
     <div class="ten wide computer sixteen wide tablet column">
         <div class="ui segment">
             <div class="ui mini steps">
-                <div class="active step">
-                    <i class="truck icon"></i>
-                    <div class="content">
-                        <div class="title">Shipping</div>
-                        <!--<div class="description">Choose your shipping options</div>-->
-                    </div>
-                </div>
-                <div class="disabled step">
-                    <i class="payment icon"></i>
-                    <div class="content">
-                        <div class="title">Billing</div>
-                        <!--<div class="description">Enter billing information</div>-->
-                    </div>
-                </div>
-                <div class="disabled step">
-                    <i class="info icon"></i>
-                    <div class="content">
-                        <div class="title">Confirm Order</div>
-                        <!--<div class="description">Verify order details</div>-->
-                    </div>
-                </div>
-            </div>
+                  <div class="step">
+                      <i class="truck icon"></i>
+                      <div class="content">
+                          <div class="title">Shipping</div>
+                          <!--<div class="description">Choose your shipping options</div>-->
+                      </div>
+                  </div>
+                  <div class="active step">
+                      <i class="payment icon"></i>
+                      <div class="content">
+                          <div class="title">Billing</div>
+                          <!--<div class="description">Enter billing information</div>-->
+                      </div>
+                  </div>
+                  <div class="disabled step">
+                      <i class="info icon"></i>
+                      <div class="content">
+                          <div class="title">Confirm Order</div>
+                          <!--<div class="description">Verify order details</div>-->
+                      </div>
+                  </div>
+              </div>
 
             <!--<h3 class="ui header">Payment</h3>-->
             <div class="ui form">
-
-                <h3 class="ui dividing header">Shipping Address</h3>
-                <div>
-                    <div class="ui grid middle aligned">
-                        <div class="four wide column"><label>House No.</label></div>
-                        <div class="twelve wide column"><input placeholder="123" name="sHouseNo" type="number"></div>
-                    </div>
-                    <div class="ui grid middle aligned">
-                        <div class="four wide column"><label>Subdivision</label></div>
-                        <div class="twelve wide column"><input placeholder="subdivi" name="sSubdivision" type="text"></div>
-                    </div>
-                    <div class="ui grid middle aligned">
-                        <div class="four wide column"><label>Postal Code</label></div>
-                        <div class="twelve wide column"><input placeholder="1440" name="sPostalCode" type="number"></div>
-                    </div>
-                    <div class="ui grid middle aligned">
-                        <div class="four wide column"><label>Street</label></div>
-                        <div class="twelve wide column"><input placeholder="Santo Domingo" name="sStreet" type="text"></div>
-                    </div>
-                    <div class="ui grid middle aligned">
-                        <div class="four wide column"><label>City</label></div>
-                        <div class="twelve wide column"><input placeholder="Quezon City" name="sCity" type="text"></div>
-                    </div>
-                    <div class="ui grid middle aligned">
-                        <div class="four wide column"><label>Country</label></div>
-                        <div class="twelve wide column"><input placeholder="Philippines" name="sCountry" type="text"></div>
-                    </div>
-                </div>
-                <h4 class="ui hidden divider"></h4>
-                <div class="ui basic right aligned segment">
-
-                    <button class="ui  large blue submit button" type="submit">Confirm Shipping Address</button>
-                </div>
-            </div>
+            	<form action="CheckoutBillingServlet" method="POST">
+		            <h3 class="ui dividing header">Payment</h3>
+		            <div class="grouped fields">
+		                <div class="field">
+		                    <div class="ui radio checkbox">
+		                        <input type="radio" id="cash" name="payment" checked="checked">
+		                        <label>Cash</label>
+		                    </div>
+		                </div>
+		                <div class="field">
+		                    <div class="ui radio checkbox">
+		                        <input type="radio" id="card" name="payment">
+		                        <label>Card
+		                            <div class="ui field">
+		                                <input name="card" maxlength="16" placeholder="Card #" type="text">
+		                            </div>
+		                        </label>
+		                    </div>
+		                </div>
+		            </div>
+		
+		            <h3 class="ui dividing header">Billing Address</h3>
+		            <div>
+		                <div class="ui grid middle aligned field">
+		                    <div class="four wide column"><label>House No.</label></div>
+		                    <div class="twelve wide column">
+		                    	<input placeholder="123" name="bHouseNo" type="number" value="${address.getHouse_no()}">
+		                    </div>
+		                </div>
+		                <div class="ui grid middle aligned field">
+		                    <div class="four wide column"><label>Subdivision</label></div>
+		                    <div class="twelve wide column">
+		                    	<input placeholder="subdivi" name="bSubdivision" type="text" value="${address.getSubdivision()}">
+		                    </div>
+		                </div>
+		                <div class="ui grid middle aligned field">
+		                    <div class="four wide column"><label>Postal Code</label></div>
+		                    <div class="twelve wide column">
+		                    	<input placeholder="1440" name="bPostalCode" type="number" value="${address.getPostal_code()}">
+		                    </div>
+		                </div>
+		                <div class="ui grid middle aligned field">
+		                    <div class="four wide column"><label>Street</label></div>
+		                    <div class="twelve wide column">
+		                    	<input placeholder="Santo Domingo" name="bStreet" type="text" value="${address.getStreet()}">
+		                    </div>
+		                </div>
+		                <div class="ui grid middle aligned field">
+		                    <div class="four wide column"><label>City</label></div>
+		                    <div class="twelve wide column">
+		                    	<input placeholder="Quezon City" name="bCity" type="text" value="${address.getCity()}">
+		                    </div>
+		                </div>
+		                <div class="ui grid middle aligned field">
+		                    <div class="four wide column"><label>Country</label></div>
+		                    <div class="twelve wide column">
+		                    	<input placeholder="Philippines" name="bCountry" type="text" value="${address.getCountry()}">
+		                    </div>
+		                </div>
+		            </div>
+		            <h4 class="ui hidden divider"></h4>
+		            <div class="ui basic right aligned segment">
+		                <button class="ui  large blue submit button">Confirm Billing Information</button>
+		            </div>
+	            </form>
+	        </div>
         </div>
-
-
     </div>
     <div class="six wide computer sixteen wide tablet column ">
 

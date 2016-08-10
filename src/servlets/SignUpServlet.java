@@ -82,6 +82,7 @@ public class SignUpServlet extends HttpServlet {
 		
 		String encodedURL = response.encodeRedirectURL("index.jsp");
 		request.getRequestDispatcher(encodedURL).forward(request,response);
+		return;
 	}
 
 }
