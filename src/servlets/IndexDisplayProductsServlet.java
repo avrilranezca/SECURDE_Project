@@ -37,15 +37,14 @@ public class IndexDisplayProductsServlet extends HttpServlet {
 		int page=1;
 		if(request.getParameter("page")!=null) page = Integer.parseInt(request.getParameter("page"));
     	
-    	if(!("".equals(search) || "null".equals(search))){
-    		if(search == null) search = "";
-    		plist = dao.searchProductsPagination(search, (page-1)*16, 16);
-    		request.setAttribute("products", plist);
-    		request.setAttribute("searchQuery", search);
+    	if(search == null || "".equals(search)){
+    		plist = dao.getAllProductsPagination((page-1)*16, 16);
+   		 	request.setAttribute("products", plist);
+   		 	search = null;
     	}else{
-    		 plist = dao.getAllProductsPagination((page-1)*16, 16);
-    		 request.setAttribute("products", plist);
-    		 search = null;
+    		plist = dao.searchProductsPagination(search, (page-1)*16, 16);
+     		request.setAttribute("products", plist);
+     		request.setAttribute("searchQuery", search);
     	}
 		CategoryDAO categoryDAO = new CategoryDAO();
 
@@ -102,7 +101,6 @@ public class IndexDisplayProductsServlet extends HttpServlet {
 			if(pages>5) request.setAttribute("fullbackbtn", true);
 		}
 
-		Logger.write("unknown", request.getRemoteAddr(), "viewed products");
 		request.setAttribute("max", pages);
 		request.setAttribute("pages", list);
 		request.setAttribute("page", page);

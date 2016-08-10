@@ -106,6 +106,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("products", plist);
 			request.setAttribute("filter", "All");
 			String encodedURL = response.encodeRedirectURL("index.jsp");
+			Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
 			request.getRequestDispatcher(encodedURL).forward(request, response);
 			return;
 		}else{
@@ -123,12 +124,15 @@ public class LoginServlet extends HttpServlet {
 						if(dao.isLocked(temp.getId())==null){
 							System.out.println("here");
 							dao.lock(temp.getId());
+							Logger.write(temp.getId() + "", request.getRemoteAddr(), "locked out");
 							request.setAttribute("error", "Incorrect username/password! Too many failed attempts at logging in. This account has been locked for five minutes.");
 						}
 						else{
 							System.out.println("there");
 							request.setAttribute("error", "Too many failed attempts at logging in. This account has been locked for five minutes.");
 						}
+					} else{
+						Logger.write(temp.getId() + "", request.getRemoteAddr(), "unsuccessful login");
 					}
 				}
 			}
