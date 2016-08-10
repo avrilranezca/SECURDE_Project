@@ -7,7 +7,7 @@
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
 <%@ page import="database.ReviewDAO" %>
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <script src="jquery-1.11.3.min.js"></script>
@@ -18,20 +18,26 @@
     <script type="text/javascript">
         $(document).ready(function () {
         	$("#search-form input[name=search]").val(null);
+        	alert("hello");
             <%
-
+				System.out.println("PASOK inex");
                 ReviewDAO reviewDAO = new ReviewDAO();
                 String userName=null;
-
+				System.out.println("check 2");
+			
                 boolean foundCookie = false;
                 if(session.getAttribute("user") != null){
+    				System.out.println("check 3 pasok if");
 
 	                userName = (String) session.getAttribute("user");
 	                foundCookie=true;
                 }
                             Cookie[] cookies = request.getCookies();
+            				System.out.println("check 3");
 
                             if(cookies !=null){
+                				System.out.println("check 4 pasok if cookies");
+	
                                     for(int i = 0; i < cookies.length; i++) {
                                         Cookie c = cookies[i];
                                         if (c.getName().equals("user")) {
@@ -39,17 +45,22 @@
                                         }
                                     }
                             }
+            				System.out.println("check 5");
 
                             if (!foundCookie || userName==null) {
-            %>
-            $('#welcome-menu').hide();
-            <%
-                } else {
-            %>
-            $('#login-menu').hide();
-            <%
-                }
-            %>
+					            %>
+					            $('#login-menu').show();
+					            <%
+						           System.out.println("no user show login menu");
+					        } else {
+					            %>
+					            $('#welcome-menu').show();
+
+					            <%
+						        System.out.println("HAS user show WELCOME menu");
+
+					                }
+					            %>
 
             updateCart();
 
@@ -194,6 +205,7 @@
             });
 
             $('#backbtn').click(function(){
+            	alert("${page}");
                 var ind = +${page};
                 ind--;
                 updateForm(ind);
@@ -225,7 +237,7 @@
     </script>
 </head>
 <body>
-<div id="login-menu" class="ui top attached menu">
+<div id="login-menu" class="ui top attached menu hidden">
     <div class="right menu">
         <div class="ui right aligned item top-nav">
             <a href="<%=response.encodeURL("login.jsp") %>" id="login" class="item top-nav-item">login</a>
@@ -233,7 +245,7 @@
         </div>
     </div>
 </div>
-<div id="welcome-menu" class="ui container">
+<div id="welcome-menu" class="ui container hidden">
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
@@ -387,13 +399,13 @@
                         </div>
                     </a>
                     <c:choose>
-                    <c:when test="${filter eq 'Slippers'}">
-                    <a id="cat-slippers" class="active item">
+                   		 <c:when test="${filter eq 'Slippers'}">
+                    		<a id="cat-slippers" class="active item">
                         </c:when>
                         <c:otherwise>
-                        <a id="cat-slippers" class="item">
-                            </c:otherwise>
-                            </c:choose>
+                        	<a id="cat-slippers" class="item">
+                        </c:otherwise>
+                   </c:choose>
                             <div class="ui grid">
                                 <div class="sixteen wide column categ-label-container">
                                     <img class="ui mini image middle aligned" src="assets/slippers.png">
@@ -540,9 +552,10 @@
                     </c:choose>
                 </div>
             </c:when>
+            <c:otherwise>
+                <div class="ui header">NO PRODUCTS</div>
+            </c:otherwise>
         </c:choose>
-
-
     </div>
 </div>
 
