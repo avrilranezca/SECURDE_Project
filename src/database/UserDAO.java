@@ -11,6 +11,7 @@ import java.util.Date;
 import model.AccountTypeEnum;
 import model.Address;
 import model.User;
+import model.AccountTypeEnum.AccountType;
 
 
 public class UserDAO {
@@ -88,12 +89,16 @@ public class UserDAO {
 			ps.setString(6, u.getEmail());
 			ps.setString(7, u.getAccount_type());
 			ps.setInt(8, 1);
+
+			AccountTypeEnum customer = new AccountTypeEnum(AccountType.CUSTOMER);
 			
-			if(u.getAccount_type().equals(AccountTypeEnum.AccountType.CUSTOMER)) {
+			if(u.getAccount_type().equals(/*AccountTypeEnum.AccountType.CUSTOMER*/ customer.accountTypeDetails())) {
 				ps.setInt(9, 1);
+				//System.out.println("permanent");
 			}
 			else {
 				ps.setInt(9, 0);
+				//System.out.println("not permanent");
 			}
 			
 			
