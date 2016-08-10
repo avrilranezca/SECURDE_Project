@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import model.AccountTypeEnum;
@@ -388,6 +389,93 @@ public class UserDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<User> getAllUsers() {
+		ArrayList<User> userList = new ArrayList<User>();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum NOT LIKE \"CUSTOMER\" ORDER BY account_type_enum, user_name;");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				userList.add(u);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userList;
+	}
+	
+	public ArrayList<User> getAllAccountingManagers() {
+		
+		ArrayList<User> userList = new ArrayList<User>();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"ACCOUNTING_MANAGER\" ORDER BY user_name;");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				userList.add(u);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userList;
+	}
+	
+	public ArrayList<User> getAllProductManagers() {
+		
+		ArrayList<User> userList = new ArrayList<User>();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"PRODUCT_MANAGER\" ORDER BY user_name;");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				userList.add(u);	
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userList;
+	}
+	
+	public ArrayList<User> getAllAdmins() {
+		
+		ArrayList<User> userList = new ArrayList<User>();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"ADMIN\" ORDER BY user_name;");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				userList.add(u);	
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userList;
 	}
 	
 }
