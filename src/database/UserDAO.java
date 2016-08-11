@@ -508,4 +508,22 @@ public class UserDAO {
 		return userList;
 	}
 	
+	public String getAccountType(int id) {
+		try {
+			PreparedStatement ps = conn.prepareStatement("SELECT account_type_enum FROM user WHERE id = ?");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				return rs.getString("account_type_enum");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

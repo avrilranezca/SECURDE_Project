@@ -10,6 +10,7 @@ import model.Transaction;
 import model.TransactionEntry;
 import model.User;
 import model.AccountTypeEnum;
+import database.AuthorizationMatrixDAO;
 import database.CategoryDAO;
 import database.ProductDAO;
 import database.ReviewDAO;
@@ -26,6 +27,7 @@ public class TestDriver {
 		CategoryDAO cdao = new CategoryDAO(); 
 		ReviewDAO rdao = new ReviewDAO();
 		TransactionDAO tdao = new TransactionDAO();
+		AuthorizationMatrixDAO adao = new AuthorizationMatrixDAO();
 		AccountTypeEnum customer = new AccountTypeEnum(AccountType.CUSTOMER);
 		AccountTypeEnum accountManager = new AccountTypeEnum(AccountType.ACCOUNTING_MANAGER);
 		AccountTypeEnum productManager = new AccountTypeEnum(AccountType.PRODUCT_MANAGER);
@@ -34,13 +36,13 @@ public class TestDriver {
 		u.setPassword("password");
 		udao.addUser(u);*/
 		
-		System.out.println(udao.getAllUsers());
+		/*System.out.println(udao.getAllUsers());
 		System.out.println();
 		System.out.println(udao.getAllAdmins());
 		System.out.println();
 		System.out.println(udao.getAllProductManagers());
 		System.out.println();
-		System.out.println(udao.getAllAccountingManagers());
+		System.out.println(udao.getAllAccountingManagers());*/
 		
 		//udao.lock(u.getId());
 		//System.out.println(udao.isLocked(u.getId()));
@@ -155,6 +157,9 @@ public class TestDriver {
 		User u = udao.getUser("user_1", "password");
 		//udao.updateShippingAddress(u, a);
 		System.out.println(udao.getShippingAddress(u.getId()));*/
+		System.out.println(udao.getAccountType(6));
+		System.out.println(adao.isAuthorized(6, "/index_admin.jsp"));
+		
 	}
 
 }
