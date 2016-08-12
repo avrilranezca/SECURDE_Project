@@ -13,7 +13,9 @@ public class AccountTypeEnum {
 	}
 	
 	public String accountTypeDetails() {
+		System.out.println("TYPE: "+type);
 		switch(type) {
+		
 			case CUSTOMER: return "CUSTOMER"; 
 			case ADMIN: return "ADMIN";
 			case PRODUCT_MANAGER: return "PRODUCT_MANAGER";
