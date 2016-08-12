@@ -5,6 +5,7 @@
 <%@ page import="database.ReviewDAO" %>
 <%@ page import="database.UserDAO" %>
 <%@ page import="model.Product" %>
+<%@ page import="model.User" %>
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
@@ -19,33 +20,104 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#search-form input[name=search]").val(null);
+            <%--<%--%>
+            <%--String userName=null;--%>
+            <%--UserDAO userDAO = new UserDAO();--%>
+            <%--ReviewDAO reviewDAO = new ReviewDAO();--%>
+            <%--ProductDAO productDAO = new ProductDAO();--%>
+            <%--boolean foundCookie = false;--%>
+            <%--if(session.getAttribute("user") != null){--%>
+
+            <%--userName = (String) session.getAttribute("user");--%>
+            <%--foundCookie=true;--%>
+            <%--}--%>
+            <%--Cookie[] cookies = request.getCookies();--%>
+
+            <%--if(cookies !=null){--%>
+            <%--for(int i = 0; i < cookies.length; i++) {--%>
+            <%--Cookie c = cookies[i];--%>
+            <%--if (c.getName().equals("user")) {--%>
+            <%--foundCookie = true;--%>
+            <%--}--%>
+            <%--}--%>
+            <%--}--%>
+
+            <%--if (!foundCookie || userName==null) {--%>
+            <%--%>--%>
             <%
-                String userName=null;
-                UserDAO userDAO = new UserDAO();
-                ReviewDAO reviewDAO = new ReviewDAO();
-                ProductDAO productDAO = new ProductDAO();
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
+                            ReviewDAO reviewDAO = new ReviewDAO();
+                            String username=null;
+                            UserDAO uDAO = new UserDAO();
 
-	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                            Cookie[] cookies = request.getCookies();
+                            if(session.getAttribute("user") != null)
+                                username = (String) session.getAttribute("user");
 
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
+
+                            String sessionID = request.getSession().getId();
+
+
+                            if(username!=null) {
+                                    User u = uDAO.getUser(username);
+                                    String uSessionID = uDAO.getUserSessionID(u);
+                                    if(uSessionID.equals(sessionID)){
+                               %>
+                                        $('#login-menu').hide();
+                                        $('#error-review-login').hide();
+            <%
+                                        Product resultBean = (Product) request.getAttribute("product");
+                                        System.out.println(request.getAttribute("productID"));
+
+                                        boolean bool = reviewDAO.hasBought(uDAO.getUser(username),  resultBean );
+                                        if(bool){
+                        %>
+                                        $('#error-review-buy').hide();
+                                        <%
                                         }
-                                    }
-                            }
+                                         else{
+                                        %>
+                                        $('#review-form').hide();
 
-                            if (!foundCookie || userName==null) {
+                            <%
+                                          }
+
+                                            Product resultBean2 = (Product) request.getAttribute("product");
+                                            System.out.println(request.getAttribute("productID"));
+
+                                            boolean bool2 = reviewDAO.hasBought(uDAO.getUser(username),  resultBean );
+                                            if(bool2){
+                                                %>
+                                                $('#error-review-buy').hide();
+                                        <%
+                                                    }
+                                            else{
+                                                 %>
+                                                $('#review-form').hide();
+
+                                    <%
+                                            }
+
+                                 } else {
+                                    uDAO.setUserSessionID(u, null);
+                                    %>
+
+                                        $('#review-form').hide();
+                                        $('#error-review-buy').hide();
+                                        $('#welcome-menu').hide();
+                                        <% }
+                                    }
+
+                                    else{
+                            %>
+            $('#review-form').hide();
+            $('#error-review-buy').hide();
+            $('#welcome-menu').hide();
+            <%
+            }
             %>
 
+
             updateCart();
-            Number.prototype.formatMoney = function(c, d, t){
+            Number.prototype.formatMoney = function (c, d, t) {
                 var n = this,
                         c = isNaN(c = Math.abs(c)) ? 2 : c,
                         d = d == undefined ? "." : d,
@@ -55,33 +127,6 @@
                         j = (j = i.length) > 3 ? j % 3 : 0;
                 return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
             };
-
-            $('#review-form').hide();
-            $('#error-review-buy').hide();
-            $('#welcome-menu').hide();
-            <%
-                } else {
-            %>
-            $('#login-menu').hide();
-            $('#error-review-login').hide();
-            <%
-                    Product resultBean = (Product) request.getAttribute("product");
-                    System.out.println(request.getAttribute("productID"));
-
-                    boolean bool = reviewDAO.hasBought(userDAO.getUser(userName),  resultBean );
-                    if(bool){
-                        %>
-            $('#error-review-buy').hide();
-                    <%
-                    }
-                    else{
-                    %>
-            $('#review-form').hide();
-
-            <%
-                    }
-                }
-            %>
 
             $("#btnminus").click(function () {
                 var a = +$("#quantity").val();
@@ -115,24 +160,24 @@
                     })
             ;
 
-            function updateCart(data){
-                var i =0;
-                if(data!=null) {
+            function updateCart(data) {
+                var i = 0;
+                if (data != null) {
 //                    while (i < data.length()) {
 //                    alert(data);
                     $("#cart-button").attr("data-badge", data.num);
-                    $("#total").html('PHP'+(data.totalsum).formatMoney(2));
+                    $("#total").html('PHP' + (data.totalsum).formatMoney(2));
                     $("#recent-cart").show();
                     $("#empty-cart").hide();
 
                     $("#cart-name").text(data.pName);
-                    $("#cart-subtotal").text('PHP'+(data.price).formatMoney(2));
-                    $("#cart-total").text('PHP'+(data.totalsum).formatMoney(2));
+                    $("#cart-subtotal").text('PHP' + (data.price).formatMoney(2));
+                    $("#cart-total").text('PHP' + (data.totalsum).formatMoney(2));
 
-                    $("#cart-capacity").html(data.num+" Item/s");
+                    $("#cart-capacity").html(data.num + " Item/s");
 //                    }
                 }
-                else{
+                else {
                     <%
                 if(session.getAttribute("item") != null){
                     int capacity =0;
@@ -210,7 +255,7 @@
                         $('#reviewtext').val("");
                         $('.editable.rating').rating('set rating', 0);
 //                        var temp = jQuery();
-                        $('#actualcomments').prepend('<div class="comment"> <div class="content"> <a class="author"><%=StringEscapeUtils.escapeHtml4(userName)%></a> <div class="metadata"> <div class="ui star rating"></div> </div><div class="text"></div> </div> </div>');
+                        $('#actualcomments').prepend('<div class="comment"> <div class="content"> <a class="author"><%=StringEscapeUtils.escapeHtml4(username)%></a> <div class="metadata"> <div class="ui star rating"></div> </div><div class="text"></div> </div> </div>');
                         $('#actualcomments').find('.text:first').text(review);
                     }
                 });
@@ -457,7 +502,7 @@
     </div>
 </div>
 <%
-    Product p =(Product) request.getAttribute("product");
+    Product p = (Product) request.getAttribute("product");
     int i = reviewDAO.getAverageRating(p).intValue();
 %>
 <div class="ui container segment">
@@ -520,7 +565,8 @@
                 </div>
                 <div class="ui form" method="post" id="review-form">
                     <div class="field">
-                        <label><%=userName%></label>
+                        <label><%=username%>
+                        </label>
                         <div class="ui editable huge star rating" style="margin-bottom: 10px;"></div>
                         <textarea rows="2" id="reviewtext" placeholder="Enter review here.."></textarea>
                     </div>
