@@ -50,7 +50,7 @@ public class AddProductServlet extends HttpServlet {
 		ProductDAO dao = new ProductDAO();
 		dao.addProduct(new Product(name, description, Double.valueOf(price), type, 1));
 		
-		Logger.write(((User)request.getSession().getAttribute("user")).getId() + "", request.getRemoteAddr(), "added a product");
+		//Logger.write(((User)request.getSession().getAttribute("user")).getId() + "", request.getRemoteAddr(), "added a product");
 		request.getRequestDispatcher("/product_manager").forward(request, response);
 	}
 

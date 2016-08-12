@@ -52,7 +52,7 @@ public class AddManagerServlet extends HttpServlet {
 		
 		UserDAO userDAO = new UserDAO();
 		userDAO.addUser(new User("", "", "", username, "", type, 1));
-		Logger.write(((User)request.getSession().getAttribute("user")).getId() + "", request.getRemoteAddr(), "added " + username + " as manager");
+		//Logger.write(((User)request.getSession().getAttribute("user")).getId() + "", request.getRemoteAddr(), "added " + username + " as manager");
 		request.getRequestDispatcher("/admin").forward(request, response);
 	}
 

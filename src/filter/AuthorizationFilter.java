@@ -48,14 +48,22 @@ public class AuthorizationFilter implements Filter {
 		String uri = httpRequest.getRequestURI();
 		System.out.println("USERNAME: " + username);
 		System.out.println("URI: " + uri);
-		if ( uri.indexOf("/assets") > 0 || uri.indexOf("/semantic") > 0 || uri.indexOf("/jquery") > 0 || uri.indexOf("/style") > 0 ){
+		
+		if (uri.indexOf("SECURDE_Project") > 0){
 	        chain.doFilter(request, response);
-		} else if(username == null || authorizationDAO.isAuthorized(username, uri)) {
-			chain.doFilter(request, response);
-		} else {
-			HttpServletResponse httpResponse = (HttpServletResponse) response;
-			httpRequest.getRequestDispatcher("/index").forward(httpRequest, httpResponse);
-		}
+		} else if(username == null ) {
+			uri = "/" + uri.split("/")[uri.split("/").length-1];
+			if(authorizationDAO.isAuthorized(username, uri)) {
+				System.out.println("Authorized");
+				chain.doFilter(request, response);
+			} else {
+				System.out.println("Unauthorized");
+				HttpServletResponse httpResponse = (HttpServletResponse) response;
+				httpRequest.getSession().setAttribute("user", null);
+				//request.getRequestDispatcher("/index").forward(request, response);
+				response.getWriter().append("You are not authorized to access this page!");
+			}
+		} 
 		
 	}
 

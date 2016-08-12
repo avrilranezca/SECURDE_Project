@@ -3,6 +3,7 @@ package servlets;
 import database.ProductDAO;
 import database.UserDAO;
 import log.Logger;
+import model.AccountTypeEnum.AccountType;
 import model.Product;
 import model.User;
 
@@ -52,7 +53,6 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		System.out.println("HELLLO");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String token = request.getParameter("token");
@@ -98,15 +98,21 @@ public class LoginServlet extends HttpServlet {
 //			response.addCookie(userName);
 			//Get the encoded URL string
 
-			ProductDAO dao2 = new ProductDAO();
-
-			ArrayList<Product> plist = dao2.getAllProducts();
-			request.setAttribute("products", plist);
-			request.setAttribute("filter", "All");
-			String encodedURL = response.encodeRedirectURL("index.jsp");
-			Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
-//			request.getRequestDispatcher(encodedURL).forward(request, response);
-			response.sendRedirect("/index");
+			if(user.getAccount_type().equals(AccountType.CUSTOMER.toString())) {
+				ProductDAO dao2 = new ProductDAO();
+				ArrayList<Product> plist = dao2.getAllProducts();
+				request.setAttribute("products", plist);
+				request.setAttribute("filter", "All");
+				String encodedURL = response.encodeRedirectURL("index.jsp");
+				Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
+				request.getRequestDispatcher(encodedURL).forward(request, response);
+			} else if(user.getAccount_type().equals(AccountType.ADMIN.toString())) {
+				request.getRequestDispatcher("/admin").forward(request, response);
+			} else if(user.getAccount_type().equals(AccountType.PRODUCT_MANAGER.toString())) {
+				request.getRequestDispatcher("/product_manager").forward(request, response);
+			} else if(user.getAccount_type().equals(AccountType.ACCOUNTING_MANAGER.toString())) {
+				request.getRequestDispatcher("/accounting_manager").forward(request, response);
+			}
 			return;
 		}else{
 
@@ -139,7 +145,6 @@ public class LoginServlet extends HttpServlet {
 			}
 
 			String encodedURL = response.encodeRedirectURL("login.jsp");
-//			response.sendRedirect(encodedURL);
 			request.getRequestDispatcher(encodedURL).forward(request,response);
 			return;
 		}

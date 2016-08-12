@@ -34,7 +34,8 @@ public class AddReviewServlet extends HttpServlet {
             reviewDAO.addReview(new Review(username, Integer.parseInt((String) request.getParameter("product")), request.getParameter("reviewtext"), new Date(), Integer.parseInt((String)request.getParameter("rate"))));
     	}else{
     		uDAO.setUserSessionID(u, null);
-    		response.sendRedirect("/index");
+    		String encodedURL = response.encodeRedirectURL("/index");
+			response.sendRedirect(encodedURL);
     	}
 
         
