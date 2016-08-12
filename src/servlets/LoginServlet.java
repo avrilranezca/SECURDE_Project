@@ -110,6 +110,7 @@ public class LoginServlet extends HttpServlet {
 //				response.sendRedirect(encodedURL);
 				Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
 				//request.getRequestDispatcher("/index").forward(request, response);
+				response.sendRedirect("/index");
 
 //				ServletContext sc = getServletContext();
 //				RequestDispatcher rd = sc.getRequestDispatcher("/IndexDisplayProductsServlet");
