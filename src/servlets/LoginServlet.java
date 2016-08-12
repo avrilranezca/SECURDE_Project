@@ -105,8 +105,8 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("filter", "All");
 			String encodedURL = response.encodeRedirectURL("index.jsp");
 			Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
-//			request.getRequestDispatcher(encodedURL).forward(request, response);
-			response.sendRedirect("/");
+			request.getRequestDispatcher(encodedURL).forward(request, response);
+			//response.sendRedirect("/");
 			return;
 		}else{
 

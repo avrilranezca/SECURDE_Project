@@ -37,5 +37,7 @@ public class AddReviewServlet extends HttpServlet {
     		response.sendRedirect("/index");
     	}
 
+        
     }
+
 }

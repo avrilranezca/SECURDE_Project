@@ -19,10 +19,11 @@
     <script type="text/javascript">
         $(document).ready(function () {
         	$("#search-form input[name=search]").val(null);
+            
             <%
-
                 ReviewDAO reviewDAO = new ReviewDAO();
-                String userName=null;
+            %>
+            <%--    String userName=null;
 
                 if(session.getAttribute("user") != null)
 	                userName = (String) session.getAttribute("user");
@@ -48,7 +49,7 @@
             <%
                 }
             %>
-
+ --%>
             updateCart();
 
             $('#logout').click(function(){
@@ -223,28 +224,34 @@
     </script>
 </head>
 <body>
-<div id="login-menu" class="ui top attached menu">
-    <div class="right menu">
-        <div class="ui right aligned item top-nav">
-            <a href="<%=response.encodeURL("login.jsp")%>" id="login" class="item top-nav-item">login</a>
-            <a href="<%=response.encodeURL("sign-up.jsp")%>" class="item top-nav-item">sign up</a>
-        </div>
-    </div>
-</div>
-<div id="welcome-menu" class="ui container">
-    <div class="ui right aligned basic segment">
-        <div class="ui grid middle aligned">
-            <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome  <c:out value="${user}"></c:out>!</div>
-            </div>
-            <div class="two wide column">
-                <div class="ui tiny right aligned basic button" id="logout">Logout</div>
-
-                <form id="logout-form" action="LogoutServlet" method="post"></form>
-            </div>
-        </div>
-    </div>
-</div>
+<c:choose>
+	<c:when test="${sessionScope.user == null }">
+		<div id="login-menu" class="ui top attached menu">
+		    <div class="right menu">
+		        <div class="ui right aligned item top-nav">
+		            <a href="<%=response.encodeURL("login.jsp")%>" id="login" class="item top-nav-item">login</a>
+		            <a href="<%=response.encodeURL("sign-up.jsp")%>" class="item top-nav-item">sign up</a>
+		        </div>
+		    </div>
+		</div>
+	</c:when>
+	<c:otherwise>
+		<div id="welcome-menu" class="ui container">
+		    <div class="ui right aligned basic segment">
+		        <div class="ui grid middle aligned">
+		            <div class="fourteen wide column">
+		                <div class="ui sub header"> Welcome  <c:out value="${user}"></c:out>!</div>
+		            </div>
+		            <div class="two wide column">
+		                <div class="ui tiny right aligned basic button" id="logout">Logout</div>
+		
+		                <form id="logout-form" action="LogoutServlet" method="post"></form>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</c:otherwise>
+</c:choose>
 <div id="menubar">
     <div class="ui  attached container">
         <div class=" ui basic inverted segment">

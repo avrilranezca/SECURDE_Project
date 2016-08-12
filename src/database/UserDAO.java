@@ -236,7 +236,7 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		
-		if("".equals(session)) {
+		if("".equals(session) || "null".equals(session)) {
 			session = "null";
 		}
 		
@@ -369,7 +369,7 @@ public class UserDAO {
 	
 	public int getLogInAttempts(int id) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT log_in_atttempts FROM user WHERE id = ?;");
+			PreparedStatement ps = conn.prepareStatement("SELECT log_in_attempts FROM user WHERE id = ?;");
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
