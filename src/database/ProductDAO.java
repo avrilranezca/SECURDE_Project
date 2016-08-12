@@ -18,8 +18,11 @@ public class ProductDAO {
 	}
 	
 	public void addProduct(Product p) {
+		
+		PreparedStatement ps = null;
+		
 		try{
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO product (name, description, price, category_id, isActive) VALUES (?,?,?,(SELECT id FROM category WHERE name = ?),?);");
+			ps = conn.prepareStatement("INSERT INTO product (name, description, price, category_id, isActive) VALUES (?,?,?,(SELECT id FROM category WHERE name = ?),?);");
 			ps.setString(1, p.getName());
 			ps.setString(2, p.getDescription());
 			ps.setDouble(3, p.getPrice());
@@ -27,32 +30,62 @@ public class ProductDAO {
 			ps.setInt(5, 1);
 			
 			ps.execute();
-		}catch(SQLException e) {
+			
+			
+		} catch(SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public void deleteProduct(Product p) {
+		
+		PreparedStatement ps = null;
+		
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE product SET isActive = ? WHERE id = ?");
+			ps = conn.prepareStatement("UPDATE product SET isActive = ? WHERE id = ?");
 			ps.setInt(1, 0);
 			ps.setInt(2, p.getId());
 			
 			ps.executeUpdate();
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public void reactivateProduct(Product p) {
+		PreparedStatement ps = null;
+		
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE product SET isActive = ? WHERE id = ?");
+			ps = conn.prepareStatement("UPDATE product SET isActive = ? WHERE id = ?");
 			ps.setInt(1, 1);
 			ps.setInt(2, p.getId());
 			
 			ps.executeUpdate();
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -60,9 +93,10 @@ public class ProductDAO {
 		
 		CategoryDAO cdao = new CategoryDAO();
 		Category category = cdao.getCategory(p.getCategory());
+		PreparedStatement ps = null;
 		
 		try {
-			PreparedStatement ps = conn.prepareStatement("UPDATE product SET name = ?, description = ?, price = ?, category_id = ?, isActive = ? WHERE id = ?");
+			ps = conn.prepareStatement("UPDATE product SET name = ?, description = ?, price = ?, category_id = ?, isActive = ? WHERE id = ?");
 			ps.setString(1, p.getName());
 			ps.setString(2, p.getDescription());
 			ps.setDouble(3, p.getPrice());
@@ -71,21 +105,29 @@ public class ProductDAO {
 			ps.setInt(6, p.getId());
 			
 			ps.executeUpdate();
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public ArrayList<Product> getAllProducts() {
-		PreparedStatement ps;
-
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		ArrayList<Product> productList = new ArrayList<Product>();
 		
 		try {
 
 			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name as c_name FROM product INNER JOIN category ON product.category_id = category.id WHERE isActive = 1;");
 
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			
 			while(rs.next()) {
@@ -96,13 +138,27 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return productList;
 	}
 	
 	public ArrayList<Product> getAllProductsPagination(int offset, int noOfProducts) {
-		PreparedStatement ps;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		
@@ -112,7 +168,7 @@ public class ProductDAO {
 			ps.setInt(1, offset);
 			ps.setInt(2, noOfProducts);
 
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			
 			while(rs.next()) {
@@ -123,13 +179,27 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return productList;
 	}
 	
 	public ArrayList<Product> getProductOnCategory(Category c) {
-		PreparedStatement ps;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		try {
@@ -137,8 +207,7 @@ public class ProductDAO {
 
 			ps.setString(1, c.getName());
 			
-			ResultSet rs = ps.executeQuery();
-			
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), c.getName(), rs.getInt("isActive"));
@@ -148,14 +217,28 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return productList;
 	}
 	
 	public ArrayList<Product> getProductOnCategoryPagination(Category c, int offset, int noOfProducts) {
-		PreparedStatement ps;
-
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		ArrayList<Product> productList = new ArrayList<Product>();
 		try {
 			ps = conn.prepareStatement("SELECT * FROM product WHERE category_id = (SELECT id FROM category WHERE name = ?) LIMIT ? , ? ;");
@@ -164,7 +247,7 @@ public class ProductDAO {
 			ps.setInt(2, offset);
 			ps.setInt(3, noOfProducts);
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			
 			while(rs.next()) {
@@ -175,20 +258,34 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return productList;
 	}
 	
 	public Product getProductOnID(int id) {
-		PreparedStatement ps;
+		PreparedStatement ps = null;
+		ResultSet rs = null; 
 		
 		try {
 			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name AS c_name, isActive FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = ?;");
 
 			ps.setInt(1, id);
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			
 			while(rs.next()) {
@@ -199,6 +296,19 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return null;
@@ -208,21 +318,36 @@ public class ProductDAO {
 
 	public ArrayList<Product> searchProducts(String searchCriteria) {
 		ArrayList<Product> productList = new ArrayList<Product>();
-		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT P.id, P.name AS p_name, P.description, P.price, C.name AS c_name, P.isActive FROM product P INNER JOIN category C ON P.category_id = C.id WHERE (P.name LIKE CONCAT('%', ?, '%') OR C.name LIKE CONCAT('%', ?, '%') OR P.description LIKE CONCAT('%', ?, '%')) AND isActive = 1;");
+			ps = conn.prepareStatement("SELECT P.id, P.name AS p_name, P.description, P.price, C.name AS c_name, P.isActive FROM product P INNER JOIN category C ON P.category_id = C.id WHERE (P.name LIKE CONCAT('%', ?, '%') OR C.name LIKE CONCAT('%', ?, '%') OR P.description LIKE CONCAT('%', ?, '%')) AND isActive = 1;");
 			ps.setString(1, searchCriteria);
 			ps.setString(2, searchCriteria);
 			ps.setString(3, searchCriteria);
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				productList.add(new Product(rs.getInt("id"), rs.getString("p_name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive")));
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return productList;
@@ -230,37 +355,52 @@ public class ProductDAO {
 	
 	public ArrayList<Product> searchProductsPagination(String searchCriteria, int offset, int noOfProducts) {
 		ArrayList<Product> productList = new ArrayList<Product>();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT P.id, P.name AS p_name, P.description, P.price, C.name AS c_name, P.isActive FROM product P INNER JOIN category C ON P.category_id = C.id WHERE (P.name LIKE CONCAT('%', ?, '%') OR C.name LIKE CONCAT('%', ?, '%') OR P.description LIKE CONCAT('%', ?, '%')) AND isActive = 1 LIMIT ?, ?;");
+			ps = conn.prepareStatement("SELECT P.id, P.name AS p_name, P.description, P.price, C.name AS c_name, P.isActive FROM product P INNER JOIN category C ON P.category_id = C.id WHERE (P.name LIKE CONCAT('%', ?, '%') OR C.name LIKE CONCAT('%', ?, '%') OR P.description LIKE CONCAT('%', ?, '%')) AND isActive = 1 LIMIT ?, ?;");
 			ps.setString(1, searchCriteria);
 			ps.setString(2, searchCriteria);
 			ps.setString(3, searchCriteria);
 			ps.setInt(4, offset);
 			ps.setInt(5, noOfProducts);
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				productList.add(new Product(rs.getInt("id"), rs.getString("p_name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive")));
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return productList;
 	}
 	
-	
-	
-	
-	
 	public int getNoOfProducts() {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM product;");
+			ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM product;");
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				return rs.getInt("count");
@@ -268,6 +408,19 @@ public class ProductDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return 0;

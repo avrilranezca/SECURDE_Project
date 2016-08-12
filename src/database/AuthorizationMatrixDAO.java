@@ -16,6 +16,8 @@ public class AuthorizationMatrixDAO {
 	public boolean isAuthorized(String user_name, String url) {
 		
 		String account_type = "";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		UserDAO udao = new UserDAO();
 		account_type = udao.getAccountType(udao.getUser(user_name).getId());
@@ -29,11 +31,11 @@ public class AuthorizationMatrixDAO {
 		
 		try {
 			
-			PreparedStatement ps = conn.prepareStatement("SELECT page_url, customer, admin, accounting_manager, product_manager FROM authorization_matrix WHERE page_url LIKE ?;");
+			ps = conn.prepareStatement("SELECT page_url, customer, admin, accounting_manager, product_manager FROM authorization_matrix WHERE page_url LIKE ?;");
 			//ps.setString(1, account_type);
 			ps.setString(1, url);
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			int index = 1;
 			if(account_type.equals("customer")) 
@@ -52,6 +54,19 @@ public class AuthorizationMatrixDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		

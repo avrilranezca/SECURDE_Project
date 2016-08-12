@@ -19,8 +19,11 @@ public class ReviewDAO {
 	}
 	
 	public void addReview(Review r) {
+		
+		PreparedStatement ps = null;
+		
 		try{
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO review (user_id, user_name, product_id, review, date, rating) VALUES (?,?,?,?,?,?);");
+			ps = conn.prepareStatement("INSERT INTO review (user_id, user_name, product_id, review, date, rating) VALUES (?,?,?,?,?,?);");
 			
 			UserDAO udao = new UserDAO();
 			User u = udao.getUser(r.getUser_name());
@@ -33,21 +36,29 @@ public class ReviewDAO {
 			ps.setInt(6, r.getRating());
 			
 			ps.execute();
-		}catch(SQLException e) {
+			
+		} catch(SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public ArrayList<Review> getReviewByProduct(Product p) {
-		PreparedStatement ps;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 
 		ArrayList<Review> reviewList = new ArrayList<Review>();
 		try {
 			ps = conn.prepareStatement("SELECT R.id, U.user_name, R.product_id, R.review, R.date, R.rating FROM review R INNER JOIN user U ON R.user_id = U.id WHERE product_id = ?;");
 			ps.setInt(1, p.getId());
 
-			ResultSet rs = ps.executeQuery();
-			
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				Review r = new Review(rs.getInt("id"), rs.getString("user_name"), rs.getInt("product_id"), rs.getString("review"), rs.getDate("date"), rs.getInt("rating"));
@@ -57,6 +68,19 @@ public class ReviewDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return reviewList;
@@ -67,6 +91,9 @@ public class ReviewDAO {
 		
 		//Double value = null;
 		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		int numOfReviews = getNumberOfReviews(p);
 		System.out.println("rev: "+numOfReviews);
 		if(numOfReviews == 0) {
@@ -74,10 +101,10 @@ public class ReviewDAO {
 		}
 		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT AVG(rating) AS average FROM review WHERE product_id = ?;");
+			ps = conn.prepareStatement("SELECT AVG(rating) AS average FROM review WHERE product_id = ?;");
 			ps.setInt(1, p.getId());
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				return rs.getDouble("average");
@@ -86,45 +113,99 @@ public class ReviewDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return 0.0;
 	}
 	
 	public int getNumberOfReviews(Product p) {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS 'count' FROM review WHERE product_id = ?;");
+			ps = conn.prepareStatement("SELECT COUNT(*) AS 'count' FROM review WHERE product_id = ?;");
 			ps.setInt(1, p.getId());
 
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 
 			while(rs.next()) {
 				return rs.getInt("count");
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}
 	
-	public boolean hasBought(User u, Product p) {
+	public boolean hasBought(User u, Product p){
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT T.id, user_id, user_name FROM transaction T INNER JOIN transaction_entry TE ON T.id = TE.transaction_id INNER JOIN user U on U.id = T.user_id WHERE U.user_name = ? AND TE.product_id = ?;");
+			ps = conn.prepareStatement("SELECT T.id, user_id, user_name FROM transaction T INNER JOIN transaction_entry TE ON T.id = TE.transaction_id INNER JOIN user U on U.id = T.user_id WHERE U.user_name = ? AND TE.product_id = ?;");
 			ps.setString(1, u.getUser_name());
 			ps.setInt(2, p.getId());
 			
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
-			if (!rs.isBeforeFirst() ) {    
+			
+			if (!rs.isBeforeFirst() ) {
+				ps.close();
+				rs.close();
 			    return false;
 			} 
 			else {
+				ps.close();
+				rs.close();
 				return true;
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return false;
 		
