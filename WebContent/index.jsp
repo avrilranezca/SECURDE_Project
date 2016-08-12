@@ -228,6 +228,8 @@
 <div id="login-menu" class="ui top attached menu">
     <div class="right menu">
         <div class="ui right aligned item top-nav">
+            <a href="<%=response.encodeURL("login.jsp")%>" id="login" class="item top-nav-item">login</a>
+            <a href="<%=response.encodeURL("sign-up.jsp")%>" class="item top-nav-item">sign up</a>
         </div>
     </div>
 </div>
