@@ -16,9 +16,9 @@
 <html>
 <head>
     <script src="resources/jquery-1.11.3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/semantic-ui/dist/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="resources/style.css">
-    <script src="semantic-ui/dist/semantic.js"></script>
+    <script src="resources/semantic-ui/dist/semantic.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -350,7 +350,7 @@
        </c:choose>
                 <div class="ui grid">
                     <div class="sixteen wide column categ-label-container">
-                        <img class="ui mini image middle aligned" src="assets/boots.png">
+                        <img class="ui mini image middle aligned" src="resources/assets/boots.png">
                     </div>
                     <div class="sixteen wide column categ-label-container"><span class="category-label">boots</span>
                     </div>
@@ -366,7 +366,7 @@
             </c:choose>
                     <div class="ui grid">
                         <div class="sixteen wide column categ-label-container">
-                            <img class="ui mini image middle aligned" src="assets/shoes.png">
+                            <img class="ui mini image middle aligned" src="resources/assets/shoes.png">
                         </div>
                         <div class="sixteen wide column categ-label-container"><span class="category-label">shoes</span>
                         </div>
@@ -382,7 +382,7 @@
          </c:choose>
                 	<div class="ui grid">
                          <div class="sixteen wide column categ-label-container">
-                              <img class="ui mini image middle aligned" src="assets/sandals.png">
+                              <img class="ui mini image middle aligned" src="resources/assets/sandals.png">
                           </div>
                           <div class="sixteen wide column categ-label-container">
                          		<span class="category-label">sandals</span>
@@ -399,7 +399,7 @@
           </c:choose>
           		<div class="ui grid">
           			<div class="sixteen wide column categ-label-container">
-          				<img class="ui mini image middle aligned" src="assets/slippers.png">
+          				<img class="ui mini image middle aligned" src="resources/assets/slippers.png">
           			</div>
           			<div class="sixteen wide column categ-label-container">
           				<span class="category-label">slippers</span>
@@ -441,7 +441,7 @@
 		            <div class="column">
 		                <div class="ui fluid card">
 		                    <div class="image">
-		                        <img src="assets/bababoots.jpg">
+		                        <img src="resources/assets/bababoots.jpg">
 		                    </div>
 		                    <div class="content">
 		                        <div class="ui grid">
