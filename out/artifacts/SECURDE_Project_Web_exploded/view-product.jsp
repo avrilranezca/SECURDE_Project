@@ -275,7 +275,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("index.jsp") %>">
+                            <a href="<%=response.encodeURL("/index") %>">
 
                                 <span>Talaria</span>
                                 <div class="sub header">

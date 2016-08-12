@@ -25,13 +25,10 @@
             %>
             <%--    String userName=null;
 
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
-
+                if(session.getAttribute("user") != null)
 	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                Cookie[] cookies = request.getCookies();
+                
+                /*Cookie[] cookies = request.getCookies();
 
                 if(cookies !=null){
                         for(int i = 0; i < cookies.length; i++) {
@@ -40,9 +37,9 @@
                                 foundCookie = true;
                             }
                         }
-                }
+                }*/
 
-                if (!foundCookie || userName==null) { System.out.println("BROOM");
+                if (userName==null) { System.out.println("BROOM");
             %>
                     $('#welcome-menu').hide();
             <%
@@ -75,7 +72,7 @@
 	            })
 	        ;
 
-            function updateCart(){
+            function updateCart(data){
                 <%
                 if(session.getAttribute("item") != null){
                     int capacity =0;
@@ -125,8 +122,10 @@
                     data: {"itemID": id},
                     type: "POST",
                     success: function(data){
+                        alert("here");
+                        alert(${sessionScope.item});
                         $(".add-cart:eq("+ind+")").attr("class", "big link green add to cart icon add-cart");
-                        updateCart();
+                        updateCart(data);
                     }
                 });
 
@@ -262,7 +261,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("index.jsp") %>">
+                            <a href="<%=response.encodeURL("/index") %>">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>

@@ -72,7 +72,7 @@
 	            })
 	        ;
 
-            function updateCart(){
+            function updateCart(data){
                 <%
                 if(session.getAttribute("item") != null){
                     int capacity =0;
@@ -123,7 +123,7 @@
                     type: "POST",
                     success: function(data){
                         $(".add-cart:eq("+ind+")").attr("class", "big link green add to cart icon add-cart");
-                        updateCart();
+                        updateCart(data);
                     }
                 });
 
@@ -259,7 +259,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("index.jsp") %>">
+                            <a href="<%=response.encodeURL("/index") %>">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>
