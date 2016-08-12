@@ -158,7 +158,7 @@ public class TestDriver {
 		//udao.updateShippingAddress(u, a);
 		System.out.println(udao.getShippingAddress(u.getId()));*/
 		System.out.println(udao.getAccountType(6));
-		System.out.println(adao.isAuthorized(6, "/index_admin.jsp"));
+		//System.out.println(adao.isAuthorized(6, "/index_admin.jsp"));
 		
 	}
 

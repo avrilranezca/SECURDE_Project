@@ -13,12 +13,12 @@ public class AuthorizationMatrixDAO {
 		conn = DatabaseConnection.getConnection();
 	}
 	
-	public boolean isAuthorized(int id, String url) {
+	public boolean isAuthorized(String user_name, String url) {
 		
 		String account_type = "";
 		
 		UserDAO udao = new UserDAO();
-		account_type = udao.getAccountType(id);
+		account_type = udao.getAccountType(udao.getUser(user_name).getId());
 		account_type = account_type.toLowerCase();
 		
 		System.out.println(account_type);
