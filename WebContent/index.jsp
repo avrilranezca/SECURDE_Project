@@ -23,7 +23,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
         	$("#search-form input[name=search]").val(null);
-            
+
             <%
                 ReviewDAO reviewDAO = new ReviewDAO();
 
@@ -258,7 +258,7 @@
 		            </div>
 		            <div class="two wide column">
 		                <div class="ui tiny right aligned basic button" id="logout">Logout</div>
-		
+
 		                <form id="logout-form" action="LogoutServlet" method="post"></form>
 		            </div>
 		        </div>
@@ -283,11 +283,11 @@
                     </div>
                 </div>
                 <div class="seven wide column center aligned">
-                	
+
                 	<form id="search-form" action="IndexDisplayProductsServlet" method="get">
 			            <input name="search" type="hidden">
 			        </form>
-			        
+
                     <div class="ui icon input search-bar">
                         <input id="searchQuery" name="query" placeholder="Search for products or categories" type="text" >
                         <i class="search link icon"></i>
@@ -415,7 +415,7 @@
 			<div class="ui hidden divider"></div>
 		    <div id="search-banner">
 		        <div class="ui basic segment">
-		
+
 		            <!--<div class="content">-->
 		                <div class="ui sub header">Search Results:</div>
 		                <em><c:out value="${searchQuery}"></c:out></em> / ${fn:length(products)} found
@@ -427,13 +427,13 @@
 	</c:choose>
 
 
-   
+
     <c:choose>
     	<c:when test="${products.size() > 0}">
     		<div class="ui four column grid">
     			<c:forEach var="item" items="${products}">
 		            <%
-		
+
 		                Product p =(Product) pageContext.getAttribute("item");
 		                System.out.println("reviewww"+p);
 		                int i = reviewDAO.getAverageRating(p).intValue();
@@ -458,20 +458,20 @@
 		                                    </span>
 		                                </div>
 		                                <br>
-		
+
 		                                <div class="ui tiny star rating"  data-rating="<%=i%>"></div>
 		                            </div>
 		                            <div class="four wide column middle aligned center aligned" >
-		
+
 		                                <form id="display-form" action="DisplaySpecificItemServlet" method="get">
 		                                    <input name="itemID" type="hidden">
 		                                </form>
-		
-		
+
+
 		                                <form id="addtocart-form" action="AddToCartServlet" method="post">
 		                                    <input name="itemID" type="hidden">
 		                                </form>
-		
+
 		                                <i id="cart-${item.id}" class="big link add to cart icon add-cart"></i>
 		                            </div>
 		                        </div>
@@ -485,7 +485,7 @@
    			<div class ="ui header center aligned">No Products</div>
    		</c:otherwise>
    	</c:choose>
-    
+
     <div class="container pagination-container ">
         <c:choose>
             <c:when test="${products.size() ne 0}">

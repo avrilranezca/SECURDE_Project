@@ -1,6 +1,8 @@
 <%@ page import="database.ProductDAO" %>
 <%@ page import="database.ReviewDAO" %>
+<%@ page import="database.UserDAO" %>
 <%@ page import="model.Product" %>
+<%@ page import="model.User" %>
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
@@ -39,39 +41,46 @@
            		    }
            		    return value.toString() === currentPassValue.toString();
            		  };
-            	
-            	
-                <%
 
+
+                <%
                 ReviewDAO reviewDAO = new ReviewDAO();
-                String userName=null;
 
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
+                String username=null;
+                        UserDAO uDAO = new UserDAO();
 
-	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                            Cookie[] cookies = request.getCookies();
+                if(session.getAttribute("user") != null)
+	                username = (String) session.getAttribute("user");
 
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
-                                        }
-                                    }
-                            }
 
-                            if (!foundCookie || userName==null) {
-            %>
-                $('#welcome-menu').hide();
-                <%
-                    } else {
-                %>
+                String sessionID = request.getSession().getId();
+
+
+                if(username!=null) {
+                        User u = uDAO.getUser(username);
+                        String uSessionID = uDAO.getUserSessionID(u);
+                        if(uSessionID.equals(sessionID)){
+                   %>
                 $('#login-menu').hide();
                 <%
+                    } else {
+                uDAO.setUserSessionID(u, null);
+             %>
+
+                $('#welcome-menu').hide();
+                <%
+                }
+                %>
+                <%
+
+                    }else{
+                        %>
+                $('#welcome-menu').hide();
+
+                <%
                     }
+
+
                 %>
 
                 updateCart();
