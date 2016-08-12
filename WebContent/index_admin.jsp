@@ -12,9 +12,27 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#add-manager").click((function () {
+//              $("#login-modal").modal('show');
+              $("#error-password").hide();
+              $("#password-modal")
+                      .modal({
+                          closable  : true,
+                          onDeny    : function(){
+                          },
+                          onApprove : function() {
 
+                          }
+                      })
+                      .modal('show')
+              ;
+          }));
 
         });
+        
+        function submitForm(form) {
+        	form.submit();
+        }
         
         function changeFilter(form, filter) {
         	document.getElementById("filter").value = filter;
@@ -173,13 +191,39 @@
                     <h4 class="ui hidden divider"></h4>
                     <div class="ui basic right aligned segment">
 
-                        <button class="ui  large orange submit button" type="submit">Add Manager</button>
+                        <button id="add-manager" class="ui large orange submit button" type="submit">Add Manager</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<div id="password-modal" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">Please enter your password to continue</div>
 
+    <div class="content">
+        <div class="ui basic center aligned segment">
+
+            <form class="ui form" id="validate-password" method="post" action="UserPasswordValidationServlet">
+                <div id="error-password" class="ui negative message">
+                    <p>
+                        Please fill up all fields!
+                    </p>
+                </div>
+                <div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column left aligned"><label>Password:</label></div>
+                        <div class="twelve wide column"><input id="password" name="password" type="password"></div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui positive right button" onClick="submitForm(document.getElementById('validate-password'))">Confirm</div>
+    </div>
+</div>
 </body>
 </html>

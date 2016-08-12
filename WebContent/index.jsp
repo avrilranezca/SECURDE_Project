@@ -24,13 +24,10 @@
                 ReviewDAO reviewDAO = new ReviewDAO();
                 String userName=null;
 
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
-
+                if(session.getAttribute("user") != null)
 	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                Cookie[] cookies = request.getCookies();
+                
+                /*Cookie[] cookies = request.getCookies();
 
                 if(cookies !=null){
                         for(int i = 0; i < cookies.length; i++) {
@@ -39,9 +36,9 @@
                                 foundCookie = true;
                             }
                         }
-                }
+                }*/
 
-                if (!foundCookie || userName==null) { System.out.println("BROOM");
+                if (userName==null) { System.out.println("BROOM");
             %>
                     $('#welcome-menu').hide();
             <%
