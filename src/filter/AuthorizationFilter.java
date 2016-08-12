@@ -48,28 +48,32 @@ public class AuthorizationFilter implements Filter {
 		if (uri.indexOf("resources") > 0){
 	        chain.doFilter(request, response);
 		} else if(username != null ) {
-			uri = "/" + uri.split("/")[uri.split("/").length-1];
-			System.out.println(uri);
-			if(uri.replace("/SECURDE_Project", "").isEmpty()) {
-	        	UserDAO dao = new UserDAO();
-	        	String accountType = dao.getUser(username).getAccount_type();
-	        	if(accountType.equals(AccountType.ADMIN.toString())) {
-					request.getRequestDispatcher("/admin").forward(request, response);
-				} else if(accountType.equals(AccountType.PRODUCT_MANAGER.toString())) {
-					request.getRequestDispatcher("/product_manager").forward(request, response);
-				} else if(accountType.equals(AccountType.ACCOUNTING_MANAGER.toString())) {
-					request.getRequestDispatcher("/accounting_manager").forward(request, response);
+			try {
+				uri = "/" + uri.split("/")[uri.split("/").length-1];
+				System.out.println(uri);
+				if(uri.replace("/SECURDE_Project", "").isEmpty()) {
+		        	UserDAO dao = new UserDAO();
+		        	String accountType = dao.getUser(username).getAccount_type();
+		        	if(accountType.equals(AccountType.ADMIN.toString())) {
+						request.getRequestDispatcher("/admin").forward(request, response);
+					} else if(accountType.equals(AccountType.PRODUCT_MANAGER.toString())) {
+						request.getRequestDispatcher("/product_manager").forward(request, response);
+					} else if(accountType.equals(AccountType.ACCOUNTING_MANAGER.toString())) {
+						request.getRequestDispatcher("/accounting_manager").forward(request, response);
+					}
+		        	chain.doFilter(request, response);
+		        } else if(authorizationDAO.isAuthorized(username, uri)) {
+					System.out.println("Authorized");
+					chain.doFilter(request, response);
+				} else {
+					System.out.println("Unauthorized");
+					HttpServletResponse httpResponse = (HttpServletResponse) response;
+					httpRequest.getSession().setAttribute("user", null);
+					//request.getRequestDispatcher("/index").forward(request, response);
+					response.getWriter().append("You are not authorized to access this page!");
 				}
-	        	chain.doFilter(request, response);
-	        } else if(authorizationDAO.isAuthorized(username, uri)) {
-				System.out.println("Authorized");
-				chain.doFilter(request, response);
-			} else {
-				System.out.println("Unauthorized");
-				HttpServletResponse httpResponse = (HttpServletResponse) response;
-				httpRequest.getSession().setAttribute("user", null);
-				//request.getRequestDispatcher("/index").forward(request, response);
-				response.getWriter().append("You are not authorized to access this page!");
+			} catch(Exception e) {
+				response.getWriter().append("I'm sorry. I died. Maybe it's 404.");
 			}
 		}
 		else{

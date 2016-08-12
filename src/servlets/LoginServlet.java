@@ -102,16 +102,16 @@ public class LoginServlet extends HttpServlet {
 			//Get the encoded URL string
 
 			if(user.getAccount_type().equals(AccountType.CUSTOMER.toString())) {
-				ProductDAO dao2 = new ProductDAO();
+				/*ProductDAO dao2 = new ProductDAO();
 				ArrayList<Product> plist = dao2.getAllProducts();
 				request.setAttribute("products", plist);
 				request.setAttribute("filter", "All");
-				String encodedURL = response.encodeRedirectURL("");
+				String encodedURL = response.encodeRedirectURL("");*/
 //				response.sendRedirect(encodedURL);
-				Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
+				//Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
 				//request.getRequestDispatcher("/index").forward(request, response);
-				response.sendRedirect("index.jsp");
-
+				response.sendRedirect("index");
+//				request.getRequestDispatcher("/index").forward(request, response);
 //				ServletContext sc = getServletContext();
 //				RequestDispatcher rd = sc.getRequestDispatcher("/IndexDisplayProductsServlet");
 //				rd.forward(request, response);

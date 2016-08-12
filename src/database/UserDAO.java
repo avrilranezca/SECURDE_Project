@@ -72,7 +72,7 @@ public class UserDAO {
 							rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
 					return user;
 			}
-			
+			ps.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
