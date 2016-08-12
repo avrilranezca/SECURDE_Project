@@ -236,7 +236,7 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		
-		if("".equals(session)) {
+		if("".equals(session) || "null".equals(session)) {
 			session = "null";
 		}
 		
