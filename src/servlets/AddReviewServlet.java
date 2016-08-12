@@ -30,6 +30,8 @@ public class AddReviewServlet extends HttpServlet {
 
         ReviewDAO reviewDAO = new ReviewDAO();
         reviewDAO.addReview(new Review(username, Integer.parseInt((String) request.getParameter("product")), request.getParameter("reviewtext"), new Date(), Integer.parseInt((String)request.getParameter("rate"))));
+    
+        
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
