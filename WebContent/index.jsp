@@ -26,43 +26,42 @@
 
             <%
                 ReviewDAO reviewDAO = new ReviewDAO();
-%>
-                <%--String username=null;--%>
-                        <%--UserDAO uDAO = new UserDAO();--%>
+                String username=null;
+                        UserDAO uDAO = new UserDAO();
 
-                <%--if(session.getAttribute("user") != null)--%>
-	                <%--username = (String) session.getAttribute("user");--%>
-
-
-                <%--String sessionID = request.getSession().getId();--%>
+                if(session.getAttribute("user") != null)
+	                username = (String) session.getAttribute("user");
 
 
-                <%--if(username!=null) {--%>
-                        <%--User u = uDAO.getUser(username);--%>
-                        <%--String uSessionID = uDAO.getUserSessionID(u);--%>
-                        <%--if(uSessionID.equals(sessionID)){--%>
-                   <%--%>--%>
-                        <%--$('#login-menu').hide();--%>
-                    <%--<%--%>
-                        <%--} else {--%>
-                    <%--uDAO.setUserSessionID(u, null);--%>
-                 <%--%>--%>
-
-                    <%--$('#welcome-menu').hide();--%>
-                    <%--<%--%>
-                    <%--}--%>
-                    <%--%>--%>
-            <%--<%--%>
-
-                <%--}else{--%>
-                    <%--%>--%>
-            <%--$('#welcome-menu').hide();--%>
-
-            <%--<%--%>
-                <%--}--%>
+                String sessionID = request.getSession().getId();
 
 
-            <%--%>--%>
+                if(username!=null) {
+                        User u = uDAO.getUser(username);
+                        String uSessionID = uDAO.getUserSessionID(u);
+                        if(uSessionID.equals(sessionID)){
+                   %>
+                        $('#login-menu').hide();
+                    <%
+                        } else {
+                    uDAO.setUserSessionID(u, null);
+                 %>
+
+                    $('#welcome-menu').hide();
+                    <%
+                    }
+                    %>
+            <%
+
+                }else{
+                    %>
+            $('#welcome-menu').hide();
+
+            <%
+                }
+
+
+            %>
 
             updateCart();
 

@@ -1,12 +1,11 @@
 package servlets;
 
+import database.UserDAO;
+import model.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-
-import model.User;
-import database.UserDAO;
-
 import java.io.IOException;
 
 /**
@@ -33,7 +32,7 @@ public class LogoutServlet extends HttpServlet {
         String username = (String) session.getAttribute("user");
         UserDAO uDAO = new UserDAO();
         User u = uDAO.getUser(username);
-        uDAO.setUserSessionID(u, session.getId());
+        uDAO.setUserSessionID(u, null);
         
         System.out.println("User="+username);
         if(session != null)

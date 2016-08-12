@@ -108,7 +108,7 @@ public class LoginServlet extends HttpServlet {
 				Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
 //				request.getRequestDispatcher(encodedURL).forward(request, response);
 			} else if(user.getAccount_type().equals(AccountType.ADMIN.toString())) {
-				response.sendRedirect("/admin");
+//				response.sendRedirect("/admin");
 				request.getRequestDispatcher("/admin").forward(request, response);
 			} else if(user.getAccount_type().equals(AccountType.PRODUCT_MANAGER.toString())) {
 				request.getRequestDispatcher("/product_manager").forward(request, response);
