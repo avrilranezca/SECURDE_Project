@@ -1,18 +1,15 @@
 package database;
 
-import java.sql.Connection;
-//import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import model.AccountTypeEnum;
+import model.AccountTypeEnum.AccountType;
+import model.Address;
+import model.User;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.AccountTypeEnum;
-import model.Address;
-import model.User;
-import model.AccountTypeEnum.AccountType;
+//import java.sql.Date;
 
 
 public class UserDAO {
