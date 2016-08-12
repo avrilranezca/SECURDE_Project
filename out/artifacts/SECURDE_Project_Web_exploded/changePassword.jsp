@@ -5,10 +5,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <script src="jquery-1.11.3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="semantic-ui/dist/semantic.js"></script>
+    <script src="resources/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/semantic-ui/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/style.css">
+    <script src="resources/semantic-ui/dist/semantic.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {

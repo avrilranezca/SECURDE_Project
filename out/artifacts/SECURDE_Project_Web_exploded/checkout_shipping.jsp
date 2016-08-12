@@ -9,10 +9,10 @@
 <! DOCTYPE html>
 <html>
 <head>
-    <script src="jquery-1.11.3.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="semantic-ui/dist/semantic.js"></script>
+    <script src="resources/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/semantic-ui/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/style.css">
+    <script src="resources/semantic-ui/dist/semantic.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -164,7 +164,7 @@
 	              }
 	            });
 	    	});
-    </script>
+    </script> fc
 </head>
 <body>
 <div id="login-menu" class="ui top attached menu">

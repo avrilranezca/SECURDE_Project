@@ -12,11 +12,11 @@
 <! DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="semantic-ui/dist/semantic.min.css">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="resources/semantic-ui/dist/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="resources/style.css">
         
-        <script src="jquery-1.11.3.min.js"></script>
-        <script src="semantic-ui/dist/semantic.js"></script>
+        <script src="resources/jquery-1.11.3.min.js"></script>
+        <script src="resources/semantic-ui/dist/semantic.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
             	

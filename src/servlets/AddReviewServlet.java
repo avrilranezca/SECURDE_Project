@@ -5,13 +5,13 @@ import database.UserDAO;
 import model.Review;
 import model.User;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.Date;
 
@@ -33,9 +33,13 @@ public class AddReviewServlet extends HttpServlet {
             ReviewDAO reviewDAO = new ReviewDAO();
             reviewDAO.addReview(new Review(username, Integer.parseInt((String) request.getParameter("product")), request.getParameter("reviewtext"), new Date(), Integer.parseInt((String)request.getParameter("rate"))));
     	}else{
-    		uDAO.setUserSessionID(u, null);
-    		String encodedURL = response.encodeRedirectURL("/index");
-			response.sendRedirect(encodedURL);
+//    		uDAO.setUserSessionID(u, null);
+//    		String encodedURL = response.encodeRedirectURL("/index");
+//			response.sendRedirect(encodedURL);
+
+			ServletContext sc = getServletContext();
+			RequestDispatcher rd = sc.getRequestDispatcher("/LogoutServlet");
+			rd.forward(request, response);
     	}
 
         
