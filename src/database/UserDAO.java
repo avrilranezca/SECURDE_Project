@@ -323,9 +323,9 @@ public class UserDAO {
 	public String getUserSessionID(User u) {
 		
 		String session = "";
+
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
 		try {
 			ps = conn.prepareStatement("SELECT session_id FROM user WHERE id = ?;");
 			ps.setInt(1, u.getId());

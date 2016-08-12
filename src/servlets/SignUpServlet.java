@@ -1,15 +1,20 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import log.Logger;
 import model.Address;
 import model.User;
+import model.AccountTypeEnum.AccountType;
 import database.AddressDAO;
 import database.UserDAO;
 
@@ -63,12 +68,14 @@ public class SignUpServlet extends HttpServlet {
 		String sCountry = request.getParameter("sCountry");
 		int isActive = 1;
 		
+		//add user to db
 		User u = new User(first_name, last_name, middle_initial, user_name, email, account_type, isActive);
 		u.setPassword(password);
 		
 		UserDAO uDao = new UserDAO();
 		uDao.addUser(u);
 		
+		//add address to db
 		u = uDao.getUser(user_name, password);
 		Address bAddress = new Address(bHouseNo, bStreet, bSubdivision, bCity, bPostalCode, bCountry);
 		Address sAddress = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
@@ -80,8 +87,8 @@ public class SignUpServlet extends HttpServlet {
 		uDao.updateBillingAddress(u, bAddress);
 		uDao.updateShippingAddress(u, bAddress);
 		
-		String encodedURL = response.encodeRedirectURL("index.jsp");
-		request.getRequestDispatcher(encodedURL).forward(request,response);
+		String encodedURL = response.encodeRedirectURL("index");
+		response.sendRedirect(encodedURL);
 		return;
 	}
 

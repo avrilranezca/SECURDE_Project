@@ -19,35 +19,6 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-        	
-            <%
-	            ReviewDAO reviewDAO = new ReviewDAO();
-	            String username=null;
-	            UserDAO uDAO = new UserDAO();
-	
-	            if(session.getAttribute("user") != null)
-	                username = (String) session.getAttribute("user");
-	
-	
-	            String sessionID = request.getSession().getId();
-	
-	
-	            if(username!=null) {
-	                    User u = uDAO.getUser(username);
-	                    String uSessionID = uDAO.getUserSessionID(u);
-	                    if(uSessionID.equals(sessionID)){
-	               %>
-	                    $('#login-menu').hide();
-	                <%
-	                    } else {
-	                		uDAO.setUserSessionID(u, null);
-	             	%>
-	                		$('#welcome-menu').hide();
-	           		<%}%>
-	        <%}else{%>
-	        		$('#welcome-menu').hide();
-	
-	        <%}%>
 
             updateCart();
 
@@ -58,7 +29,6 @@
                         on: 'click'
                     })
             ;
-
      
         
             function updateCart(){
@@ -162,17 +132,10 @@
 	              }
 	            });
 	    	});
-    </script> fc
+    </script> 
 </head>
 <body>
-<div id="login-menu" class="ui top attached menu">
-    <div class="right menu">
-        <div class="ui right aligned item top-nav">
-            <a href="<%=response.encodeURL("login.jsp") %>" id="login" class="item top-nav-item">login</a>
-            <a href="<%=response.encodeURL("sign-up.jsp") %>" class="item top-nav-item">sign up</a>
-        </div>
-    </div>
-</div>
+
 <div id="welcome-menu" class="ui container">
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
