@@ -94,11 +94,12 @@ public class AddToCartServlet extends HttpServlet {
 
         System.out.println("session: "+arr.toString());
             request.getSession().setAttribute("item", arr.toString());
-            //trying out passing json from server to jsp
+            request.getSession().setAttribute("damnn", "damn");
+        //trying out passing json from server to jsp
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
-            out.println(arr);
+            out.println(arr.toString());
   //          out.flush();
 //            Cookie cookie;
 //            if(item==null) cookie= new Cookie("item", id );

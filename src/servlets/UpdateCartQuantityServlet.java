@@ -42,7 +42,7 @@ public class UpdateCartQuantityServlet extends HttpServlet {
                 boolean exist=false;
                 for (int i=0; i<arr.length(); i++){
                     JSONObject obj = arr.getJSONObject(i);
-                    total+=obj.getInt("quantity");
+                    total+=(obj.getInt("quantity")*(new ProductDAO()).getProductOnID(Integer.parseInt(obj.getString("id"))).getPrice());
 
                 }
 
@@ -54,7 +54,7 @@ public class UpdateCartQuantityServlet extends HttpServlet {
 
                 PrintWriter printWriter  = response.getWriter();
                 printWriter.println(member.toString());
-                printWriter.close();
+                printWriter.flush();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

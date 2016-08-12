@@ -131,10 +131,38 @@
                     data: {"index": index, "value": a },
                     type: "POST",
                     success: function(data){
+                        if(data.subtotal==-1){
+                            $("tr:eq(" + (index+1) + ")").remove();
 
+                        }
+                        else {
+                            $(".txtquantity:eq(" + index + ")").val(a);
+                            $(".row-subtotal:eq(" + index + ")").html("PHP" + (data.subtotal).formatMoney(2));
+                            $("#table-total").html("Total: PHP" + (data.totalsum).formatMoney(2));
+                        }
+                        updateCart();
                     }
                 });
             }
+            $("#cat-boots").click(function () {
+                $("#category-form input[name=cat]").val("Boots");
+                $("#category-form").submit();
+            });
+
+            $("#cat-sandals").click(function () {
+                $("#category-form input[name=cat]").val("Sandals");
+                $("#category-form").submit();
+            });
+
+            $("#cat-shoes").click(function () {
+                $("#category-form input[name=cat]").val("Shoes");
+                $("#category-form").submit();
+            });
+
+            $("#cat-slippers").click(function () {
+                $("#category-form input[name=cat]").val("Slippers");
+                $("#category-form").submit();
+            });
 
             $(".txtquantity").keyup(function(){
                 var index = $(this).index(".txtquantity");
@@ -187,7 +215,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("index.jsp") %>">
+                            <a href="<%=response.encodeURL("/index") %>">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>
@@ -259,7 +287,10 @@
 </div>
 <div class="ui container custom-container">
     <div class="ui four item pointing menu">
-        <a class="item">
+        <form id="category-form" action="SelectDisplayCategoryServlet" method="get">
+            <input name="cat" type="hidden">
+        </form>
+        <a id="cat-boots" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
                     <img class="ui mini image middle aligned" src="assets/boots.png">
@@ -267,7 +298,7 @@
                 <div class="sixteen wide column categ-label-container"><span class="category-label">boots</span></div>
             </div>
         </a>
-        <a class="item">
+        <a id="cat-shoes" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
                     <img class="ui mini image middle aligned" src="assets/shoes.png">
@@ -275,7 +306,7 @@
                 <div class="sixteen wide column categ-label-container"><span class="category-label">shoes</span></div>
             </div>
         </a>
-        <a class="item">
+        <a id="cat-sandals" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
                     <img class="ui mini image middle aligned" src="assets/sandals.png">
@@ -283,7 +314,7 @@
                 <div class="sixteen wide column categ-label-container"><span class="category-label">sandals</span></div>
             </div>
         </a>
-        <a class="item">
+        <a id="cat-slippers" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
                     <img class="ui mini image middle aligned" src="assets/slippers.png">
