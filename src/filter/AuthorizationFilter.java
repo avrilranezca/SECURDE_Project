@@ -50,7 +50,7 @@ public class AuthorizationFilter implements Filter {
 		} else if(username != null ) {
 			try {
 				uri = "/" + uri.split("/")[uri.split("/").length-1];
-				System.out.println(uri);
+				System.out.println("uri after: "+uri);
 				if(uri.replace("/SECURDE_Project", "").isEmpty()) {
 		        	UserDAO dao = new UserDAO();
 		        	String accountType = dao.getUser(username).getAccount_type();

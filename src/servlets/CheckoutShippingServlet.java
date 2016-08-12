@@ -28,10 +28,14 @@ public class CheckoutShippingServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String userName = (String) request.getSession().getAttribute("user");
+		
 		String sessionID = request.getSession().getId();
-	   
+		System.out.println("FROM AJAX: "+ request.getParameter("user"));
+		System.out.println("userName: "+userName);
 		UserDAO uDAO = new UserDAO();
 		User u = uDAO.getUser(userName);
+		
+		System.out.println("Username: "+ u.getUser_name());
 		String uSessionID = uDAO.getUserSessionID(u);
 		
 		if(uSessionID.equals(sessionID)){

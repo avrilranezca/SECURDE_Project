@@ -27,7 +27,7 @@
             <%
                 ReviewDAO reviewDAO = new ReviewDAO();
                 String username=null;
-                        UserDAO uDAO = new UserDAO();
+                UserDAO uDAO = new UserDAO();
 
                 if(session.getAttribute("user") != null)
 	                username = (String) session.getAttribute("user");
@@ -59,8 +59,6 @@
 
             <%
                 }
-
-
             %>
 
             updateCart();

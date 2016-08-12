@@ -218,7 +218,10 @@ public class UserDAO {
 	public String getUserSessionID(User u) {
 		
 		String session = "";
-		
+		if(u == null)
+			System.out.println("null si user:(");
+		else
+			System.out.println("hndi null si user...");
 		try {
 			PreparedStatement ps = conn.prepareStatement("SELECT session_id FROM user WHERE id = ?;");
 			ps.setInt(1, u.getId());
