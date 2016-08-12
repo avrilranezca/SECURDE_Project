@@ -12,42 +12,16 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#login").click(function () {
-//                $("#login-modal").modal('show');
-                $("#error-login").hide();
-                $("#login-modal")
-                        .modal({
-                            closable  : true,
-                            onDeny    : function(){
-                                window.alert('Wait not yet!');
-                                return false;
-                            },
-                            onApprove : function() {
-//                                window.alert('Approved!');
-
-                                if($("#username").val()=="" || $("#password").val()==""){
-                                    $("#error-login").show();
-                                    return false;
-                                }
-
-                            }
-                        })
-                        .modal('show')
-                ;
-            });
-
-
+	        function changeFilter(form, filter) {
+	        	document.getElementById("filter").value = filter;
+	        	form.submit();
+	        }
+	        
+	        function changeSubfilter(form, subfilter) {
+	        	document.getElementById("subfilter").value = subfilter;
+	        	form.submit();
+	        }
         });
-        
-        function changeFilter(form, filter) {
-        	document.getElementById("filter").value = filter;
-        	form.submit();
-        }
-        
-        function changeSubfilter(form, subfilter) {
-        	document.getElementById("subfilter").value = subfilter;
-        	form.submit();
-        }
     </script>
 </head>
 <body>
@@ -185,7 +159,7 @@
 									<th class="eight wide">Date</th>
 								</c:when>
 								<c:otherwise>
-									<th class="eight wide">${filter }</th>
+									<th class="eight wide"><c:out value="${filter}"/></th>
 								</c:otherwise>
 							</c:choose>
 							<th class="four wide right aligned">Quantity</th>
@@ -193,55 +167,26 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="sale" items="${sales }">
+						<c:forEach var="sale" items="${sales}">
 							<tr>
-								<td><h4 class="ui header">${sale.name }</h4></td>
-								<td class="right aligned">${sale.quantity }</td>
-								<td class="right aligned price-label"><fmt:formatNumber
-										value="${sale.total_sales }" type="currency" currencyCode="PHP" /></td>
+								<td><h4 class="ui header"><c:out value="${sale.name}"/></h4></td>
+								<td class="right aligned"><c:out value="${sale.quantity}"/></td>
+								<td class="right aligned price-label">
+									<fmt:formatNumber value="${sale.total_sales}" type="currency" currencyCode="PHP" />
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
             <div class="ui basic right aligned segment">
-                <h3 class="ui header">Total: <span class="black-text"><fmt:formatNumber
-								value="${total }" type="currency" currencyCode="PHP" /></span>
-					</h3>
+                <h3 class="ui header">Total: 
+                	<span class="black-text">
+                		<fmt:formatNumber value="${total}" type="currency" currencyCode="PHP" />
+                	</span>
+                </h3>
             </div>
         </div>    
     </div>
 </div>
-
-<!---- START LOGIN MODAL---------------------------------------->
-<div id="login-modal" class="ui small modal">
-    <i class="close icon"></i>
-    <div class="header"> Login</div>
-
-    <div class="content">
-        <div class="ui basic  center aligned segment">
-
-            <form class="ui form" id="login-form" method="post">
-                <div id="error-login" class="ui negative message">
-                    <p>
-                        Wrong username/password!
-                    </p>
-                </div>
-                <div class="ui fluid left icon input">
-                    <i class="user icon"></i>
-                    <input type="text" id="username" placeholder="Username">
-                </div>
-                <br>
-                <div class="ui fluid left icon input">
-                    <i class="lock icon"></i>
-                    <input type="text" id="password" placeholder="Password">
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="ui positive right button" type="submit" form="login-form"> Login</div>
-    </div>
-</div>
-<!---- END LOGIN MODAL------------------------------------------>
 </body>
 </html>

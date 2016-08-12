@@ -172,7 +172,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome ${user}!</div>
+                <div class="ui sub header"> Welcome <c:out value="${user}"></c:out>!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button">Logout</div>
