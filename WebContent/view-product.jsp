@@ -2,11 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="database.ProductDAO" %>
+<%@ page import="database.ReviewDAO" %>
+<%@ page import="database.UserDAO" %>
 <%@ page import="model.Product" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
-<%@ page import="database.UserDAO" %>
-<%@ page import="database.ReviewDAO" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -130,7 +131,7 @@
 
                 $("#empty-cart").hide();
 
-                $("#cart-name").html("<%=prod.getName()%>");
+                $("#cart-name").html("<%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
                 $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
                 $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
@@ -180,7 +181,9 @@
                         $('#reviewbtn').attr("class", "ui right floated disabled orange submit button");
                         $('#reviewtext').val("");
                         $('.editable.rating').rating('set rating', 0);
-                        $('#actualcomments').prepend('<div class="comment"> <div class="content"> <a class="author"><%=userName%></a> <div class="metadata"> <div class="ui star rating"></div> </div><div class="text">'+review+'</div> </div> </div>');
+//                        var temp = jQuery();
+                        $('#actualcomments').prepend('<div class="comment"> <div class="content"> <a class="author"><%=StringEscapeUtils.escapeHtml4(userName)%></a> <div class="metadata"> <div class="ui star rating"></div> </div><div class="text"></div> </div> </div>');
+                        $('#actualcomments').find('.text:first').text(review);
                     }
                 });
             });
@@ -255,7 +258,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome !</div>
+                <div class="ui sub header"> Welcome <c:out value="${user}"></c:out>!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button" id="logout">Logout</div>
@@ -435,11 +438,11 @@
             <img class="ui fluid image" src="assets/bababoots.jpg">
         </div>
         <div class="seven wide column">
-            <h1 class="ui header">${product.name}
+            <h1 class="ui header"><c:out value="${product.name}"></c:out>
                 <div class="sub header">
                     <div class="ui grid">
                         <div class="eight wide column">
-                            <div class="price-label">${product.price}</div>
+                            <div class="price-label">PHP<c:out value="${product.price}"></c:out></div>
                         </div>
                         <div class="eight wide column right aligned">
                             <a href="#comments">
@@ -504,11 +507,12 @@
                     <c:forEach var="review" items="${reviews}">
                         <div class="comment">
                             <div class="content">
-                                <a class="author">${review.user_name}</a>
+                                <a class="author"><c:out value="${review.user_name}"></c:out></a>
                                 <div class="metadata">
                                     <div class="ui star rating" data-rating="${review.rating}"></div>
                                 </div>
-                                <div class="text">${review.review}</div>
+                                <div class="text"><c:out value="${review.review}"></c:out></div>
+
                             </div>
                         </div>
 

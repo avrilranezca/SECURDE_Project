@@ -47,6 +47,34 @@ INSERT INTO `address` VALUES (1,'1','street1','subdivision1','city1','1','countr
 UNLOCK TABLES;
 
 --
+-- Table structure for table `authorization_matrix`
+--
+
+DROP TABLE IF EXISTS `authorization_matrix`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `authorization_matrix` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_url` varchar(255) NOT NULL,
+  `customer` tinyint(1) NOT NULL,
+  `admin` tinyint(1) DEFAULT NULL,
+  `accounting_manager` tinyint(1) NOT NULL,
+  `product_manager` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `authorization_matrix`
+--
+
+LOCK TABLES `authorization_matrix` WRITE;
+/*!40000 ALTER TABLE `authorization_matrix` DISABLE KEYS */;
+INSERT INTO `authorization_matrix` VALUES (1,'/index.jsp',1,1,1,1),(2,'/login.jsp',1,1,1,1),(3,'/sign-up.jsp',1,1,1,1),(4,'/view-product.jsp',1,1,1,1),(5,'/view-cart.jsp',1,1,1,1),(6,'/checkout_shipping.jsp',1,1,1,1),(7,'/checkout_billing.jsp',1,1,1,1),(8,'/changePassword.jsp',0,0,1,1),(9,'/accounting_manager.jsp',0,0,1,0),(10,'/product_manager.jsp',0,0,0,1),(11,'/index_admin.jsp',0,1,0,0);
+/*!40000 ALTER TABLE `authorization_matrix` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `category`
 --
 
@@ -242,8 +270,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-<<<<<<< HEAD
--- Dump completed on 2016-08-10 16:01:46
-=======
--- Dump completed on 2016-08-10 16:08:23
->>>>>>> feature/admin
+-- Dump completed on 2016-08-11 16:08:28

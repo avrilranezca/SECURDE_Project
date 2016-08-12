@@ -1,11 +1,1 @@
-<<<<<<< HEAD
 /database/
-/filter/
-/model/
-/servlets/
-=======
-/servlets/
-/filter/
-/database/
->>>>>>> feature/filters
-/log/

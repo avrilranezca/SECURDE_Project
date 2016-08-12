@@ -3,10 +3,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="database.ProductDAO" %>
+<%@ page import="database.ReviewDAO" %>
 <%@ page import="model.Product" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
-<%@ page import="database.ReviewDAO" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -99,7 +100,7 @@
 
                     $("#empty-cart").hide();
 
-                    $("#cart-name").html("<%=prod.getName()%>");
+                    $("#cart-name").html("<%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
                     $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
                     $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
@@ -237,7 +238,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome  <c:out value="${user}"/>!</div>
+                <div class="ui sub header"> Welcome  <c:out value="${user}"></c:out>!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button" id="logout">Logout</div>
@@ -399,7 +400,7 @@
 		
 		            <!--<div class="content">-->
 		                <div class="ui sub header">Search Results:</div>
-		                <em><c:out value="${searchQuery}"/></em> / <c:out value="${fn:length(products)}"/> found
+		                <em><c:out value="${searchQuery}"></c:out></em> / ${fn:length(products)} found
 		            <!--</div>-->
 		        </div>
 		    </div>
@@ -428,7 +429,7 @@
 		                        <div class="ui grid">
 		                            <div class="twelve wide column">
 		                                <a id="cart-${item.id}" class="item-name">
-		                                	<c:out value="${item.name}"/>
+		                                	<c:out value="${item.name}"></c:out>
 		                                </a>
 		                                <div class="meta">
 		                                	<span class="price-label">
@@ -480,7 +481,7 @@
                     <c:when test="${search ne null}">
                         <form id = "nav-form" action="IndexDisplayProductsServlet" method="Get">
                             <input type="hidden" name="page">
-                            <input type="hidden" name="search" value="${search}">
+                            <input type="hidden" name="search" value="<c:out value="${search}"></c:out>">
                         </form>
                     </c:when>
                     <c:otherwise>
