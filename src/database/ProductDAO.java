@@ -133,7 +133,7 @@ public class ProductDAO {
 
 		ArrayList<Product> productList = new ArrayList<Product>();
 		try {
-			ps = conn.prepareStatement("SELECT * FROM product WHERE category_id = (SELECT id FROM category WHERE name = ?);");
+			ps = conn.prepareStatement("SELECT * FROM product WHERE category_id = (SELECT id FROM category WHERE name = ?) AND isActive = 1;");
 
 			ps.setString(1, c.getName());
 			

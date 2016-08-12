@@ -12,16 +12,21 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-	        function changeFilter(form, filter) {
-	        	document.getElementById("filter").value = filter;
-	        	form.submit();
-	        }
 	        
-	        function changeSubfilter(form, subfilter) {
-	        	document.getElementById("subfilter").value = subfilter;
-	        	form.submit();
-	        }
+	        $('#logout').click(function(){
+                $('#logout-form').submit();
+            });
         });
+        
+        function changeFilter(form, filter) {
+        	document.getElementById("filter").value = filter;
+        	form.submit();
+        }
+        
+        function changeSubfilter(form, subfilter) {
+        	document.getElementById("subfilter").value = subfilter;
+        	form.submit();
+        }
     </script>
 </head>
 <body>
@@ -29,10 +34,11 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                 <div class="ui sub header"> Welcome Shayane!</div>
+                 <div class="ui sub header"> Welcome <c:out value="${user }"/>!</div>
             </div>
             <div class="two wide column">
-                  <div class="ui tiny right aligned basic button">Logout</div>
+                  <div class="ui tiny right aligned basic button" id="logout">Logout</div>
+                  <form id="logout-form" action="LogoutServlet" method="post"></form>
             </div>
         </div>  
     </div>

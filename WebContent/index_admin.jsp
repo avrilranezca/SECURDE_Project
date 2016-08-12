@@ -27,8 +27,14 @@
                       .modal('show')
               ;
           }));
+            
+            $('#logout').click(function(){
+                $('#logout-form').submit();
+            });
 
         });
+        
+        
         
         function submitForm(form) {
         	form.submit();
@@ -49,7 +55,8 @@
                  <div class="ui sub header"> Welcome Shayane!</div>
             </div>
             <div class="two wide column">
-                  <div class="ui tiny right aligned basic button">Logout</div>
+                  <div class="ui tiny right aligned basic button" id="logout">Logout</div>
+                  <form id="logout-form" action="LogoutServlet" method="post"></form>
             </div>
         </div>
        
