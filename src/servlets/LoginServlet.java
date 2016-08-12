@@ -103,10 +103,12 @@ public class LoginServlet extends HttpServlet {
 				ArrayList<Product> plist = dao2.getAllProducts();
 				request.setAttribute("products", plist);
 				request.setAttribute("filter", "All");
-				String encodedURL = response.encodeRedirectURL("index.jsp");
+				String encodedURL = response.encodeRedirectURL("/index");
+				response.sendRedirect(encodedURL);
 				Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
-				request.getRequestDispatcher(encodedURL).forward(request, response);
+//				request.getRequestDispatcher(encodedURL).forward(request, response);
 			} else if(user.getAccount_type().equals(AccountType.ADMIN.toString())) {
+				response.sendRedirect("/admin");
 				request.getRequestDispatcher("/admin").forward(request, response);
 			} else if(user.getAccount_type().equals(AccountType.PRODUCT_MANAGER.toString())) {
 				request.getRequestDispatcher("/product_manager").forward(request, response);

@@ -1,20 +1,14 @@
 package filter;
 
-import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import database.AuthorizationMatrixDAO;
+import database.UserDAO;
+import model.AccountTypeEnum.AccountType;
+
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import database.AuthorizationMatrixDAO;
-import database.UserDAO;
-import model.User;
-import model.AccountTypeEnum.AccountType;
+import java.io.IOException;
 
 /**
  * Servlet Filter implementation class AuthorizationFilter
@@ -66,7 +60,7 @@ public class AuthorizationFilter implements Filter {
 	        	}
 	        }
 	        chain.doFilter(request, response);
-		} else if(username == null ) {
+		} else if(username != null ) {
 			uri = "/" + uri.split("/")[uri.split("/").length-1];
 			if(authorizationDAO.isAuthorized(username, uri)) {
 				System.out.println("Authorized");
@@ -78,7 +72,10 @@ public class AuthorizationFilter implements Filter {
 				//request.getRequestDispatcher("/index").forward(request, response);
 				response.getWriter().append("You are not authorized to access this page!");
 			}
-		} 
+		}
+		else{
+			chain.doFilter(request, response);
+		}
 		
 	}
 

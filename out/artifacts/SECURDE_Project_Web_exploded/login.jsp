@@ -27,43 +27,36 @@
 
             %>
             <%
+
                 ReviewDAO reviewDAO = new ReviewDAO();
+                String userName=null;
 
-                String username=null;
-                        UserDAO uDAO = new UserDAO();
+                boolean foundCookie = false;
+                if(session.getAttribute("user") != null){
 
-                if(session.getAttribute("user") != null)
-	                username = (String) session.getAttribute("user");
+	                userName = (String) session.getAttribute("user");
+	                foundCookie=true;
+                }
+                            Cookie[] cookies = request.getCookies();
 
+                            if(cookies !=null){
+                                    for(int i = 0; i < cookies.length; i++) {
+                                        Cookie c = cookies[i];
+                                        if (c.getName().equals("user")) {
+                                            foundCookie = true;
+                                        }
+                                    }
+                            }
 
-                String sessionID = request.getSession().getId();
-
-
-                if(username!=null) {
-                        User u = uDAO.getUser(username);
-                        String uSessionID = uDAO.getUserSessionID(u);
-                        if(uSessionID.equals(sessionID)){
-                   %>
-            $('#login-menu').hide();
+                            if (!foundCookie || userName==null) {
+            %>
+            $('#welcome-menu').hide();
             <%
                 } else {
-            uDAO.setUserSessionID(u, null);
-         %>
-
-            $('#welcome-menu').hide();
-            <%
-            }
             %>
-            <%
-
-                }else{
-                    %>
-            $('#welcome-menu').hide();
-
+            $('#login-menu').hide();
             <%
                 }
-
-
             %>
 
             updateCart();

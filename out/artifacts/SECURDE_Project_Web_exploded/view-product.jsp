@@ -1,9 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page import="database.ProductDAO" %>
 <%@ page import="database.ReviewDAO" %>
 <%@ page import="database.UserDAO" %>
-<%@ page import="model.User" %>
+<%@ page import="model.Product" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
+<%@ page import="org.json.JSONArray" %>
+<%@ page import="org.json.JSONException" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -16,43 +20,28 @@
         $(document).ready(function () {
             $("#search-form input[name=search]").val(null);
             <%
+                String userName=null;
+                UserDAO userDAO = new UserDAO();
                 ReviewDAO reviewDAO = new ReviewDAO();
+                ProductDAO productDAO = new ProductDAO();
+                boolean foundCookie = false;
+                if(session.getAttribute("user") != null){
 
-                String username=null;
-                        UserDAO uDAO = new UserDAO();
-
-                if(session.getAttribute("user") != null)
-	                username = (String) session.getAttribute("user");
-
-
-                String sessionID = request.getSession().getId();
-
-
-                if(username!=null) {
-                        User u = uDAO.getUser(username);
-                        String uSessionID = uDAO.getUserSessionID(u);
-                        if(uSessionID.equals(sessionID)){
-                   %>
-            $('#login-menu').hide();
-            <%
-                } else {
-            uDAO.setUserSessionID(u, null);
-         %>
-
-            $('#welcome-menu').hide();
-            <%
-            }
-            %>
-            <%
-
-                }else{
-                    %>
-            $('#welcome-menu').hide();
-
-            <%
+	                userName = (String) session.getAttribute("user");
+	                foundCookie=true;
                 }
+                            Cookie[] cookies = request.getCookies();
 
+                            if(cookies !=null){
+                                    for(int i = 0; i < cookies.length; i++) {
+                                        Cookie c = cookies[i];
+                                        if (c.getName().equals("user")) {
+                                            foundCookie = true;
+                                        }
+                                    }
+                            }
 
+                            if (!foundCookie || userName==null) {
             %>
 
             updateCart();
