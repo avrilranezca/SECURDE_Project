@@ -104,7 +104,7 @@
                         $("#empty-cart").hide();
 
                         $("#cart-name").text(data.pName);
-                        $("#cart-subtotal").text('PHP'+(data.subtotal).formatMoney(2));
+                        $("#cart-subtotal").text('PHP'+(data.price).formatMoney(2));
                         $("#cart-total").text('PHP'+(data.totalsum).formatMoney(2));
 
                         $("#cart-capacity").html(data.num+" Item/s");

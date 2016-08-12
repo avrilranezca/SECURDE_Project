@@ -105,7 +105,7 @@ public class AddToCartServlet extends HttpServlet {
 try {
     float subtotal = 0;
     int val = arr.getJSONObject(arr.length()-1).getInt("quantity");
-    subtotal = (float) (val * (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getPrice());
+    float price = (float) (val * (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getPrice());
 
     int count = 0;
     float total = 0;
@@ -118,7 +118,7 @@ try {
     JSONObject member =  new JSONObject();
     member.put("pName", (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getName());
     member.put("num", count);
-    member.put("subtotal", subtotal);
+    member.put("price", price);
     member.put("totalsum", total);
 
 

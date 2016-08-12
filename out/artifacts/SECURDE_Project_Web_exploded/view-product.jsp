@@ -45,6 +45,16 @@
             %>
 
             updateCart();
+            Number.prototype.formatMoney = function(c, d, t){
+                var n = this,
+                        c = isNaN(c = Math.abs(c)) ? 2 : c,
+                        d = d == undefined ? "." : d,
+                        t = t == undefined ? "," : t,
+                        s = n < 0 ? "-" : "",
+                        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+                        j = (j = i.length) > 3 ? j % 3 : 0;
+                return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+            };
 
             $('#review-form').hide();
             $('#error-review-buy').hide();
@@ -105,12 +115,29 @@
                     })
             ;
 
-            function updateCart() {
-                <%
+            function updateCart(data){
+                var i =0;
+                if(data!=null) {
+//                    while (i < data.length()) {
+//                    alert(data);
+                    $("#cart-button").attr("data-badge", data.num);
+                    $("#total").html('PHP'+(data.totalsum).formatMoney(2));
+                    $("#recent-cart").show();
+                    $("#empty-cart").hide();
+
+                    $("#cart-name").text(data.pName);
+                    $("#cart-subtotal").text('PHP'+(data.price).formatMoney(2));
+                    $("#cart-total").text('PHP'+(data.totalsum).formatMoney(2));
+
+                    $("#cart-capacity").html(data.num+" Item/s");
+//                    }
+                }
+                else{
+                    <%
                 if(session.getAttribute("item") != null){
                     int capacity =0;
                     float sum = 0;
-                    Product prod  ;prod = null;
+                    Product prod = null;
                     ProductDAO dao = new ProductDAO();
                     try {
                         JSONArray arr = new JSONArray((String)session.getAttribute("item"));
@@ -126,44 +153,45 @@
                     }
 
                     %>
-                $("#cart-button").attr("data-badge", "<%=capacity%>");
-                $("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-button").attr("data-badge", "<%=capacity%>");
+                    $("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
-                $("#empty-cart").hide();
+                    $("#empty-cart").hide();
 
-                $("#cart-name").html("<%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
-                $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
-                $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-name").html(" <%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
+                    $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
-                $("#cart-capacity").html("<%=capacity%> Item/s");
-                <%
+                    $("#cart-capacity").html("<%=capacity%> Item/s");
+                    <%
+                    }
+                    else{
+                    %>
+                    $("#recent-cart").hide();
+                    <%
+                    }
+                    %>
                 }
-                else{
-                %>
-                $("#recent-cart").hide();
-                <%
-                }
-                %>
             }
 
             $('#addtocart').click(function () {
-                alert("heere");
                 var id = ${product.id};
                 var a = +$("#quantity").val();
 
                 $.ajax({
                     url: "AddToCartQuantityServlet",
+                    dataType: 'json',
                     data: {"index": id, "value": a},
                     type: "GET",
                     success: function (data) {
 //                        alert("no error");
-                        updateCart();
 //                        alert("wut")
                         $('#addtocart').attr("class", "ui fluid large green submit button");
 //                        alert("the");
 
                         $('#carttext').html("ADDED TO CART");
 //                        alert("hell");
+                        updateCart(data);
                     }
                 });
 

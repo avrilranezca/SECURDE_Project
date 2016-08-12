@@ -9,7 +9,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="database.ProductDAO" %>
+<%@ page import="database.ReviewDAO" %>
+<%@ page import="database.UserDAO" %>
 <%@ page import="model.Product" %>
+<%@ page import="model.User" %>
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
@@ -24,41 +27,64 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
+            $("#search-form input[name=search]").val(null);
             <%
-                String userName=null;
+               ReviewDAO reviewDAO = new ReviewDAO();
+               String username=null;
+               UserDAO uDAO = new UserDAO();
 
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
+               if(session.getAttribute("user") != null)
+                   username = (String) session.getAttribute("user");
 
-	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                            Cookie[] cookies = request.getCookies();
 
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
-                                        }
-                                    }
-                            }
+               String sessionID = request.getSession().getId();
 
-                            if (!foundCookie || userName==null) {
-            %>
-            $('#welcome-menu').hide();
+
+               if(username!=null) {
+                       User u = uDAO.getUser(username);
+                       String uSessionID = uDAO.getUserSessionID(u);
+                       if(uSessionID.equals(sessionID)){
+                  %>
+            $('#login-menu').hide();
             <%
                 } else {
+            uDAO.setUserSessionID(u, null);
+         %>
+
+            $('#welcome-menu').hide();
+            <%
+            }
             %>
-            $('#login-menu').hide();
+            <%
+
+                }else{
+                    %>
+            $('#welcome-menu').hide();
+
             <%
                 }
             %>
 
             updateCart();
 
-            function updateCart(){
-                <%
+            function updateCart(data){
+                var i =0;
+                if(data!=null) {
+//                    while (i < data.length()) {
+                    $("#cart-button").attr("data-badge", data.num);
+                    $("#total").html('PHP'+(data.totalsum).formatMoney(2));
+                    $("#recent-cart").show();
+                    $("#empty-cart").hide();
+
+                    $("#cart-name").text(data.pName);
+                    $("#cart-subtotal").text('PHP'+(data.price).formatMoney(2));
+                    $("#cart-total").text('PHP'+(data.totalsum).formatMoney(2));
+
+                    $("#cart-capacity").html(data.num+" Item/s");
+//                    }
+                }
+                else{
+                    <%
                 if(session.getAttribute("item") != null){
                     int capacity =0;
                     float sum = 0;
@@ -78,24 +104,25 @@
                     }
 
                     %>
-                $("#cart-button").attr("data-badge", "<%=capacity%>");
-                $("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-button").attr("data-badge", "<%=capacity%>");
+                    $("#total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
-                $("#empty-cart").hide();
+                    $("#empty-cart").hide();
 
-                $("#cart-name").html(" <%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
-                $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
-                $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-name").html(" <%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
+                    $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
+                    $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
-                $("#cart-capacity").html("<%=capacity%> Item/s");
-                <%
+                    $("#cart-capacity").html("<%=capacity%> Item/s");
+                    <%
+                    }
+                    else{
+                    %>
+                    $("#recent-cart").hide();
+                    <%
+                    }
+                    %>
                 }
-                else{
-                %>
-                $("#recent-cart").hide();
-                <%
-                }
-                %>
             }
             $('#cart-button')
                     .popup({
@@ -131,16 +158,21 @@
                     data: {"index": index, "value": a },
                     type: "POST",
                     success: function(data){
-                        if(data.subtotal==-1){
+//                        alert(data.subtotal);
+                        if(data==null || data.subtotal==null){
+                            $("#checkout-total").hide();
+                            $("#checkout-table").hide();
+                        }
+                        else if(data.subtotal==-1){
                             $("tr:eq(" + (index+1) + ")").remove();
-
+                            $("#table-total").html("Total: PHP" + (data.totalsum).formatMoney(2));
                         }
                         else {
                             $(".txtquantity:eq(" + index + ")").val(a);
                             $(".row-subtotal:eq(" + index + ")").html("PHP" + (data.subtotal).formatMoney(2));
                             $("#table-total").html("Total: PHP" + (data.totalsum).formatMoney(2));
                         }
-                        updateCart();
+                        updateCart(data);
                     }
                 });
             }
@@ -184,6 +216,33 @@
                 updateTable(index, a);
 //                console.log(index);
             });
+
+
+            $(".search").click(function () {
+                var query = $("#searchQuery").val();
+                $("#search-form input[name=search]").val(query);
+                $("#search-form").submit();
+            });
+
+            $("#searchQuery").keypress(function (e) {
+                if (e.which == 13) {
+                    /*	 var query = $("#searchQuery").val();
+                     $.ajax({
+                     url: "IndexDisplayProductsServlet",
+                     data: {"searchQuery": query,
+                     "isSearch": true,},
+                     type: "GET",
+                     success: function(data){
+
+
+                     }
+                     });*/
+
+                    var query = $("#searchQuery").val();
+                    $("#search-form input[name=search]").val(query);
+                    $("#search-form").submit();
+                }
+            });
         });
     </script>
 </head>
@@ -225,8 +284,13 @@
                     </div>
                 </div>
                 <div class="seven wide column center aligned">
+
+                    <form id="search-form" action="IndexDisplayProductsServlet" method="get">
+                        <input name="search" type="hidden">
+                    </form>
+
                     <div class="ui icon input search-bar">
-                        <input placeholder="Search for products or categories" type="text">
+                        <input id="searchQuery" name="query" placeholder="Search for products or categories" type="text" >
                         <i class="search link icon"></i>
                     </div>
                 </div>
@@ -234,12 +298,10 @@
                 <div class="five wide column middle aligned ">
                     <div class="ui grid sixteen wide column">
                         <div class="eight wide column right aligned">
-                        	<i class="badge big link shop icon" id="cart-button" data-badge="0"></i>
+                            <i class="badge big link shop icon" id="cart-button" data-badge="0"></i>
                         </div>
                         <div class="eight wide column left aligned"><span id="total" class="price-label">0.00</span></div>
                     </div>
-
-
                 </div>
             </div>
             <div class="ui custom flowing bottom center popup transition left aligned" id="cart-popup">
@@ -248,43 +310,31 @@
                 </div>
                 <div id="recent-cart">
                     <div class="ui sub header left aligned">Recently added:</div>
-
                     <div class="ui grid">
-                        <div id="cart-name" class="eight wide column left aligned">
-
-                            Bababoots
-                        </div>
-                        <div id="cart-subtotal" class="eight wide column right aligned">
-
-                            PHP 1,500.00
-                        </div>
+                        <div id="cart-name" class="eight wide column left aligned">Bababoots </div>
+                        <div id="cart-subtotal" class="eight wide column right aligned">PHP 1,500.00</div>
                     </div>
                     <div class="ui divider"></div>
 
                     <div class="ui grid">
-                        <div id="cart-capacity" class="eight wide column left aligned">
-
-                            5 Items
-                        </div>
+                        <div id="cart-capacity" class="eight wide column left aligned">5 Items</div>
                         <div class="eight wide column right aligned">
-
                             <h4 id="cart-total" class="ui header">TOTAL: PHP 7,500.00</h4>
                         </div>
                     </div>
 
                     <div class="ui hidden divider"></div>
                     <div class="ui fluid large orange submit button">
-                        <a href="view-cart.jsp"><span class="middle-align">CHECKOUT</span>
+                        <a href="view-cart.jsp">
+                            <span class="middle-align">CHECKOUT</span>
                         </a>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
+
 <div class="ui container custom-container">
     <div class="ui four item pointing menu">
         <form id="category-form" action="SelectDisplayCategoryServlet" method="get">
@@ -333,7 +383,7 @@
             if(session.getAttribute("item") != null) {
 
         %>
-        <table class="ui single line basic table">
+        <table id="checkout-table" class="ui single line basic table">
             <thead>
             <tr>
                 <th>Item</th>
@@ -390,7 +440,7 @@
         </tbody>
         </table>
 
-        <div class="ui basic right aligned segment">
+        <div id="checkout-total" class="ui basic right aligned segment">
             <h3 id="table-total" class="ui header table-total">Total: <fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber></h3>
             <div class="ui large orange submit button">
             	<c:choose>

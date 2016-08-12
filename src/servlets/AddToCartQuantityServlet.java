@@ -1,5 +1,6 @@
 package servlets;
 
+import database.ProductDAO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Created by rissa on 8/4/2016.
@@ -159,5 +161,35 @@ public class AddToCartQuantityServlet extends HttpServlet {
         request.getSession().setAttribute("item", arr.toString());
 
         System.out.println("adding");
+
+        try {
+            float subtotal = 0;
+            int val = arr.getJSONObject(arr.length()-1).getInt("quantity");
+            float price = (float) (val * (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getPrice());
+
+            int count = 0;
+            float total = 0;
+            boolean exist = false;
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                count+=obj.getInt("quantity");
+                total += (obj.getInt("quantity") * (new ProductDAO()).getProductOnID(Integer.parseInt(obj.getString("id"))).getPrice());
+            }
+            JSONObject member =  new JSONObject();
+            member.put("pName", (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getName());
+            member.put("num", count);
+            member.put("price", price);
+            member.put("totalsum", total);
+
+
+
+//    out.flush();
+            PrintWriter printWriter  = response.getWriter();
+            System.out.println("MEMBER: "+member.toString());
+            printWriter.println(member.toString());
+            printWriter.flush();
+        }
+
+        catch (Exception e){}
     }
 }
