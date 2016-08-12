@@ -1,10 +1,8 @@
 package servlets;
 
-import database.ProductDAO;
 import database.UserDAO;
 import log.Logger;
 import model.AccountTypeEnum.AccountType;
-import model.Product;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -102,16 +99,16 @@ public class LoginServlet extends HttpServlet {
 			//Get the encoded URL string
 
 			if(user.getAccount_type().equals(AccountType.CUSTOMER.toString())) {
-				ProductDAO dao2 = new ProductDAO();
+				/*ProductDAO dao2 = new ProductDAO();
 				ArrayList<Product> plist = dao2.getAllProducts();
 				request.setAttribute("products", plist);
 				request.setAttribute("filter", "All");
-				String encodedURL = response.encodeRedirectURL("");
+				String encodedURL = response.encodeRedirectURL("");*/
 //				response.sendRedirect(encodedURL);
-				Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
+				//Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
 				//request.getRequestDispatcher("/index").forward(request, response);
 				response.sendRedirect("/index");
-
+//				request.getRequestDispatcher("/index").forward(request, response);
 //				ServletContext sc = getServletContext();
 //				RequestDispatcher rd = sc.getRequestDispatcher("/IndexDisplayProductsServlet");
 //				rd.forward(request, response);

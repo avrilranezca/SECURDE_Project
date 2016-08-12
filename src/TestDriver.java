@@ -157,9 +157,9 @@ public class TestDriver {
 		User u = udao.getUser("user_1", "password");
 		//udao.updateShippingAddress(u, a);
 		System.out.println(udao.getShippingAddress(u.getId()));*/
-		System.out.println(udao.getAccountType(6));
+		//System.out.println(udao.getAccountType(6));
 		//System.out.println(adao.isAuthorized(6, "/index_admin.jsp"));
-		
+		System.out.println(udao.checkIfUserNameExists("user_7"));
 	}
 
 }

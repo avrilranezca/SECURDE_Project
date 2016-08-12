@@ -1,3 +1,6 @@
+<%@page import="model.User"%>
+<%@page import="database.UserDAO"%>
+<%@page import="database.ReviewDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
@@ -17,39 +20,34 @@
     <script type="text/javascript">
         $(document).ready(function () {
         	
-        	
-        	
-        	
             <%
-                String userName=null;
-
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
-
-	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                            Cookie[] cookies = request.getCookies();
-
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
-                                        }
-                                    }
-                            }
-
-                            if (!foundCookie || userName==null) {
-            %>
-            $('#welcome-menu').hide();
-            <%
-                } else {
-            %>
-            $('#login-menu').hide();
-            <%
-                }
-            %>
+	            ReviewDAO reviewDAO = new ReviewDAO();
+	            String username=null;
+	            UserDAO uDAO = new UserDAO();
+	
+	            if(session.getAttribute("user") != null)
+	                username = (String) session.getAttribute("user");
+	
+	
+	            String sessionID = request.getSession().getId();
+	
+	
+	            if(username!=null) {
+	                    User u = uDAO.getUser(username);
+	                    String uSessionID = uDAO.getUserSessionID(u);
+	                    if(uSessionID.equals(sessionID)){
+	               %>
+	                    $('#login-menu').hide();
+	                <%
+	                    } else {
+	                		uDAO.setUserSessionID(u, null);
+	             	%>
+	                		$('#welcome-menu').hide();
+	           		<%}%>
+	        <%}else{%>
+	        		$('#welcome-menu').hide();
+	
+	        <%}%>
 
             updateCart();
 
@@ -194,7 +192,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("index.jsp") %>">
+                            <a href="IndexDisplayProductsServlet">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>
