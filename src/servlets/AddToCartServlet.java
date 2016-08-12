@@ -1,5 +1,6 @@
 package servlets;
 
+import database.ProductDAO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,13 +96,42 @@ public class AddToCartServlet extends HttpServlet {
 
         System.out.println("session: "+arr.toString());
             request.getSession().setAttribute("item", arr.toString());
-            request.getSession().setAttribute("damnn", "damn");
+
         //trying out passing json from server to jsp
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println(arr.toString());
-  //          out.flush();
+//            response.setContentType("application/json");
+//            response.setCharacterEncoding("UTF-8");
+//            PrintWriter out = response.getWriter();
+//            out.println(arr.toString());
+try {
+    float subtotal = 0;
+    int val = arr.getJSONObject(arr.length()-1).getInt("quantity");
+    subtotal = (float) (val * (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getPrice());
+
+    int count = 0;
+    float total = 0;
+    boolean exist = false;
+    for (int i = 0; i < arr.length(); i++) {
+        JSONObject obj = arr.getJSONObject(i);
+        count+=obj.getInt("quantity");
+        total += (obj.getInt("quantity") * (new ProductDAO()).getProductOnID(Integer.parseInt(obj.getString("id"))).getPrice());
+    }
+    JSONObject member =  new JSONObject();
+    member.put("pName", (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getName());
+    member.put("num", count);
+    member.put("subtotal", subtotal);
+    member.put("totalsum", total);
+
+
+
+//    out.flush();
+    PrintWriter printWriter  = response.getWriter();
+    printWriter.println(member.toString());
+    printWriter.flush();
+}
+
+catch (Exception e){}
+
+
 //            Cookie cookie;
 //            if(item==null) cookie= new Cookie("item", id );
 //            else cookie=new Cookie("item", item+","+id);

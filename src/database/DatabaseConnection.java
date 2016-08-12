@@ -9,22 +9,24 @@ public class DatabaseConnection {
 	private static String username = "root";
 	private static String password = "1234";
 	private static String schema = "securde_eshopping";
+	private static Connection conn = null;
 	
 	public DatabaseConnection(){
 	
 	}
 	
 	public static Connection getConnection(){
-		Connection conn = null;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/" + schema, username, password);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(conn==null) {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/" + schema, username, password);
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return conn;
 	}
