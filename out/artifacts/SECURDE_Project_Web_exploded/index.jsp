@@ -30,18 +30,18 @@
 	                userName = (String) session.getAttribute("user");
 	                foundCookie=true;
                 }
-                            Cookie[] cookies = request.getCookies();
+                Cookie[] cookies = request.getCookies();
 
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
-                                        }
-                                    }
+                if(cookies !=null){
+                        for(int i = 0; i < cookies.length; i++) {
+                            Cookie c = cookies[i];
+                            if (c.getName().equals("user")) {
+                                foundCookie = true;
                             }
+                        }
+                }
 
-                            if (!foundCookie || userName==null) { System.out.println("BROOM");
+                if (!foundCookie || userName==null) { System.out.println("BROOM");
             %>
                     $('#welcome-menu').hide();
             <%
@@ -229,8 +229,8 @@
 <div id="login-menu" class="ui top attached menu">
     <div class="right menu">
         <div class="ui right aligned item top-nav">
-            <a href="<%=response.encodeURL("login.jsp") %>" id="login" class="item top-nav-item">login</a>
-            <a href="<%=response.encodeURL("sign-up.jsp") %>" class="item top-nav-item">sign up</a>
+            <a href="<%=response.encodeURL("login.jsp")%>" id="login" class="item top-nav-item">login</a>
+            <a href="<%=response.encodeURL("sign-up.jsp")%>" class="item top-nav-item">sign up</a>
         </div>
     </div>
 </div>
@@ -278,12 +278,11 @@
 
                 <div class="five wide column middle aligned ">
                     <div class="ui grid sixteen wide column">
-                        <div class="eight wide column right aligned"><i class="badge big link shop icon"
-                                                                        id="cart-button" data-badge="0"></i></div>
+                        <div class="eight wide column right aligned">
+                        	<i class="badge big link shop icon" id="cart-button" data-badge="0"></i>
+                       	</div>
                         <div class="eight wide column left aligned"><span id="total" class="price-label">0.00</span></div>
                     </div>
-
-
                 </div>
             </div>
             <div class="ui custom flowing bottom center popup transition left aligned" id="cart-popup">
@@ -292,61 +291,45 @@
                 </div>
                 <div id="recent-cart">
                     <div class="ui sub header left aligned">Recently added:</div>
-
                     <div class="ui grid">
-                        <div id="cart-name" class="eight wide column left aligned">
-
-                            Bababoots
-                        </div>
-                        <div id="cart-subtotal" class="eight wide column right aligned">
-
-                            PHP 1,500.00
-                        </div>
+                        <div id="cart-name" class="eight wide column left aligned">Bababoots </div>
+                        <div id="cart-subtotal" class="eight wide column right aligned">PHP 1,500.00</div>
                     </div>
                     <div class="ui divider"></div>
 
                     <div class="ui grid">
-                        <div id="cart-capacity" class="eight wide column left aligned">
-
-                            5 Items
-                        </div>
+                        <div id="cart-capacity" class="eight wide column left aligned">5 Items</div>
                         <div class="eight wide column right aligned">
-
-                            <h4 id="cart-total" class="ui header">TOTAL: PHP 7,500.00</h4>
+							<h4 id="cart-total" class="ui header">TOTAL: PHP 7,500.00</h4>
                         </div>
                     </div>
 
                     <div class="ui hidden divider"></div>
                     <div class="ui fluid large orange submit button">
-                        <a href="view-cart.jsp"><span class="middle-align">CHECKOUT</span>
+                        <a href="view-cart.jsp">
+                        	<span class="middle-align">CHECKOUT</span>
                         </a>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
 
 <div class="ui container custom-container">
     <div class="ui four item pointing menu">
-
-
         <form id="category-form" action="SelectDisplayCategoryServlet" method="get">
             <input name="cat" type="hidden">
         </form>
 
-
         <c:choose>
-        <c:when test="${filter eq 'Boots'}">
-        <a id="cat-boots" class="active item">
+	        <c:when test="${filter eq 'Boots'}">
+	       		<a id="cat-boots" class="active item">
             </c:when>
             <c:otherwise>
-            <a id="cat-boots" class="item">
-                </c:otherwise>
-                </c:choose>
+            	<a id="cat-boots" class="item">
+            </c:otherwise>
+       </c:choose>
                 <div class="ui grid">
                     <div class="sixteen wide column categ-label-container">
                         <img class="ui mini image middle aligned" src="assets/boots.png">
@@ -356,13 +339,13 @@
                 </div>
             </a>
             <c:choose>
-            <c:when test="${filter eq 'Shoes'}">
-            <a id="cat-shoes" class="active item">
+            	<c:when test="${filter eq 'Shoes'}">
+            		<a id="cat-shoes" class="active item">
                 </c:when>
                 <c:otherwise>
-                <a id="cat-shoes" class="item">
-                    </c:otherwise>
-                    </c:choose>
+                	<a id="cat-shoes" class="item">
+                </c:otherwise>
+            </c:choose>
                     <div class="ui grid">
                         <div class="sixteen wide column categ-label-container">
                             <img class="ui mini image middle aligned" src="assets/shoes.png">
@@ -371,38 +354,40 @@
                         </div>
                     </div>
                 </a>
-                <c:choose>
-                <c:when test="${filter eq 'Sandals'}">
-                <a id="cat-sandals" class="active item">
-                    </c:when>
-                    <c:otherwise>
-                    <a id="cat-sandals" class="item">
-                        </c:otherwise>
-                        </c:choose>
-                        <div class="ui grid">
-                            <div class="sixteen wide column categ-label-container">
-                                <img class="ui mini image middle aligned" src="assets/sandals.png">
-                            </div>
-                            <div class="sixteen wide column categ-label-container"><span
-                                    class="category-label">sandals</span></div>
-                        </div>
-                    </a>
-                    <c:choose>
-                    <c:when test="${filter eq 'Slippers'}">
-                    <a id="cat-slippers" class="active item">
-                        </c:when>
-                        <c:otherwise>
-                        <a id="cat-slippers" class="item">
-                            </c:otherwise>
-                            </c:choose>
-                            <div class="ui grid">
-                                <div class="sixteen wide column categ-label-container">
-                                    <img class="ui mini image middle aligned" src="assets/slippers.png">
-                                </div>
-                                <div class="sixteen wide column categ-label-container"><span class="category-label">slippers</span>
-                                </div>
-                            </div>
-                        </a>
+          <c:choose>
+          	<c:when test="${filter eq 'Sandals'}">
+          		<a id="cat-sandals" class="active item">
+          	</c:when>
+            <c:otherwise>
+                <a id="cat-sandals" class="item">
+            </c:otherwise>
+         </c:choose>
+                	<div class="ui grid">
+                         <div class="sixteen wide column categ-label-container">
+                              <img class="ui mini image middle aligned" src="assets/sandals.png">
+                          </div>
+                          <div class="sixteen wide column categ-label-container">
+                         		<span class="category-label">sandals</span>
+                          </div>
+                    </div>
+               </a>
+          <c:choose>
+          	<c:when test="${filter eq 'Slippers'}">
+          		<a id="cat-slippers" class="active item">
+          	</c:when>
+          	<c:otherwise>
+          		<a id="cat-slippers" class="item">
+          	</c:otherwise>
+          </c:choose>
+          		<div class="ui grid">
+          			<div class="sixteen wide column categ-label-container">
+          				<img class="ui mini image middle aligned" src="assets/slippers.png">
+          			</div>
+          			<div class="sixteen wide column categ-label-container">
+          				<span class="category-label">slippers</span>
+          			 </div>
+          		</div>
+            </a>
     </div>
 </div>
 <div class="ui container segment">
@@ -443,11 +428,14 @@
 		                    <div class="content">
 		                        <div class="ui grid">
 		                            <div class="twelve wide column">
-		                                <a id="cart-${item.id}" class="item-name"><c:out value="${item.name}"></c:out></a>
+		                                <a id="cart-${item.id}" class="item-name">
+		                                	<c:out value="${item.name}"></c:out>
+		                                </a>
 		                                <div class="meta">
-		                                	<span class="price-label"><fmt:formatNumber value="${item.price}"
-		                                                                                type="currency"
-		                                                                                currencyCode="PHP">
+		                                	<span class="price-label">
+		                                		<fmt:formatNumber value="${item.price}"
+		                                                          type="currency"
+		                                                          currencyCode="PHP">
 		                                       	</fmt:formatNumber>
 		                                    </span>
 		                                </div>
@@ -517,13 +505,13 @@
                     <c:forEach var="currpage" items="${pages}">
                         <c:choose>
                             <c:when test="${currpage eq '..'}">
-                                <a class="disabled item navbtn">${currpage}</a>
+                                <a class="disabled item navbtn"><c:out value="${currpage}"/></a>
                             </c:when>
                             <c:when test="${currpage eq page}">
-                                <a class="  item navbtn">${currpage}</a>
+                                <a class="  item navbtn"><c:out value="${currpage}"/></a>
                             </c:when>
                             <c:otherwise>
-                                <a class="item navbtn">${currpage}</a>
+                                <a class="item navbtn"><c:out value="${currpage}"/></a>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
@@ -542,8 +530,6 @@
                 </div>
             </c:when>
         </c:choose>
-
-
     </div>
 </div>
 

@@ -1,18 +1,15 @@
 package database;
 
-import java.sql.Connection;
-//import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import model.AccountTypeEnum;
+import model.AccountTypeEnum.AccountType;
+import model.Address;
+import model.User;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-import model.AccountTypeEnum;
-import model.Address;
-import model.User;
-import model.AccountTypeEnum.AccountType;
+//import java.sql.Date;
 
 
 public class UserDAO {
@@ -369,7 +366,7 @@ public class UserDAO {
 	
 	public int getLogInAttempts(int id) {
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT log_in_atttempts FROM user WHERE id = ?;");
+			PreparedStatement ps = conn.prepareStatement("SELECT log_in_attempts FROM user WHERE id = ?;");
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();

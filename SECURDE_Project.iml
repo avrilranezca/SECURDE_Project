@@ -49,5 +49,6 @@
     <orderEntry type="library" name="org.json" level="project" />
     <orderEntry type="library" name="esapi-2.1.0" level="project" />
     <orderEntry type="library" name="commons-lang3-3.4" level="project" />
+    <orderEntry type="library" name="antisamy-1.5.1" level="project" />
   </component>
 </module>

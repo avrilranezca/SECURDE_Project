@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 	
 	private static String username = "root";
-	private static String password = "nbuser";
+	private static String password = "1234";
 	private static String schema = "securde_eshopping";
 	
 	public DatabaseConnection(){
