@@ -1,8 +1,10 @@
-<<<<<<< HEAD
 /antisamy/
-/servlets/
-/filter/
-=======
+<<<<<<< HEAD
 /database/
->>>>>>> 044538fef8bb926921adc13de9b1944df3e1be9c
+=======
+/servlets/
+>>>>>>> 30354b7e1b81dfe115371790397d280ebfa3960c
+/filter/
 /log/
+/model/
+/servlets/

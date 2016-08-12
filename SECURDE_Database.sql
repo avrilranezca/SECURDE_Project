@@ -61,7 +61,7 @@ CREATE TABLE `authorization_matrix` (
   `accounting_manager` tinyint(1) NOT NULL,
   `product_manager` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `authorization_matrix` (
 
 LOCK TABLES `authorization_matrix` WRITE;
 /*!40000 ALTER TABLE `authorization_matrix` DISABLE KEYS */;
-INSERT INTO `authorization_matrix` VALUES (1,'/index.jsp',1,0,0,0),(2,'/login.jsp',1,0,0,0),(3,'/sign-up.jsp',1,0,0,0),(4,'/view-product.jsp',1,0,0,0),(5,'/view-cart.jsp',1,0,0,0),(6,'/checkout_shipping.jsp',1,0,0,0),(7,'/checkout_billing.jsp',1,0,0,0),(8,'/changePassword.jsp',0,0,1,1),(9,'/accounting_manager.jsp',0,0,1,0),(10,'/product_manager.jsp',0,0,0,1),(11,'/index_admin.jsp',0,1,0,0),(12,'/checkout_confirm.jsp',1,0,0,0),(13,'/SelectDisplayCategoryServlet',1,0,0,0),(14,'/DisplaySpecificItemServlet',1,0,0,0),(15,'/IndexDisplayProductsServlet',1,0,0,0),(16,'/DisplayProductsServlet',0,0,0,1),(17,'/DisplayFinancialRecordsServlet',0,0,1,0),(18,'/DisplayManagersServlet',0,1,0,0),(19,'/CheckoutShippingServlet',1,0,0,0),(20,'/CheckoutBillingServlet',1,0,0,0),(21,'/CheckoutConfirmServlet',1,0,0,0);
+INSERT INTO `authorization_matrix` VALUES (1,'/index.jsp',1,0,0,0),(2,'/login.jsp',1,0,0,0),(3,'/sign-up.jsp',1,0,0,0),(4,'/view-product.jsp',1,0,0,0),(5,'/view-cart.jsp',1,0,0,0),(6,'/checkout_shipping.jsp',1,0,0,0),(7,'/checkout_billing.jsp',1,0,0,0),(8,'/changePassword.jsp',0,0,1,1),(9,'/accounting_manager.jsp',0,0,1,0),(10,'/product_manager.jsp',0,0,0,1),(11,'/index_admin.jsp',0,1,0,0),(12,'/checkout_confirm.jsp',1,0,0,0),(13,'/SelectDisplayCategoryServlet',1,0,0,0),(14,'/DisplaySpecificItemServlet',1,0,0,0),(15,'/IndexDisplayProductsServlet',1,0,0,0),(16,'/DisplayProductsServlet',0,0,0,1),(17,'/DisplayFinancialRecordsServlet',0,0,1,0),(18,'/DisplayManagersServlet',0,1,0,0),(19,'/CheckoutShippingServlet',1,0,0,0),(20,'/CheckoutBillingServlet',1,0,0,0),(21,'/CheckoutConfirmServlet',1,0,0,0),(22,'/LogoutServlet',1,1,1,1),(23,'/DisplayManagersServlet',0,1,0,0),(24,'/AddManagerServlet',0,1,0,0),(25,'/AddProductServlet',0,0,0,1),(26,'/AddReviewServlet',1,0,0,0),(27,'/AddToCartQuantityServlet',1,0,0,0),(28,'/AddToCartServlet',1,0,0,0),(29,'/ChangePasswordServlet',0,0,1,1),(30,'/DeleteProductServlet',0,0,0,1),(31,'/DisplayCartServlet',1,0,0,0),(32,'/EditProductServlet',0,0,0,1),(33,'/LoginServlet',1,1,1,1),(34,'/SignUpServlet',1,0,0,0),(35,'/UpdateCartQuantityServlet',1,0,0,0);
 /*!40000 ALTER TABLE `authorization_matrix` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -270,4 +270,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-08-12 15:27:45
+-- Dump completed on 2016-08-12 16:56:02
