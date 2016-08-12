@@ -27,7 +27,7 @@
             <%
                 ReviewDAO reviewDAO = new ReviewDAO();
                 String username=null;
-                        UserDAO uDAO = new UserDAO();
+                UserDAO uDAO = new UserDAO();
 
                 if(session.getAttribute("user") != null)
 	                username = (String) session.getAttribute("user");
@@ -59,8 +59,6 @@
 
             <%
                 }
-
-
             %>
 
             updateCart();
@@ -272,7 +270,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("/index") %>">
+                            <a href="IndexDisplayProductsServlet">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>
