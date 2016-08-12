@@ -45,7 +45,7 @@ public class AuthorizationFilter implements Filter {
 		System.out.println("USERNAME: " + username);
 		System.out.println("URI: " + uri);
 		
-		if (uri.indexOf("/resources") > 0){
+		if (uri.indexOf("resources") > 0){
 	        chain.doFilter(request, response);
 		} else if(username != null ) {
 			uri = "/" + uri.split("/")[uri.split("/").length-1];

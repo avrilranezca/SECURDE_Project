@@ -9,7 +9,10 @@ import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -106,7 +109,12 @@ public class LoginServlet extends HttpServlet {
 				String encodedURL = response.encodeRedirectURL("");
 //				response.sendRedirect(encodedURL);
 				Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
-				request.getRequestDispatcher("/index").forward(request, response);
+				//request.getRequestDispatcher("/index").forward(request, response);
+				response.sendRedirect("index.jsp");
+
+//				ServletContext sc = getServletContext();
+//				RequestDispatcher rd = sc.getRequestDispatcher("/IndexDisplayProductsServlet");
+//				rd.forward(request, response);
 			} else if(user.getAccount_type().equals(AccountType.ADMIN.toString())) {
 				request.getRequestDispatcher("/admin").forward(request, response);
 			} else if(user.getAccount_type().equals(AccountType.PRODUCT_MANAGER.toString())) {
