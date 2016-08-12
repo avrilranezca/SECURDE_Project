@@ -44,11 +44,17 @@ public class AuthorizationFilter implements Filter {
 		// pass the request along the filter chain
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		AuthorizationMatrixDAO authorizationDAO = new AuthorizationMatrixDAO();
-		if(authorizationDAO.isAuthorized(((User)httpRequest.getSession().getAttribute("user")).getId(), httpRequest.getRequestURI())) {
+		String username = (String) httpRequest.getSession().getAttribute("user");
+		String uri = httpRequest.getRequestURI();
+		System.out.println("USERNAME: " + username);
+		System.out.println("URI: " + uri);
+		if ( uri.indexOf("/assets") > 0 || uri.indexOf("/semantic") > 0 || uri.indexOf("/jquery") > 0 || uri.indexOf("/style") > 0 ){
+	        chain.doFilter(request, response);
+		} else if(username == null || authorizationDAO.isAuthorized(username, uri)) {
 			chain.doFilter(request, response);
 		} else {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
-			response.getWriter().append("You are not authorized to access this page.");
+			httpRequest.getRequestDispatcher("/index").forward(httpRequest, httpResponse);
 		}
 		
 	}
