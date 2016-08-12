@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import log.Logger;
 import model.User;
 import database.UserDAO;
 
@@ -19,58 +20,67 @@ import database.UserDAO;
 @WebServlet("/ChangePasswordServlet")
 public class ChangePasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public ChangePasswordServlet() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		   Cookie[] cookies = request.getCookies();
-           String username = "";
            
-           if(cookies !=null){
-               for(int i = 0; i < cookies.length; i++) {
-                   Cookie c = cookies[i];
-                   if (c.getName().equals("user")) {
-                      username =  c.getValue();
-                      System.out.println("---Change password----\n Cookie username: "+username);
-                   }
-               }
-           }
-           
-           if(!"".equals(username)){
-        	   //in progress not yet final
-        	   //verify if this is correct
-        	   HttpSession session = request.getSession();
-        	   String sessionUser =  (String) session.getAttribute("user");
-        	   
-        	   UserDAO uDAO = new UserDAO();
-        	   User user = uDAO.getUser(username, request.getParameter("oldpw"));
-        	   
-        	   if(user != null && uDAO.getUserSessionID(user) != ""){
-        		  //update old password
-        		   uDAO.updatePassword(user, request.getParameter("newpw"));
-        		   System.out.println("Updating password success....");
-        		   String encodedURL = response.encodeRedirectURL("index.jsp");
-//          		response.sendRedirect(encodedURL)
-        		   request.getRequestDispatcher(encodedURL).forward(request,response);
-        	   }
-           }else{
-        	   request.setAttribute("error", "Incorrect password!");
-        	   String encodedURL = response.encodeRedirectURL("changePassword.jsp");
-//       		response.sendRedirect(encodedURL)
-        	   request.getRequestDispatcher(encodedURL).forward(request,response);
-        	   return;
-           }
-		
-	}
+		   String username = (String) request.getSession().getAttribute("user");
+		   String sessionID = request.getSession().getId();
+		   
+		   UserDAO uDAO = new UserDAO();
+		   User u = uDAO.getUser(username);
+		   
+		   String uSessionID = uDAO.getUserSessionID(u);
 
+		   if(sessionID.equals(uSessionID)){
+			   
+			   User temp = uDAO.getUser(username,  request.getParameter("oldpw"));
+			   if(temp != null){
+				   //update old password
+        		   uDAO.updatePassword(u, request.getParameter("newpw"));
+        		   System.out.println("Updating password success....");
+        		   String encodedURL = response.encodeRedirectURL("/index");
+        		   response.sendRedirect(encodedURL);
+			   }else{
+				   
+				   	request.setAttribute("error", "Incorrect password!");
+	        	   
+	   				if(temp!=null || (temp!=null && uDAO.isLocked(temp.getId())!=null)){
+	   					System.out.print("lck: ");
+	   					System.out.println(request.getSession().getAttribute("lock"));
+	   					
+	   					int i = uDAO.getLogInAttempts(temp.getId());
+	   					uDAO.incrementLogInAttempts(temp.getId());
+
+	   					if(i+1>=5){
+	   						if(uDAO.isLocked(temp.getId())==null){
+	   							System.out.println("here");
+	   							uDAO.lock(temp.getId());
+	   							Logger.write(temp.getId() + "", request.getRemoteAddr(), "locked out");
+	   							request.setAttribute("error", "Incorrect password! Too many failed attempts at logging in. This account has been locked for five minutes.");
+	   							uDAO.setUserSessionID(u, null);
+	   						}
+	   						else{
+	   							System.out.println("there");
+	   							request.setAttribute("error", "Too many failed attempts at logging in. This account has been locked for five minutes.");
+	   						}
+	   					} else
+	   						Logger.write(temp.getId() + "", request.getRemoteAddr(), "unsuccessful password validation");
+	   					
+	   				}
+	   				
+	   				// if the password is wrong set redirected page to login.jsp
+	   			   String encodedURL = response.encodeRedirectURL("login.jsp");
+	   			   request.getRequestDispatcher(encodedURL).forward(request,response);
+			   }
+			   
+		   }else{
+			   uDAO.setUserSessionID(u, null);
+			   String encodedURL = response.encodeRedirectURL("/index");
+    		   response.sendRedirect(encodedURL);
+		   }	
+	}
 }

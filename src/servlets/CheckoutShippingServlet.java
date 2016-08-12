@@ -20,63 +20,37 @@ import database.UserDAO;
 @WebServlet("/CheckoutShippingServlet")
 public class CheckoutShippingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String shippingStep = "Shipping";
-	public static final String billingStep = "Billing";
-	public static final String confirmStep = "Confirm";
-	public static final String step_key = "Step";
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+      
     public CheckoutShippingServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-    
-    public String checkUser(HttpServletRequest request){
-    	  String userName="";
-          boolean foundCookie = false;         
-          if(request.getSession().getAttribute("user") != null){
-
-              userName = (String) request.getSession().getAttribute("user");
-              foundCookie=true;
-          }
-          Cookie[] cookies = request.getCookies();
-
-          if(cookies !=null){
-              for(int i = 0; i < cookies.length; i++) {
-                  Cookie c = cookies[i];
-                  if (c.getName().equals("user")) {
-                      foundCookie = true;
-                  }
-              }
-          }
-          
-          if (foundCookie && userName!=null) {
-        	  return userName;
-          }
-          
-          return null;
-    }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		 System.out.println("PASOK CHECKOUT SERVLET");
-		 UserDAO uDAO = new UserDAO();
-		 String userName = checkUser(request);
-         if (userName!=null) {
-        	 User u = uDAO.getUser(userName);
-        	 Address a =  uDAO.getShippingAddress(u.getShipping_address_id());
-             request.setAttribute("address", a);
-        
-         }else{
-        	  request.setAttribute("address", null);
-         }
-        
- 		 request.getRequestDispatcher("checkout_shipping.jsp").forward(request, response);
+		
+		String userName = (String) request.getSession().getAttribute("user");
+		String sessionID = request.getSession().getId();
+	   
+		UserDAO uDAO = new UserDAO();
+		User u = uDAO.getUser(userName);
+		String uSessionID = uDAO.getUserSessionID(u);
+		
+		if(uSessionID.equals(sessionID)){
+			
+			if(u != null){
+	        	Address a =  uDAO.getShippingAddress(u.getShipping_address_id());
+	            request.setAttribute("address", a);
+			}else{
+				request.setAttribute("address", null);
+			}
+			
+			String encodedURL = response.encodeRedirectURL("checkout_shipping.jsp");
+			request.getRequestDispatcher(encodedURL).forward(request, response);
+			
+		}else{
+			uDAO.setUserSessionID(u, null);
+			String encodedURL = response.encodeRedirectURL("/index");
+			response.sendRedirect(encodedURL);
+		}        
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -87,14 +61,25 @@ public class CheckoutShippingServlet extends HttpServlet {
 		String sCity = request.getParameter("sCity");
 		String sCountry = request.getParameter("sCountry");
 		
-		String userName = checkUser(request);
-		if(userName != null){
-			UserDAO uDAO = new UserDAO();
-			User u = uDAO.getUser(userName);
-			Address a = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
-			uDAO.updateShippingAddress(u, a);
-	 		request.getRequestDispatcher("checkout_billing.jsp").forward(request, response);
-		}else
-	 		request.getRequestDispatcher("checkout_shipping.jsp").forward(request, response);
+		String userName = (String) request.getSession().getAttribute("user");
+		String sessionID = request.getSession().getId();
+	   
+		UserDAO uDAO = new UserDAO();
+		User u = uDAO.getUser(userName);
+		String uSessionID = uDAO.getUserSessionID(u);
+		String encodedURL = "";
+		
+		if(uSessionID.equals(sessionID)){
+			if(u!= null){
+				Address a = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
+				uDAO.updateShippingAddress(u, a);
+				encodedURL = response.encodeRedirectURL("checkout_billing.jsp");
+		 		request.getRequestDispatcher(encodedURL).forward(request, response);
+			}
+		}else{
+			uDAO.setUserSessionID(u, null);
+			encodedURL = response.encodeRedirectURL("/index");
+			response.sendRedirect(encodedURL);
+		}
 	}
 }

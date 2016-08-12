@@ -30,16 +30,23 @@ public class UserPasswordValidationServlet extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userName = checkUser(request);
 		
-		if(userName != null){
-			String password = request.getParameter("password");
+	   String userName = (String) request.getSession().getAttribute("user");
+	   String sessionID = request.getSession().getId();
+	   String password = request.getParameter("password");
+	   
+	   UserDAO uDAO = new UserDAO();
+	   User u = uDAO.getUser(userName);
+	   
+	   String uSessionID = uDAO.getUserSessionID(u);
+		
+		if(uSessionID.equals(sessionID)){
 			
-			UserDAO uDAO = new UserDAO();
-			User u = uDAO.getUser(userName,password);
-			User temp = uDAO.getUser(userName);
-	
-			if(u == null){
+			User temp = uDAO.getUser(userName,password);
+			if(temp != null){
+				String encodedURL = response.encodeRedirectURL("/index");
+				response.sendRedirect(encodedURL);
+			}else{
 				request.setAttribute("error", "Incorrect password!");
 				
 				if(temp!=null || (temp!=null && uDAO.isLocked(temp.getId())!=null)){
@@ -47,9 +54,9 @@ public class UserPasswordValidationServlet extends HttpServlet {
 					System.out.println(request.getSession().getAttribute("lock"));
 					
 					int i = uDAO.getLogInAttempts(temp.getId());
-//					request.getSession().setAttribute("lock", i+1);
+		//					request.getSession().setAttribute("lock", i+1);
 					uDAO.incrementLogInAttempts(temp.getId());
-
+		
 					if(i+1>=5){
 						if(uDAO.isLocked(temp.getId())==null){
 							System.out.println("here");
@@ -64,36 +71,17 @@ public class UserPasswordValidationServlet extends HttpServlet {
 					} else{
 						Logger.write(temp.getId() + "", request.getRemoteAddr(), "unsuccessful password validation");
 					}
+					
+					//if the password is wrong set redirected page to login
+					String encodedURL = response.encodeRedirectURL("login.jsp");
+					request.getRequestDispatcher(encodedURL).forward(request, response);
 				}
 			}
-	 		//request.getRequestDispatcher("index.jsp").forward(request, response);
+		}else{
+			uDAO.setUserSessionID(u, null);
+			String encodedURL = response.encodeRedirectURL("/index");
+			response.sendRedirect(encodedURL);
+			
 		}
 	}
-	
-	public String checkUser(HttpServletRequest request){
-  	  String userName="";
-        boolean foundCookie = false;         
-        if(request.getSession().getAttribute("user") != null){
-
-            userName = (String) request.getSession().getAttribute("user");
-            foundCookie=true;
-        }
-        Cookie[] cookies = request.getCookies();
-
-        if(cookies !=null){
-            for(int i = 0; i < cookies.length; i++) {
-                Cookie c = cookies[i];
-                if (c.getName().equals("user")) {
-                    foundCookie = true;
-                }
-            }
-        }
-        
-        if (foundCookie && userName!=null) {
-      	  return userName;
-        }
-	        
-	     return null;
-	 }
-
 }
