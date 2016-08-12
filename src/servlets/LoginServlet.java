@@ -52,7 +52,6 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		System.out.println("HELLLO");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String token = request.getParameter("token");
@@ -139,7 +138,6 @@ public class LoginServlet extends HttpServlet {
 			}
 
 			String encodedURL = response.encodeRedirectURL("login.jsp");
-//			response.sendRedirect(encodedURL);
 			request.getRequestDispatcher(encodedURL).forward(request,response);
 			return;
 		}

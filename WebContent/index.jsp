@@ -127,8 +127,8 @@
                     }
                 });
 
-                $("#addtocart-form input[name=itemID]").val(id);
-                $("#addtocart-form").submit();
+              //  $("#addtocart-form input[name=itemID]").val(id);
+              //  $("#addtocart-form").submit();
             });
 
 

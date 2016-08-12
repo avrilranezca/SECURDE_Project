@@ -32,92 +32,85 @@ import database.UserDAO;
 @WebServlet("/CheckoutConfirmServlet")
 public class CheckoutConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public CheckoutConfirmServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 UserDAO uDAO = new UserDAO();
-		 String userName = checkUser(request);
-         if (userName!=null) {
-        	 User u = uDAO.getUser(userName);
-        	 Address a =  uDAO.getBillingAddress(u.getBilling_address_id());
-             request.setAttribute("billing", a);
-             
-             a = uDAO.getShippingAddress(u.getShipping_address_id());
-             request.setAttribute("shipping", a);
+		
+		String userName = (String) request.getSession().getAttribute("user");
+		String sessionID = request.getSession().getId();
+	   
+		UserDAO uDAO = new UserDAO();
+		User u = uDAO.getUser(userName);
+		String uSessionID = uDAO.getUserSessionID(u);
+		
+		if(uSessionID.equals(sessionID)){
+			if(u != null){
+				 Address a =  uDAO.getBillingAddress(u.getBilling_address_id());
+	             request.setAttribute("billing", a);
+	             
+	             a = uDAO.getShippingAddress(u.getShipping_address_id());
+	             request.setAttribute("shipping", a);
+	             
+	 			 String encodedURL = response.encodeRedirectURL("/checkout_confirm.jsp");
+	     		 request.getRequestDispatcher(encodedURL).forward(request, response);
+			}
+			
+		}else{
+			uDAO.setUserSessionID(u, null);
+			String encodedURL = response.encodeRedirectURL("/index");
+			response.sendRedirect(encodedURL);
+		}
         
-         }else{
-        	  request.setAttribute("billing", null);
-        	  request.setAttribute("shipping", null);
-         }
-        
- 		 request.getRequestDispatcher("checkout_confirm.jsp").forward(request, response);
  	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userName = checkUser(request);
-		if(userName != null){
-			
-			TransactionDAO tDAO = new TransactionDAO();
-			ProductDAO pDAO = new ProductDAO();
-			ArrayList<TransactionEntry> entryList = new ArrayList<TransactionEntry>();
-			
-			Calendar cal = Calendar.getInstance(); 
-			Transaction t = new Transaction(new UserDAO().getUser(userName).getId(), cal.getTime());
-			
-			String s = (String) request.getSession().getAttribute("item");
-			JSONArray arr;
-			
-			try {
-				arr = new JSONArray(s);
-				for(int i=0; i<arr.length(); i++){
-					JSONObject obj = arr.getJSONObject(i);
-					int product_id = Integer.parseInt(obj.getString("id"));
-					int quantity = obj.getInt("quantity");
-					double price = pDAO.getProductOnID(product_id).getPrice();
+
+		String userName = (String) request.getSession().getAttribute("user");
+		String sessionID = request.getSession().getId();
+	   
+		UserDAO uDAO = new UserDAO();
+		User u = uDAO.getUser(userName);
+		String uSessionID = uDAO.getUserSessionID(u);
+		
+		if(uSessionID.equals(sessionID)){
+			if(u != null){
+				TransactionDAO tDAO = new TransactionDAO();
+				ProductDAO pDAO = new ProductDAO();
+				ArrayList<TransactionEntry> entryList = new ArrayList<TransactionEntry>();
+				
+				Calendar cal = Calendar.getInstance(); 
+				Transaction t = new Transaction(new UserDAO().getUser(userName).getId(), cal.getTime());
+				
+				String s = (String) request.getSession().getAttribute("item");
+				JSONArray arr;
+				
+				try {
+					arr = new JSONArray(s);
+					for(int i=0; i<arr.length(); i++){
+						JSONObject obj = arr.getJSONObject(i);
+						int product_id = Integer.parseInt(obj.getString("id"));
+						int quantity = obj.getInt("quantity");
+						double price = pDAO.getProductOnID(product_id).getPrice();
+						
+						TransactionEntry  te = new TransactionEntry(product_id, quantity, quantity*price);
+						entryList.add(te);
+					}
 					
-					TransactionEntry  te = new TransactionEntry(product_id, quantity, quantity*price);
-					entryList.add(te);
+					tDAO.addTransaction(t, entryList);
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				tDAO.addTransaction(t, entryList);
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+		}else{
+			uDAO.setUserSessionID(u, null);	
 		}
-	}
-	
-	public String checkUser(HttpServletRequest request){
-  	  String userName="";
-        boolean foundCookie = false;         
-        if(request.getSession().getAttribute("user") != null){
-
-            userName = (String) request.getSession().getAttribute("user");
-            foundCookie=true;
-        }
-        Cookie[] cookies = request.getCookies();
-
-        if(cookies !=null){
-            for(int i = 0; i < cookies.length; i++) {
-                Cookie c = cookies[i];
-                if (c.getName().equals("user")) {
-                    foundCookie = true;
-                }
-            }
-        }
-        
-        if (foundCookie && userName!=null) {
-      	  return userName;
-        }
-        
-        return null;
+		
+		String encodedURL = response.encodeRedirectURL("/index");
+		response.sendRedirect(encodedURL);
 	}
 }
