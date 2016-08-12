@@ -8,6 +8,10 @@
 <%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
+<%@ page import="database.UserDAO" %>
+<%@ page import="model.User" %>
+<%@ page import="model.Review" %>
+<%@ page import="java.util.Date" %>
 <! DOCTYPE html>
 <html>
 <head>
@@ -22,34 +26,44 @@
             
             <%
                 ReviewDAO reviewDAO = new ReviewDAO();
-            %>
-            <%--    String userName=null;
+
+                String username=null;
+                        UserDAO uDAO = new UserDAO();
 
                 if(session.getAttribute("user") != null)
-	                userName = (String) session.getAttribute("user");
-                
-                /*Cookie[] cookies = request.getCookies();
+	                username = (String) session.getAttribute("user");
 
-                if(cookies !=null){
-                        for(int i = 0; i < cookies.length; i++) {
-                            Cookie c = cookies[i];
-                            if (c.getName().equals("user")) {
-                                foundCookie = true;
-                            }
-                        }
-                }*/
 
-                if (userName==null) { System.out.println("BROOM");
-            %>
+                String sessionID = request.getSession().getId();
+
+
+                if(username!=null) {
+                        User u = uDAO.getUser(username);
+                        String uSessionID = uDAO.getUserSessionID(u);
+                        if(uSessionID.equals(sessionID)){
+                   %>
+                        $('#login-menu').hide();
+                    <%
+                        } else {
+                    uDAO.setUserSessionID(u, null);
+                 %>
+
                     $('#welcome-menu').hide();
+                    <%
+                    }
+                    %>
             <%
-                } else { System.out.println("broom");
-            %>
-                    $('#login-menu').hide();
+
+                }else{
+                    %>
+            $('#welcome-menu').hide();
+
             <%
                 }
+
+
             %>
- --%>
+
             updateCart();
 
             $('#logout').click(function(){

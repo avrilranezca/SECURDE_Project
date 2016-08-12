@@ -27,6 +27,10 @@
                         .modal('show')
                 ;
             }));
+            
+            $('#logout').click(function(){
+                $('#logout-form').submit();
+            });
 			
         });
         function editProduct(index) {
@@ -50,14 +54,15 @@
     </script>
 </head>
 <body>
-<div id="#welcome-menu" class="ui container hidden">
+<div id="#welcome-menu" class="ui container">
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                 <div class="ui sub header"> Welcome Shayane!</div>
+                 <div class="ui sub header"> Welcome <c:out value="${user }"/>!</div>
             </div>
             <div class="two wide column">
-                  <div class="ui tiny right aligned basic button">Logout</div>
+                  <div class="ui tiny right aligned basic button" id="logout">Logout</div>
+                  <form id="logout-form" action="LogoutServlet" method="post"></form>
             </div>
         </div>       
     </div>
