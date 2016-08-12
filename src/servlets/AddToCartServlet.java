@@ -39,6 +39,7 @@ public class AddToCartServlet extends HttpServlet {
 //        if(request.getSession().getAttribute("user")!=null && username!=null){
 //            System.out.println("here");
 
+        System.out.println("userrrr: "+request.getSession().getAttribute("user"));
 
         JSONArray arr = new JSONArray();
         if(null != request.getSession().getAttribute("item")){
