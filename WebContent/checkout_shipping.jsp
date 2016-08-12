@@ -164,7 +164,7 @@
 	              }
 	            });
 	    	});
-    </script>
+    </script> fc
 </head>
 <body>
 <div id="login-menu" class="ui top attached menu">
