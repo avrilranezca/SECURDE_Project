@@ -49,12 +49,13 @@ public class CheckoutConfirmServlet extends HttpServlet {
 		if(uSessionID.equals(sessionID)){
 			if(u != null){
 				 Address a =  uDAO.getBillingAddress(u.getBilling_address_id());
-	             request.setAttribute("billing", a);
+				 System.out.println("null si address confirm page ");
+	             request.getSession().setAttribute("billing", a);
 	             
 	             a = uDAO.getShippingAddress(u.getShipping_address_id());
-	             request.setAttribute("shipping", a);
+	             request.getSession().setAttribute("shipping", a);
 	             
-	 			 String encodedURL = response.encodeRedirectURL("/checkout_confirm.jsp");
+	 			 String encodedURL = response.encodeRedirectURL("checkout_confirm.jsp");
 	     		 request.getRequestDispatcher(encodedURL).forward(request, response);
 			}
 			

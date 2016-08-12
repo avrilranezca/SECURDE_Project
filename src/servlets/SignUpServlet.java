@@ -85,7 +85,7 @@ public class SignUpServlet extends HttpServlet {
 		aDao.addAddress(sAddress);
 		
 		uDao.updateBillingAddress(u, bAddress);
-		uDao.updateShippingAddress(u, bAddress);
+		uDao.updateShippingAddress(u, sAddress);
 		
 		String encodedURL = response.encodeRedirectURL("index");
 		response.sendRedirect(encodedURL);

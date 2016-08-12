@@ -30,8 +30,6 @@ public class CheckoutShippingServlet extends HttpServlet {
 		String userName = (String) request.getSession().getAttribute("user");
 		
 		String sessionID = request.getSession().getId();
-		System.out.println("FROM AJAX: "+ request.getParameter("user"));
-		System.out.println("userName: "+userName);
 		UserDAO uDAO = new UserDAO();
 		User u = uDAO.getUser(userName);
 		
@@ -41,10 +39,14 @@ public class CheckoutShippingServlet extends HttpServlet {
 		if(uSessionID.equals(sessionID)){
 			
 			if(u != null){
+				System.out.println("not null si user inside checout hsipping");
+				System.out.println("Shipping address iD: "+ u.getShipping_address_id());
 	        	Address a =  uDAO.getShippingAddress(u.getShipping_address_id());
-	            request.setAttribute("address", a);
-			}else{
-				request.setAttribute("address", null);
+	        	if(a == null)
+	        		System.out.println("null si address :( ");
+	        	System.out.println("A: "+ a.getCity());
+	        	
+	            request.getSession().setAttribute("address", a);
 			}
 			
 			String encodedURL = response.encodeRedirectURL("checkout_shipping.jsp");
@@ -76,7 +78,8 @@ public class CheckoutShippingServlet extends HttpServlet {
 		if(uSessionID.equals(sessionID)){
 			if(u!= null){
 				Address a = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
-				uDAO.updateShippingAddress(u, a);
+				AddressDAO aDAO = new AddressDAO();
+				aDAO.updateAddress(u.getShipping_address_id(), a);
 				encodedURL = response.encodeRedirectURL("checkout_billing.jsp");
 		 		request.getRequestDispatcher(encodedURL).forward(request, response);
 			}

@@ -92,7 +92,9 @@ public class UserDAO {
 					user = new User(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"),
 							rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
 					
-					
+					user.setBilling_address_id(rs.getInt("billing_address_id"));
+					user.setShipping_address_id(rs.getInt("shipping_address_id"));
+
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -457,7 +459,7 @@ public class UserDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = conn.prepareStatement("SELECT A.* FROM user U INNER JOIN address A ON U.billing_address_id = A.id WHERE U.id = ?;");
+			ps = conn.prepareStatement("SELECT A.* FROM user U INNER JOIN address A ON U.billing_address_id = A.id WHERE A.id = ?;");
 			ps.setInt(1, id);
 			
 			rs = ps.executeQuery();
@@ -493,7 +495,7 @@ public class UserDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = conn.prepareStatement("SELECT A.* FROM user U INNER JOIN address A ON U.shipping_address_id = A.id WHERE U.id = ?;");
+			ps = conn.prepareStatement("SELECT A.* FROM user U INNER JOIN address A ON U.shipping_address_id = A.id WHERE A.id = ?;");
 			ps.setInt(1, id);
 			
 			rs = ps.executeQuery();

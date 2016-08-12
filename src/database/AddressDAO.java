@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.Address;
+import model.User;
 
 public class AddressDAO {
 	
@@ -83,6 +84,35 @@ public class AddressDAO {
 		}
 		return id;
 	}
+	
+	public void updateAddress(int id, Address a) {
+		
+		PreparedStatement ps = null;
+		
+		try{
+			ps = conn.prepareStatement("UPDATE address SET house_no= ?, street=?, subdivision=?, city=?,postal_code=?,country=? WHERE id = ?");
+			ps.setString(1, a.getHouse_no());
+			ps.setString(2, a.getStreet());
+			ps.setString(3, a.getSubdivision());
+			ps.setString(4, a.getCity());
+			ps.setString(5, a.getPostal_code());
+			ps.setString(6, a.getCountry());
+			ps.setInt(7, id);
+			
+			ps.executeUpdate();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 	
 
 }
