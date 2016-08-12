@@ -60,6 +60,7 @@ public class AuthorizationFilter implements Filter {
 				} else if(accountType.equals(AccountType.ACCOUNTING_MANAGER.toString())) {
 					request.getRequestDispatcher("/accounting_manager").forward(request, response);
 				}
+	        	chain.doFilter(request, response);
 	        } else if(authorizationDAO.isAuthorized(username, uri)) {
 				System.out.println("Authorized");
 				chain.doFilter(request, response);
