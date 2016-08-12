@@ -3,6 +3,10 @@ package servlets;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+
+import model.User;
+import database.UserDAO;
+
 import java.io.IOException;
 
 /**
@@ -22,17 +26,21 @@ public class LogoutServlet extends HttpServlet {
                 response.addCookie(cookie);
             }
         }
+        
+        
         //invalidate the session if exists
         HttpSession session = request.getSession(false);
-        System.out.println("User="+session.getAttribute("user"));
-        if(session != null){
+        String username = (String) session.getAttribute("user");
+        UserDAO uDAO = new UserDAO();
+        User u = uDAO.getUser(username);
+        uDAO.setUserSessionID(u, session.getId());
+        
+        System.out.println("User="+username);
+        if(session != null)
             session.invalidate();
-        }
+        
         //no encoding because we have invalidated the session
         response.sendRedirect("login.jsp");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }

@@ -22,21 +22,12 @@ public class AddToCartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("itemID").split("-")[1];
         
-
-//        System.out.println("yes!");
-//        System.out.println(request.getSession().getAttribute("user"));
-
         Cookie[] cookies = request.getCookies();
 
-//        String username=null;
         String item = null;
         if(cookies !=null){
             for(int i = 0; i < cookies.length; i++) {
                 Cookie c = cookies[i];
-//                if (c.getName().equals("user")) {
-//                    username=c.getValue();
-//                }
-//                else
                 if (c.getName().equals("item")) {
                     item=c.getValue();
                 }

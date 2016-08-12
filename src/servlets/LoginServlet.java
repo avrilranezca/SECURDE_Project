@@ -87,13 +87,15 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("user", user.getUser_name());
 			session.setAttribute( "activation-time", System.currentTimeMillis() );
 			dao.setLastLogin(user.getId());
+			dao.setUserSessionID(user, session.getId());
+			
 			if(s!=null) session.setAttribute("item", s);
 			//setting session to expiry in 30 mins
 
-			Cookie userName = new Cookie("user", user.getUser_name());
+//			Cookie userName = new Cookie("user", user.getUser_name());
 //			userName.setSecure(true);
 //			userName.setHttpOnly(true);
-			response.addCookie(userName);
+//			response.addCookie(userName);
 			//Get the encoded URL string
 
 			ProductDAO dao2 = new ProductDAO();
@@ -108,7 +110,8 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}else{
 
-			if(username.equals("")||password.equals("")) request.setAttribute("error", "Fill up all fields.");
+			if(username.equals("")||password.equals("")) 
+				request.setAttribute("error", "Fill up all fields.");
 			else{
 				request.setAttribute("error", "Incorrect username/password!");
 
@@ -134,9 +137,6 @@ public class LoginServlet extends HttpServlet {
 					}
 				}
 			}
-
-
-
 
 			String encodedURL = response.encodeRedirectURL("login.jsp");
 //			response.sendRedirect(encodedURL);
