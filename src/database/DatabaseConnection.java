@@ -6,7 +6,35 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 	
-	private static String username = "root";
+	private Connection conn;
+    public static DatabaseConnection db;
+    private DatabaseConnection() {
+        String url= "jdbc:mysql://localhost:3306/";
+        String dbName = "securde_eshopping";
+        String driver = "com.mysql.jdbc.Driver";
+        String userName = "root";
+        String password = "crAter16";
+        try {
+            Class.forName(driver).newInstance();
+            this.conn = (Connection)DriverManager.getConnection(url+dbName,userName,password);
+        }
+        catch (Exception sqle) {
+            sqle.printStackTrace();
+        }
+    }
+    /**
+     *
+     * @return DatabaseConnection Database connection object
+     */
+    public static synchronized Connection getConnection() {
+        if ( db == null ) {
+            db = new DatabaseConnection();
+        }
+        return db.conn;
+ 
+    }
+	
+	/*private static String username = "root";
 	private static String password = "Cs20";
 	private static String schema = "securde_eshopping";
 	
@@ -27,5 +55,5 @@ public class DatabaseConnection {
 			e.printStackTrace();
 		}
 		return conn;
-	}
+	}*/
 }
