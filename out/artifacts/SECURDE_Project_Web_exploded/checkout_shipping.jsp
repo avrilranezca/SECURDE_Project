@@ -1,3 +1,6 @@
+<%@page import="model.User"%>
+<%@page import="database.UserDAO"%>
+<%@page import="database.ReviewDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
@@ -16,40 +19,6 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-        	
-        	
-        	
-        	
-            <%
-                String userName=null;
-
-                boolean foundCookie = false;
-                if(session.getAttribute("user") != null){
-
-	                userName = (String) session.getAttribute("user");
-	                foundCookie=true;
-                }
-                            Cookie[] cookies = request.getCookies();
-
-                            if(cookies !=null){
-                                    for(int i = 0; i < cookies.length; i++) {
-                                        Cookie c = cookies[i];
-                                        if (c.getName().equals("user")) {
-                                            foundCookie = true;
-                                        }
-                                    }
-                            }
-
-                            if (!foundCookie || userName==null) {
-            %>
-            $('#welcome-menu').hide();
-            <%
-                } else {
-            %>
-            $('#login-menu').hide();
-            <%
-                }
-            %>
 
             updateCart();
 
@@ -60,7 +29,6 @@
                         on: 'click'
                     })
             ;
-
      
         
             function updateCart(){
@@ -164,17 +132,10 @@
 	              }
 	            });
 	    	});
-    </script> fc
+    </script> 
 </head>
 <body>
-<div id="login-menu" class="ui top attached menu">
-    <div class="right menu">
-        <div class="ui right aligned item top-nav">
-            <a href="<%=response.encodeURL("login.jsp") %>" id="login" class="item top-nav-item">login</a>
-            <a href="<%=response.encodeURL("sign-up.jsp") %>" class="item top-nav-item">sign up</a>
-        </div>
-    </div>
-</div>
+
 <div id="welcome-menu" class="ui container">
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
@@ -194,7 +155,7 @@
                 <div class="four wide column center aligned">
                     <div class="ui header center aligned">
                         <div class="content brand-container">
-                            <a href="<%=response.encodeURL("index.jsp") %>">
+                            <a href="IndexDisplayProductsServlet">
                                 <span>Talaria</span>
                                 <div class="sub header">
                                     <span>Footwear Co.</span>

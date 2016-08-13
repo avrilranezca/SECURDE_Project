@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 @WebServlet("/UpdateCartQuantityServlet")
 public class UpdateCartQuantityServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         int ind = Integer.parseInt(request.getParameter("index"));
         int val = Integer.parseInt(request.getParameter("value"));
         JSONArray arr = new JSONArray();
@@ -38,30 +39,45 @@ public class UpdateCartQuantityServlet extends HttpServlet {
                     subtotal=-1;
                 }
 
-                float total=0;
-                boolean exist=false;
-                for (int i=0; i<arr.length(); i++){
-                    JSONObject obj = arr.getJSONObject(i);
-                    total+=(obj.getInt("quantity")*(new ProductDAO()).getProductOnID(Integer.parseInt(obj.getString("id"))).getPrice());
+                if(arr.length()>0){
+                    System.out.println("HEEEEEEEEEEEEEEEEEEERE");
+                    float total=0;
+                    int count =0 ;
+                    boolean exist=false;
+                    for (int i=0; i<arr.length(); i++){
+                        JSONObject obj = arr.getJSONObject(i);
+                        count+=obj.getInt("quantity");
+                        total+=(obj.getInt("quantity")*(new ProductDAO()).getProductOnID(Integer.parseInt(obj.getString("id"))).getPrice());
 
-                }
+                    }
 
 //                JSONArray array = new JSONArray();
-                JSONObject member =  new JSONObject();
-                member.put("subtotal", subtotal);
-                member.put("totalsum", total);
+                    JSONObject member =  new JSONObject();
+                    member.put("pName", (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getName());
+                    member.put("num", count);
+                    member.put("price", (new ProductDAO()).getProductOnID(Integer.parseInt(arr.getJSONObject(arr.length()-1).getString("id"))).getPrice());
+                    member.put("subtotal", subtotal);
+                    member.put("totalsum", total);
 //                array.put(member);
 
-                PrintWriter printWriter  = response.getWriter();
-                printWriter.println(member.toString());
-                printWriter.flush();
+                    PrintWriter printWriter  = response.getWriter();
+                    printWriter.println(member.toString());
+                    printWriter.flush();
+
+                    System.out.println("session: "+arr.toString());
+                    request.getSession().setAttribute("item", arr.toString());
+                }
+                else{
+                    request.getSession().removeAttribute("item");PrintWriter printWriter  = response.getWriter();
+                    printWriter.println((new JSONObject()).toString());
+                    printWriter.flush();
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        System.out.println("session: "+arr.toString());
-        request.getSession().setAttribute("item", arr.toString());
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

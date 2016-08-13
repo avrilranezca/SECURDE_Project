@@ -83,8 +83,35 @@
 	            })
 	        ;
 
+            Number.prototype.formatMoney = function(c, d, t){
+                var n = this,
+                        c = isNaN(c = Math.abs(c)) ? 2 : c,
+                        d = d == undefined ? "." : d,
+                        t = t == undefined ? "," : t,
+                        s = n < 0 ? "-" : "",
+                        i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+                        j = (j = i.length) > 3 ? j % 3 : 0;
+                return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+            };
+
             function updateCart(data){
-                <%
+                var i =0;
+                if(data!=null) {
+//                    while (i < data.length()) {
+                        $("#cart-button").attr("data-badge", data.num);
+                        $("#total").html('PHP'+(data.totalsum).formatMoney(2));
+                        $("#recent-cart").show();
+                        $("#empty-cart").hide();
+
+                        $("#cart-name").text(data.pName);
+                        $("#cart-subtotal").text('PHP'+(data.price).formatMoney(2));
+                        $("#cart-total").text('PHP'+(data.totalsum).formatMoney(2));
+
+                        $("#cart-capacity").html(data.num+" Item/s");
+//                    }
+                }
+                else{
+                    <%
                 if(session.getAttribute("item") != null){
                     int capacity =0;
                     float sum = 0;
@@ -109,19 +136,20 @@
 
                     $("#empty-cart").hide();
 
-                    $("#cart-name").html("<%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
+                    $("#cart-name").html(" <%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
                     $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
                     $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
                     $("#cart-capacity").html("<%=capacity%> Item/s");
-                <%
+                    <%
+                    }
+                    else{
+                    %>
+                    $("#recent-cart").hide();
+                    <%
+                    }
+                    %>
                 }
-                else{
-                %>
-                $("#recent-cart").hide();
-                <%
-                }
-                %>
             }
 
             $(".add-cart").click(function () {
@@ -130,6 +158,7 @@
 
                 $.ajax({
                     url: "AddToCartServlet",
+                    dataType: 'json',
                     data: {"itemID": id},
                     type: "POST",
                     success: function(data){

@@ -39,11 +39,7 @@ public class CheckoutBillingServlet extends HttpServlet {
 			if(u != null){
 				Address a =  uDAO.getBillingAddress(u.getBilling_address_id());
 	            request.getSession().setAttribute("address", a);
-	            encodedURL = response.encodeRedirectURL("CheckoutConfirmServlet");
-	            
-			}else{
-	        	request.getSession().setAttribute("address", null);
-	        	encodedURL = response.encodeRedirectURL("checkout_billing.jsp");
+	            encodedURL = response.encodeRedirectURL("checkout_billing.jsp");
 			}
 			
 			request.getRequestDispatcher(encodedURL).forward(request, response);
@@ -77,9 +73,8 @@ public class CheckoutBillingServlet extends HttpServlet {
 				Address a = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
 				AddressDAO aDAO = new AddressDAO();
 				aDAO.updateAddress(u.getShipping_address_id(), a);				
-				encodedURL = response.encodeRedirectURL("checkout_confirm.jsp");
+				encodedURL = response.encodeRedirectURL("CheckoutConfirmServlet");
 		 		request.getRequestDispatcher(encodedURL).forward(request, response);
-
 			}	 		
 		}else{
 			uDAO.setUserSessionID(u, null);
