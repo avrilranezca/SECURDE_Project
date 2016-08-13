@@ -33,8 +33,11 @@
                String username=null;
                UserDAO uDAO = new UserDAO();
 
-               if(session.getAttribute("user") != null)
+               if(session.getAttribute("user") != null){
                    username = (String) session.getAttribute("user");
+   				   request.getSession().setAttribute("warning", 0);
+
+               }
 
 
                String sessionID = request.getSession().getId();
