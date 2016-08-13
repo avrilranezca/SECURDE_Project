@@ -34,9 +34,7 @@
                                   $("#error-password").show();
                               }
 
-                              alert("yes2");
                         	  var password = $("#user-password").val();
-                              alert("yes3");
                         	  $.ajax({
                                   url: "CheckoutConfirmServlet",
                                   data: {"password": password},
@@ -45,14 +43,14 @@
                                 	alert("fail: ");
                                   },
                                   success: function(data){
-                                  	alert("data: ");
                                   	if(data == '-1'){
-                                  		alert("-1");
                                         $("#error-password p").text("Incorrect Password!");
                                         $("#error-password").show();
                                       
                                   	}else{
                                   	   $('#password-modal').modal('hide');
+                                  
+                                  	   window.location.href = 'IndexDisplayProductsServlet';
                                   	   return true;
                                   	}
                                   }

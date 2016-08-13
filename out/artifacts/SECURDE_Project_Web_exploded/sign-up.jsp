@@ -135,6 +135,9 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter your firstname'
+	                        },{
+	                        	type	: 'regExp[/^[a-zA-Z]*$/]',
+	                        	prompt	: 'Please enter a valid firstname'
 	                        }
 	                      ]
 	                    },
@@ -144,7 +147,10 @@
 		                        {
 		                          type   : 'empty',
 		                          prompt : 'Please enter your middle initial'
-		                        }		                        
+		                        },{
+		                        	type	: 'regExp[/^[a-zA-Z]*$/]',
+		                        	prompt	: 'Please enter a valid middle Initial'
+		                        }	                        
 		                      ]
 		                    },
 	                    lastname: {
@@ -153,6 +159,9 @@
 		                        {
 		                          type   : 'empty',
 		                          prompt : 'Please enter your lastname'
+		                        },{
+		                        	type	: 'regExp[/^[a-zA-Z]*$/]',
+		                        	prompt	: 'Please enter a valid lastname'
 		                        }
 		                      ]
 		                    },    
@@ -171,6 +180,9 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter a username'
+	                        },{
+	                        	type	: 'regExp[/([A-Za-z0-9_]+$)/]',
+	                        	prompt	: 'Please enter a valid username. A username may contain alphanumeric characters with an optional underscore only'
 	                        }
 	                      ]
 	                    },
@@ -219,6 +231,9 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter your Billing Subdivision'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing Subdivision'
 	                        }
 	                      ]
 	                    },
@@ -237,6 +252,9 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter your Billing House Street'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing House Street'
 	                        }
 	                      ]
 	                    },
@@ -244,8 +262,11 @@
 	                      identifier: 'bCity',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Billing House City'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Billing House City'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing House City'
 	                        }
 	                      ]
 	                    },
@@ -253,8 +274,11 @@
 	                      identifier: 'bCountry',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Billing Country'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Billing Country'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing Country'
 	                        }
 	                      ]
 	                    },
@@ -271,8 +295,11 @@
 	                      identifier: 'sSubdivision',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping Subdivision'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping Subdivision'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping Subdivision'
 	                        }
 	                      ]
 	                    },
@@ -289,8 +316,11 @@
 	                      identifier: 'sStreet',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping House Street'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping House Street'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping House Street'
 	                        }
 	                      ]
 	                    },
@@ -298,8 +328,11 @@
 	                      identifier: 'sCity',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping House City'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping House City'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping House City'
 	                        }
 	                      ]
 	                    },
@@ -307,8 +340,11 @@
 	                      identifier: 'sCountry',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping Country'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping Country'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping Country'
 	                        }
 	                      ]
 	                    }

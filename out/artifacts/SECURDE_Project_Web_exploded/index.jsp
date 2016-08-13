@@ -318,7 +318,7 @@
 			        </form>
 
                     <div class="ui icon input search-bar">
-                        <input id="searchQuery" name="query" placeholder="Search for products or categories" type="text" >
+                        <input id="searchQuery" name="query" placeholder="Search for products or categories" type="search"  pattern="[^'\x22]+" title="Invalid input" >
                         <i class="search link icon"></i>
                     </div>
                 </div>

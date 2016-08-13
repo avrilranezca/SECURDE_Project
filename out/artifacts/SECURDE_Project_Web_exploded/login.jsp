@@ -223,7 +223,7 @@
 
 <div class="ui container custom-container" >
 	<c:choose>
-		<c:when test="${warning eq '1'}">
+		<c:when test="${warning eq 1}">
 			<div class="ui warning message">Please login or create an account to continue with your purchase</div>
 		</c:when>
 	</c:choose>
