@@ -52,7 +52,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                 <div class="ui sub header"> Welcome Shayane!</div>
+                 <div class="ui sub header"> Welcome <c:out value='${user}'/>!</div>
             </div>
             <div class="two wide column">
                   <div class="ui tiny right aligned basic button" id="logout">Logout</div>
@@ -91,7 +91,7 @@
 </div>
 
 <form id="filter-form" action="DisplayManagersServlet" method="post">
-	<input id="filter" type="hidden" name="filter" value="${filter }">
+	<input id="filter" type="hidden" name="filter" value="<c:out value='${filter}'/>">
 </form>
 
 <div class="ui container basic segment">
@@ -144,12 +144,15 @@
 				<div class="ui segment">
 	                <div class="ui grid">
 	                    <div class="ten wide column">
-	                        <h3 class="ui header">${manager.user_name}
+	                        <h3 class="ui header">
+	                        	<c:out value='${manager.user_name}'/>
 	                            <div class="ui sub header"></div>
 	                        </h3>
 	                    </div>
 	                    <div class="six wide column right aligned">
-	                        <h1 class="ui sub header">${manager.account_type}</h1>
+	                        <h1 class="ui sub header">
+	                        	<c:out value='${manager.account_type}'/>
+	                        </h1>
 	                        <i class="trash link icon bottom aligned"></i>
 	                    </div>
 	                </div>
@@ -157,11 +160,7 @@
 			</c:forEach>
         </div>
         <div class="seven wide column">
-
-
             <div class="ui segment">
-
-
                 <form class="ui form" action="AddManagerServlet" method="post">
 
                     <h2 class="ui header">Add Manager</h2>

@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import log.Logger;
 import model.Address;
 import model.Transaction;
 import model.TransactionEntry;
@@ -49,7 +51,6 @@ public class CheckoutConfirmServlet extends HttpServlet {
 		if(uSessionID.equals(sessionID)){
 			if(u != null){
 				 Address a =  uDAO.getBillingAddress(u.getBilling_address_id());
-				 System.out.println("null si address confirm page ");
 	             request.getSession().setAttribute("billing", a);
 	             
 	             a = uDAO.getShippingAddress(u.getShipping_address_id());
@@ -76,14 +77,19 @@ public class CheckoutConfirmServlet extends HttpServlet {
 		User u = uDAO.getUser(userName);
 		String uSessionID = uDAO.getUserSessionID(u);
 		
+		String password = request.getParameter("password");
+		System.out.println("password inside checkout confirm: "+ password);
+
 		if(uSessionID.equals(sessionID)){
-			if(u != null){
+			
+			User temp = uDAO.getUser(userName,password);
+			if(temp != null){
 				TransactionDAO tDAO = new TransactionDAO();
 				ProductDAO pDAO = new ProductDAO();
 				ArrayList<TransactionEntry> entryList = new ArrayList<TransactionEntry>();
 				
 				Calendar cal = Calendar.getInstance(); 
-				Transaction t = new Transaction(new UserDAO().getUser(userName).getId(), cal.getTime());
+				Transaction t = new Transaction(temp.getId(), cal.getTime());
 				
 				String s = (String) request.getSession().getAttribute("item");
 				JSONArray arr;
@@ -101,17 +107,68 @@ public class CheckoutConfirmServlet extends HttpServlet {
 					}
 					
 					tDAO.addTransaction(t, entryList);
+				
 					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-		}else{
-			uDAO.setUserSessionID(u, null);	
-		}
+				System.out.println("success!");
+				request.getSession().setAttribute("item", null);
+				String encodedURL = response.encodeRedirectURL("/index");
+				request.getRequestDispatcher(encodedURL).forward(request, response);
+			
+			}else{
+				System.out.println("malii password");
+				//request.setAttribute("error", "Incorrect password!");
+				
+				if(temp!=null || (temp!=null && uDAO.isLocked(temp.getId())!=null)){
+					System.out.print("lck: ");
+					System.out.println(request.getSession().getAttribute("lock"));
+					
+					int i = uDAO.getLogInAttempts(temp.getId());
+		//					request.getSession().setAttribute("lock", i+1);
+					uDAO.incrementLogInAttempts(temp.getId());
 		
-		String encodedURL = response.encodeRedirectURL("/index");
-		response.sendRedirect(encodedURL);
+					if(i+1>=5){
+						if(uDAO.isLocked(temp.getId())==null){
+							System.out.println("here");
+							uDAO.lock(temp.getId());
+							Logger.write(temp.getId() + "", request.getRemoteAddr(), "locked out");
+						//	request.setAttribute("error", "Incorrect password! Too many failed attempts at logging in. This account has been locked for five minutes.");
+							String encodedURL = response.encodeRedirectURL("login.jsp");
+							request.getRequestDispatcher(encodedURL).forward(request, response);
+						}
+						else{
+							System.out.println("there");
+							String encodedURL = response.encodeRedirectURL("login.jsp");
+							request.getRequestDispatcher(encodedURL).forward(request, response);
+							//request.setAttribute("error", "Too many failed attempts at logging in. This account has been locked for five minutes.");
+						}
+					} else{
+						Logger.write(temp.getId() + "", request.getRemoteAddr(), "unsuccessful password validation");
+					}
+					
+					//if the password is wrong set redirected page to login
+		
+				
+				}
+				
+				response.setContentType("text/plain");
+			    response.setCharacterEncoding("UTF-8");
+			    response.getWriter().write("-1");
+			   System.out.println("send fail");
+			   
+			   //or this one?
+			   //String encodedURL = response.encodeRedirectURL("CheckoutConfirmServlet");
+			//   request.getRequestDispatcher(encodedURL).forward(request, response);
+			}
+			
+		}else{
+			System.out.println("mismatch session");
+			uDAO.setUserSessionID(u, null);	
+			String encodedURL = response.encodeRedirectURL("/index");
+			response.sendRedirect(encodedURL);
+		}	
 	}
 }

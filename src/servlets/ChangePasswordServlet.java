@@ -35,6 +35,7 @@ public class ChangePasswordServlet extends HttpServlet {
 		   
 		   String uSessionID = uDAO.getUserSessionID(u);
 
+		   System.out.println("pasok change password servlet");
 		   if(sessionID.equals(uSessionID)){
 			   
 			   User temp = uDAO.getUser(username,  request.getParameter("oldpw"));
@@ -42,7 +43,9 @@ public class ChangePasswordServlet extends HttpServlet {
 				   //update old password
         		   uDAO.updatePassword(u, request.getParameter("newpw"));
         		   System.out.println("Updating password success....");
-        		   String encodedURL = response.encodeRedirectURL("/index");
+        		   String page = request.getParameter("page");
+	   			   System.out.println("Forawrd to:"+page);
+	   			   String encodedURL = response.encodeRedirectURL(page);
         		   response.sendRedirect(encodedURL);
 			   }else{
 				   
@@ -62,6 +65,9 @@ public class ChangePasswordServlet extends HttpServlet {
 	   							Logger.write(temp.getId() + "", request.getRemoteAddr(), "locked out");
 	   							request.setAttribute("error", "Incorrect password! Too many failed attempts at logging in. This account has been locked for five minutes.");
 	   							uDAO.setUserSessionID(u, null);
+	   						    //String encodedURL = response.encodeRedirectURL("login.jsp");
+	   		   			        //request.getRequestDispatcher(encodedURL).forward(request,response);
+	   		   			       // return;
 	   						}
 	   						else{
 	   							System.out.println("there");
@@ -73,8 +79,7 @@ public class ChangePasswordServlet extends HttpServlet {
 	   				}
 	   				
 	   				// if the password is wrong set redirected page to login.jsp
-	   			   String encodedURL = response.encodeRedirectURL("login.jsp");
-	   			   request.getRequestDispatcher(encodedURL).forward(request,response);
+	   			
 			   }
 			   
 		   }else{

@@ -16,6 +16,7 @@
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
+	
 	<servlet>
 		<servlet-name>IndexDisplayProductsServlet</servlet-name>
 		<servlet-class>servlets.IndexDisplayProductsServlet</servlet-class>

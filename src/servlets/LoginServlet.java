@@ -34,17 +34,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		int token = new SecureRandom().nextInt();
-//		request.getSession().setAttribute("token", token);
-//		ArrayList<String> tokens = (ArrayList<String>) getServletContext().getAttribute("tokens");
-//		if(tokens == null) {
-//			tokens = new ArrayList<String>();
-//		}
-//		synchronized(tokens) {
-//			tokens.add(String.valueOf(token));
-//			getServletContext().setAttribute("tokens", tokens);
-//		}
-//		request.getRequestDispatcher("index.jsp").forward(request, response);
+		//for displaying warning message when user wants to checkout bt yet logged in
 	}
 
 	/**
@@ -56,9 +46,11 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String token = request.getParameter("token");
+		
 
-		System.out.println("username: "+ username);
-		System.out.println("password: "+ password);
+		System.out.println("Login_username: "+ username);
+		System.out.println("Login_password: "+ password);
+		
 		UserDAO dao = new UserDAO();
 		User user = dao.getUser(username, password);
 		User temp = dao.getUser(username);
