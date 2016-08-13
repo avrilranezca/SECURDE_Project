@@ -8,6 +8,7 @@ import model.Address;
 import model.Transaction;
 import model.TransactionEntry;
 import model.User;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,35 +87,44 @@ public class CheckoutConfirmServlet extends HttpServlet {
 				Transaction t = new Transaction(temp.getId(), cal.getTime());
 				
 				String s = (String) request.getSession().getAttribute("item");
-				JSONArray arr;
-				
+				JSONArray arr, arrTemp;
 				try {
 					arr = new JSONArray(s);
-					for(int i=0; i<arr.length(); i++){
+					int length = arr.length();
+					
+					for(int i=0; i<length; i++){
 						JSONObject obj = arr.getJSONObject(i);
 						int product_id = Integer.parseInt(obj.getString("id"));
+						System.out.println("productID: "+ product_id);
 						int quantity = obj.getInt("quantity");
 						double price = pDAO.getProductOnID(product_id).getPrice();
-						
+						System.out.println("price: "+ price + product_id);
 						TransactionEntry  te = new TransactionEntry(product_id, quantity, quantity*price);
 						entryList.add(te);
+						System.out.println("entryList: "+ entryList.size());
+						//arr.remove(i);
+
 					}
-					
+					System.out.println("2 entryList: "+ entryList.size());
+					System.out.println("success! : "+ arr.length());
 					tDAO.addTransaction(t, entryList);
-				
+					request.getSession().setAttribute("item",null);
+					String encodedURL = response.encodeRedirectURL("/index");
+					request.getRequestDispatcher(encodedURL).forward(request, response);
 					
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					response.getWriter().append("I'm sorry. I died. Maybe it's 404.");
 				}
-				System.out.println("success!");
-				request.getSession().setAttribute("item", null);
-				String encodedURL = response.encodeRedirectURL("/index");
-				request.getRequestDispatcher(encodedURL).forward(request, response);
+								
+			  //  arr.        
+	          //  request.getSession().setAttribute("item", arr.toString());
+				
+
 			
 			}else{
 				System.out.println("malii password");
-				//request.setAttribute("error", "Incorrect password!");
 				
 				if(temp!=null || (temp!=null && uDAO.isLocked(temp.getId())!=null)){
 					System.out.print("lck: ");

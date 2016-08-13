@@ -32,23 +32,23 @@
                 $('#logout-form').submit();
             });
             
-            
+           
           $('#changepw')
 	        .modal({
-	            closable  : false,
+	            closable  : true,
 	            onDeny    : function(){
 	//                window.alert('Wait not yet!');
 	//                return false;
 	            },
 	            onApprove : function() {
 	            	
+	                alert("hllo");
+
 	            	var strength = 0;
 	            	
 	                if($("#oldpw").val()=="" || $("#newpw").val()=="" || $("#confirmnewpw").val()==""){
 	                    $("#error-change").show();
 	                    $("#error-change p").text("Please fill in all fields!");
-	                                                  
-	                    return false;
 	                }
 	                else{
 	                	
@@ -89,7 +89,6 @@
 	                        $("#error-change p").append(error_poorpw);
 	                     	
 	                     	$("#newpw").css('color','red');
-	                     	return false;
 	                  	}
 	                  	
 	                     if($("#newpw").val() != $("#confirmnewpw").val()){
@@ -103,41 +102,189 @@
 	                     	$("#error-change").show();				
 	                     	$("#newpw").css('color','red');
 	                     	$("#confirmnewpw").css('color','red');
-	                     	return false;
 	                     }
-	                }                           
+	                }
+	                	                
+	                 var password = $("#user-password").val();
+	              	 var oldPassword = $('#oldpw').val();
+	            	 var newPassword = $('#newpw').val();
+	            	 
+	              	  $.ajax({
+	                        url: "ChangePasswordServlet",
+	                        data: {"oldpw": oldPassword,
+	                   	  	 	   "newpw": newPassword},
+	                        type: "POST",
+	                        error:function(data){
+	                      		alert("fail: ");
+	                        },
+	                        success: function(data){
+	                        	alert("data:"+data);
+	                        	if(data == '-1'){
+	                              $("#error-change p").text("Incorrect Password!");
+	                              $("#error-change").show();
+	                            
+	                        	}else{
+	                        	   $('#changepw').modal('hide');
+	                        	   window.location.href = 'DisplayProductsServlet';
+	                        	   return true;
+	                        	}
+	                        }
+	              	  });
+	                
+	                
+                    return false;
+
 	            }
 	        })
 	        .modal('show');
 			
+          $("#edit-product").form({
+        	  fields:{
+        		  editName :{
+        			  identifier	: 'editName',
+        			  rules	:[
+        			       	  {
+								type	: 'empty',
+								prompt	: "Please enter a product name"
+        			  		},{
+        			  			type	: 'regExp[/([A-Za-z0-9_]+$)/]',
+	                        	prompt	: 'Please enter a valid product name'
+        			  		}
+        			  ]
+        		  },
+        		  editPrice	:{
+        			  identifier	: 'editPrice',
+        			  rules	:[
+	        			  	{
+	        			  		type	: 'empty',
+	        			  		prompt	: "Please enter a product price"
+	        			  	},{
+	        			  		type	: 'regExp[/^([1-9][0-9]*|0)(\.[0-9]{2})?$/]',
+	        			  		prompt	: "Please enter a valid product price"
+	        			  	}     	  
+        			  ]
+        		  },
+        		  editDescription	:{
+        			  identifier	: 'editDescription',
+        			  rules	:[
+	        			  	{
+	        			  		type	: 'empty',
+	        			  		prompt	: "Please enter a product description"
+	        			  	},{
+	        			  		type	: 'regExp[/([A-Za-z0-9_\s.!]+$)/]',
+	        			  		prompt	: "Please enter a valid product description."
+	        			  	}     	  
+        			  ]
+        		  }
+        	  }
+          });
+          
+          var goAdd = false;
+          
+          $("#add-product").form({
+        	  fields:{
+        		  addName :{
+        			  identifier	: 'addName',
+        			  rules	:[
+        			       	  {
+								type	: 'empty',
+								prompt	: "Please enter a product name"
+        			  		},{
+        			  			type	: 'regExp[/([A-Za-z0-9_]+$)/]',
+	                        	prompt	: 'Please enter a valid product name'
+        			  		}
+        			  ]
+        		  },
+        		  addPrice	:{
+        			  identifier	: 'addPrice',
+        			  rules	:[
+	        			  	{
+	        			  		type	: 'empty',
+	        			  		prompt	: "Please enter a product price"
+	        			  	},{
+	        			  		type	: 'regExp[/^([1-9][0-9]*|0)(\.[0-9]{2})?$/]',
+	        			  		prompt	: "Please enter a valid product price"
+	        			  	}     	  
+        			  ]
+        		  },
+        		  addDescription	:{
+        			  identifier	: 'addDescription',
+        			  rules	:[
+	        			  	{
+	        			  		type	: 'empty',
+	        			  		prompt	: "Please enter a product description"
+	        			  	},{
+	        			  		type	: 'regExp[/([A-Za-z0-9_\s.!]+$)/]',
+	        			  		prompt	: "Please enter a valid product description."
+	        			  	}     	  
+        			  ]
+        		  },
+        		  on: 'blur',
+        		  inline: true,
+        		  onSuccess : function(){
+        			submitForm();
+        			return false;
+        		   //event.preventDefault();
+       		    },
+       		    onFail	: function(){
+       		    	alert("failure");
+       		    	return false;
+       		    }
+        	  }
+          });
+          
+       
         });
+        
+        function submitForm(){
+	         alert("subimit me!");
+		  	 $("#error-password").hide();
+		  	 $("#password-modal")
+		           .modal({
+		               closable  : true,
+		               onDeny    : function(){
+		             	  	alert("fail");
+		               },
+		               onApprove : function() {
+		                   alert("yes");
+		             	  if($("#password").val()==""){
+		                       $("#error-password").show();
+		                   }
+		
+		             	  var password = $("#user-password").val();
+		             	  $.ajax({
+		                       url: "AddProductServlet",
+		                       data: {"password": password},
+		                       type: "POST",
+		                       error:function(data){
+		                     	alert("fail: ");
+		                       },
+		                       success: function(data){
+		                       	if(data == '-1'){
+		                             $("#error-password p").text("Incorrect Password!");
+		                             $("#error-password").show();
+		                           
+		                       	}else{
+		                       	   $('#password-modal').modal('hide');
+		                       
+		                       	   window.location.href = 'DisplayProductServlet';
+		                       	   return true;
+		                       	}
+		                       }
+		             	  });
+		             	  
+		             	  return false;
+		               }
+		           })
+		           .modal('show');
+        }
         function editProduct(index) {
         	document.getElementById("editId").value = document.getElementById("productId"+index).value;
         	document.getElementById("editName").value = document.getElementById("productName"+index).innerHTML;
         	document.getElementById("editPrice").value = parseFloat(document.getElementById("productPrice"+index).value).toFixed(2);
         	document.getElementById("editDescription").value = document.getElementById("productDescription"+index).value;
+        	alert("index:"+index);
         	document.getElementById("editcb"+document.getElementById("productCategory"+index).innerHTML).checked = true;
-        }
-        
-        $('#change-button').click(function(){
-        	 var oldPassword = $('#oldpw').val();
-        	 var newPassword = $('#newpw').val();
-        	 alert("hello");
-        	  $.ajax({
-                  url: "ChangePasswordServlet",
-                  data: {"oldpw": oldPassword,
-                	  	 "newpw": newPassword},
-                  type: "POST",
-                  success: function(data){
-                  		alert("data: "+data);	
-                  }
-              });
-        	
-        });
-        
-        function submitForm(form){
-        	alert("form: "+ form);
-        	form.submit();
         }
         
         function saveEdit(form) {
@@ -155,10 +302,10 @@
     </script>
 </head>
 <body>
+
 <c:choose>
 	<c:when test='${isPermanent eq false}'>	
 		<div class="ui small basic long modal" id="changepw" >
-			<input type="hidden" value="product_manager.jsp" name="page">
 		    <div class="header">Change temporary password</div>
 		    <div class="content">
 		        <p>Please change the temporary password given to you by the administrator. This is for security purposes.</p>
@@ -166,11 +313,6 @@
 		        <form class="ui form" id="change-form" method="post" action="ChangePasswordServlet">
 		            <div id="error-change" class="ui negative message">
 		                <p>Please fill in all fields!</p>                
-		                <c:choose>
-			            	<c:when test="${error ne ''}">
-			            		  <p><c:out value='${error}'/></p>   
-			            	</c:when>
-			            </c:choose>
 		            </div>
 		         
 		            <div class="ui fluid left icon input">
@@ -292,7 +434,7 @@
 	                <div class="ui grid">
 	                    <div class="ten wide column">
 	                        <h3 class="ui header">
-	                        	<div id="productName<c:out value='${loop.index}'/>">
+	                        	<div id="productName${loop.index}">
 	                        		<c:out value='${product.name}'/>
 	                        	</div>
 	                            <div class="ui sub header">
@@ -301,17 +443,17 @@
 	                        </h3>
 	                    </div>
 	                    <div class="six wide column right aligned">
-	                        <h1 class="ui sub header" id="productCategory<c:out value='${loop.index}'/>">
-	                        	<c:out value='${product.category }'/>
+	                        <h1 class="ui sub header" id="productCategory${loop.index}">
+	                        	<c:out value='${product.category}'/>
 	                        </h1>
 	                        <i class="write link icon" onClick="editProduct(<c:out value="${loop.index}"/>)"></i>
 	                        <i class="trash link icon" onClick="deleteProduct(document.getElementById('delete-form'), <c:out value='${product.id}'/>)"></i>
 	                    </div>
 	                </div>
            		</div>
-           		<input type="hidden" id="productId<c:out value='${loop.index}'/>" value="<c:out value="${product.id }"/>" name="productId">
-           		<input type="hidden" id="productPrice<c:out value='${loop.index}'/>" value="<c:out value='${product.price}'/>">
-	            <input type="hidden" id="productDescription<c:out value='${loop.index}'/>" value="<c:out value ='${product.description}'/>">
+           		<input type="hidden" id="productId${loop.index}" value="<c:out value="${product.id }"/>" name="productId">
+           		<input type="hidden" id="productPrice${loop.index}" value="<c:out value='${product.price}'/>">
+	            <input type="hidden" id="productDescription${loop.index}" value="<c:out value ='${product.description}'/>">
 			</c:forEach>
         </div>
         <div class="seven wide column">
@@ -319,15 +461,15 @@
 
             <div class="ui segment">
 
-				<form class="ui form" method="post" action="AddProductServlet">
-
+			 <form id="add-product" class="ui form">	
+					<div id="" class="ui error message"></div>
                     <h2 class="ui header">Add Product</h2>
                     <div>
-                        <div class="ui grid middle aligned">
+                        <div class="ui grid middle aligned field">
                             <div class="four wide column"><label>Name:</label></div>
                             <div class="twelve wide column"><input name="addName" type="text"></div>
                         </div>
-                        <div class="ui grid middle aligned">
+                        <div class="ui grid middle aligned field">
                             <div class="four wide column"><label>Price:</label></div>
                             <div class="twelve wide column"><input name="addPrice" type="text"></div>
                         </div>
@@ -361,7 +503,7 @@
                             </div>
                         </div>
 
-                        <div class="ui grid aligned">
+                        <div class="ui grid aligned field">
                             <div class="four wide column"><label>Description:</label></div>
                             <div class="twelve wide column">
                                 <div class="field">
@@ -374,9 +516,9 @@
                     <h4 class="ui hidden divider"></h4>
                     <div class="ui basic right aligned segment">
 
-                        <button class="ui  large orange submit button" type="submit">Add Product</button>
+                        <button id="add-product-btn" class="ui  large orange submit button" type="submit" >Add Product</button>
                     </div>
-                </form>
+              </form>
             </div>
         </div>
     </div>
@@ -389,6 +531,7 @@
         <div class="ui basic center aligned segment">
 
             <form class="ui form" id="edit-product" method="post" action="EditProductServlet">
+                <div id="error-message" class="ui error message"></div>
                 <div id="error-edit-product" class="ui negative message">
                     <p>
                         Please fill up all fields!
@@ -396,11 +539,11 @@
                 </div>
 				<input type="hidden" id="editId" name="editId">
                 <div>
-                    <div class="ui grid middle aligned">
+                    <div class="ui grid middle aligned field">
                         <div class="four wide column left aligned"><label>Name:</label></div>
                         <div class="twelve wide column"><input id="editName" name="editName" type="text"></div>
                     </div>
-                    <div class="ui grid middle aligned">
+                    <div class="ui grid middle aligned field">
                         <div class="four wide column left aligned"><label>Price:</label></div>
                         <div class="twelve wide column"><input id="editPrice" name="editPrice" type="text"></div>
                     </div>
@@ -413,7 +556,7 @@
 											varStatus="loop">
 											<div class="field">
 												<div class="ui radio checkbox">
-													<input id="editcb<c:out value='${category}'/>" type="radio" name="editType" value="<c:out value='${category}'/>">
+													<input id="editcb${category}" type="radio" name="editType" value="<c:out value='${category}'/>">
 													<label><c:out value='${category}'/></label>
 												</div>
 											</div>
@@ -423,7 +566,7 @@
                         </div>
                     </div>
 
-                    <div class="ui grid aligned">
+                    <div class="ui grid aligned field">
                         <div class="four wide column left aligned"><label>Description:</label></div>
                         <div class="twelve wide column">
                             <div class="field">
@@ -438,6 +581,34 @@
     <div class="actions">
         <div class="ui positive right button" onClick="saveEdit(document.getElementById('edit-product'))">Save</div>
     </div>
+</div>
+<div id="password-modal" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">Please enter your password to continue</div>
+
+    <div class="content">
+        <div class="ui basic center aligned segment">
+
+            <form class="ui form" id="validate-password">
+                <div id="error-password" class="ui negative message">
+                    <p>
+                        Please fill up all fields!
+                    </p>
+                </div>
+                <div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column left aligned"><label>Password:</label></div>
+                        <div class="twelve wide column"><input id="user-password" name="password" type="password"></div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        
+    </div>
+  	<div class="actions">
+   		<div id="confirm-password" class="ui positive right button">Confirm</div>
+	</div>
 </div>
 </body>
 </html>

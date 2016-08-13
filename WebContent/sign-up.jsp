@@ -136,7 +136,7 @@
 	                          type   : 'empty',
 	                          prompt : 'Please enter your firstname'
 	                        },{
-	                        	type	: 'regExp[/^[a-zA-Z0-9]*$/]',
+	                        	type	: 'regExp[/^[a-zA-Z]*$/]',
 	                        	prompt	: 'Please enter a valid firstname'
 	                        }
 	                      ]
@@ -148,7 +148,7 @@
 		                          type   : 'empty',
 		                          prompt : 'Please enter your middle initial'
 		                        },{
-		                        	type	: 'regExp[/^[a-zA-Z0-9]*$/]',
+		                        	type	: 'regExp[/^[a-zA-Z]*$/]',
 		                        	prompt	: 'Please enter a valid middle Initial'
 		                        }	                        
 		                      ]
@@ -160,7 +160,7 @@
 		                          type   : 'empty',
 		                          prompt : 'Please enter your lastname'
 		                        },{
-		                        	type	: 'regExp[/^[a-zA-Z0-9]*$/]',
+		                        	type	: 'regExp[/^[a-zA-Z]*$/]',
 		                        	prompt	: 'Please enter a valid lastname'
 		                        }
 		                      ]

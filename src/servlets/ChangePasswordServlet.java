@@ -43,10 +43,7 @@ public class ChangePasswordServlet extends HttpServlet {
 				   //update old password
         		   uDAO.updatePassword(u, request.getParameter("newpw"));
         		   System.out.println("Updating password success....");
-        		   String page = request.getParameter("page");
-	   			   System.out.println("Forawrd to:"+page);
-	   			   String encodedURL = response.encodeRedirectURL(page);
-        		   response.sendRedirect(encodedURL);
+ 
 			   }else{
 				   
 				   	request.setAttribute("error", "Incorrect password!");
@@ -65,21 +62,25 @@ public class ChangePasswordServlet extends HttpServlet {
 	   							Logger.write(temp.getId() + "", request.getRemoteAddr(), "locked out");
 	   							request.setAttribute("error", "Incorrect password! Too many failed attempts at logging in. This account has been locked for five minutes.");
 	   							uDAO.setUserSessionID(u, null);
-	   						    //String encodedURL = response.encodeRedirectURL("login.jsp");
-	   		   			        //request.getRequestDispatcher(encodedURL).forward(request,response);
+	   						    String encodedURL = response.encodeRedirectURL("login.jsp");
+	   		   			        request.getRequestDispatcher(encodedURL).forward(request,response);
 	   		   			       // return;
 	   						}
 	   						else{
 	   							System.out.println("there");
 	   							request.setAttribute("error", "Too many failed attempts at logging in. This account has been locked for five minutes.");
+	   							String encodedURL = response.encodeRedirectURL("login.jsp");
+	   		   			        request.getRequestDispatcher(encodedURL).forward(request,response);
 	   						}
 	   					} else
 	   						Logger.write(temp.getId() + "", request.getRemoteAddr(), "unsuccessful password validation");
 	   					
 	   				}
-	   				
 	   				// if the password is wrong set redirected page to login.jsp
-	   			
+	   				response.setContentType("text/plain");
+				    response.setCharacterEncoding("UTF-8");
+				    response.getWriter().write("-1");
+				    System.out.println("password fail");
 			   }
 			   
 		   }else{
