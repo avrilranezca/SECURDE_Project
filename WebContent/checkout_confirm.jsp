@@ -29,20 +29,23 @@
                         	  	alert("fail");
                           },
                           onApprove : function() {
+                              alert("yes");
                         	  if($("#password").val()==""){
                                   $("#error-password").show();
-                              }    
-                        	  
+                              }
+
+                              alert("yes2");
                         	  var password = $("#user-password").val();
+                              alert("yes3");
                         	  $.ajax({
                                   url: "CheckoutConfirmServlet",
                                   data: {"password": password},
                                   type: "POST",
-                                  onfail:function(data){
-                                	alert("fail: "+data);  
+                                  error:function(data){
+                                	alert("fail: ");
                                   },
-                                  onsucceed: function(data){
-                                  	alert("data: "+data);
+                                  success: function(data){
+                                  	alert("data: ");
                                   	if(data == '-1'){
                                   		alert("-1");
                                         $("#error-password p").text("Incorrect Password!");

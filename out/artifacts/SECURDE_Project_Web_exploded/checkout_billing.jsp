@@ -111,21 +111,34 @@
        		    return value.length >= 16;
        		 };
        		  
+       		 $("#card-no").keypress(function(){
+       			$('input:radio[name=payment]:nth(1)').attr('checked',true);
+       		 });
+       		 
+       		 $('#confirm-billing').click(function(){
+       			alert("radiotbuton: "+$('input[name=payment]:checked', '#billing-form').val());
+       			if($('input[name=payment]:checked', '#billing-form').val() == "card"){
+       				$('.ui.form').form({
+           				fields:{
+           				  card: {
+    	            		  identifier  : 'card-no',
+    	            		  rules: [
+    	            		          {
+    	            		        	  type   : 'cardRequiredLength',
+    	            		        	  prompt : 'Please enter a valid credit card:length error'
+    	            		          },{
+    	            		        	  type	: 'regExp[/(^[0-9]+$)/]',
+    	            		        	  prompt: 'Please enter a valid credit card:character error'
+    	            		          }
+    	            		         ]
+    	            		}
+           				}
+           			});
+       			} 
+       		 });
             $('.ui.form')
 	            .form({
 	              fields: {
-	            	  card: {
-	            		  identifier  : 'card-no',
-	            		  rules: [
-	            		          {
-	            		        	  type   : 'cardRequiredLength',
-	            		        	  prompt : 'Please enter a valid credit card:length error'
-	            		          },{
-	            		        	  type	: 'regExp[/(^[0-9]+$)/]',
-	            		        	  prompt: 'Please enter a valid credit card:character error'
-	            		          }
-	            		         ]
-	            		},
 	                bHouseNo: {
 	                  identifier: 'bHouseNo',
 	                  rules: [
@@ -314,19 +327,19 @@
 
             <!--<h3 class="ui header">Payment</h3>-->
             <div class="ui form">
-            	<form action="CheckoutBillingServlet" method="POST">
+            	<form action="CheckoutBillingServlet" method="POST" id="billing-form">
             		<div id="error-message" class="ui error message"></div>
 		            <h3 class="ui dividing header">Payment</h3>
 		            <div class="grouped fields">
 		                <div class="field">
 		                    <div class="ui radio checkbox">
-		                        <input type="radio" id="cash" name="payment" checked="checked">
+		                        <input type="radio" id="cash" value="cash" name="payment" checked="checked">
 		                        <label>Cash</label>
 		                    </div>
 		                </div>
 		                <div class="field">
 		                    <div class="ui radio checkbox">
-		                        <input type="radio" id="card" name="payment">
+		                        <input type="radio" id="card" name="payment" value="card"/>
 		                        <label>Card
 		                            <div class="ui field">
 		                                <input id="card-no" name="card-no" maxlength="16" placeholder="Card #" type="text">
@@ -377,7 +390,7 @@
 		            </div>
 		            <h4 class="ui hidden divider"></h4>
 		            <div class="ui basic right aligned segment">
-		                <button class="ui  large blue submit button">Confirm Billing Information</button>
+		                <button id="confirm-billing" class="ui  large blue submit button">Confirm Billing Information</button>
 		            </div>
 	            </form>
 	        </div>

@@ -1,32 +1,25 @@
 package servlets;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import database.ProductDAO;
+import database.TransactionDAO;
+import database.UserDAO;
 import log.Logger;
 import model.Address;
 import model.Transaction;
 import model.TransactionEntry;
 import model.User;
-import database.ProductDAO;
-import database.TransactionDAO;
-import database.UserDAO;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Servlet implementation class CheckoutConfirmServlet
@@ -40,31 +33,31 @@ public class CheckoutConfirmServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String userName = (String) request.getSession().getAttribute("user");
 		String sessionID = request.getSession().getId();
-	   
+
 		UserDAO uDAO = new UserDAO();
 		User u = uDAO.getUser(userName);
 		String uSessionID = uDAO.getUserSessionID(u);
-		
+
 		if(uSessionID.equals(sessionID)){
 			if(u != null){
-				 Address a =  uDAO.getBillingAddress(u.getBilling_address_id());
-	             request.getSession().setAttribute("billing", a);
-	             
-	             a = uDAO.getShippingAddress(u.getShipping_address_id());
-	             request.getSession().setAttribute("shipping", a);
-	             
-	 			 String encodedURL = response.encodeRedirectURL("checkout_confirm.jsp");
-	     		 request.getRequestDispatcher(encodedURL).forward(request, response);
+				Address a =  uDAO.getBillingAddress(u.getBilling_address_id());
+				request.getSession().setAttribute("billing", a);
+
+				a = uDAO.getShippingAddress(u.getShipping_address_id());
+				request.getSession().setAttribute("shipping", a);
+
+				String encodedURL = response.encodeRedirectURL("checkout_confirm.jsp");
+				request.getRequestDispatcher(encodedURL).forward(request, response);
 			}
-			
+
 		}else{
 			uDAO.setUserSessionID(u, null);
 			String encodedURL = response.encodeRedirectURL("/index");
 			response.sendRedirect(encodedURL);
 		}
+
         
  	}
 
