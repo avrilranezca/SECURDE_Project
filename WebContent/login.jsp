@@ -127,7 +127,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome !</div>
+                <div class="ui sub header"> Welcome <c:out value='${user}'/>!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button" id="logout">Logout</div>
@@ -220,7 +220,11 @@
 </div>
 
 <div class="ui container custom-container" >
-	<div class="ui warning message">Please login or create an account to continue with your purchase</div>
+	<c:choose>
+		<c:when test="${warning eq '1'}">
+			<div class="ui warning message">Please login or create an account to continue with your purchase</div>
+		</c:when>
+	</c:choose>
     <div class="ui header" style="margin-top: 3%;">LOGIN OR CREATE AN ACCOUNT</div>
     <div class="ui segment very padded">
         <%--<form>--%>
@@ -246,7 +250,7 @@
                                     <input type="password" name="password" id="password">
                                 </div>
                             </div>
-                            <input type="hidden" name="token" value="${token}"/>
+                            <input type="hidden" name="token" value="<c:out value='${token}'/>"/>
                             <button class="ui blue submit button">Login</button>
                         </form>
                     </div>

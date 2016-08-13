@@ -94,6 +94,7 @@ public class UserDAO {
 					
 					user.setBilling_address_id(rs.getInt("billing_address_id"));
 					user.setShipping_address_id(rs.getInt("shipping_address_id"));
+					user.setPassword_permanent(rs.getInt("password_permanent"));
 
 			
 		} catch (SQLException e) {

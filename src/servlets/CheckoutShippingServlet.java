@@ -39,13 +39,7 @@ public class CheckoutShippingServlet extends HttpServlet {
 		if(uSessionID.equals(sessionID)){
 			
 			if(u != null){
-				System.out.println("not null si user inside checout hsipping");
-				System.out.println("Shipping address iD: "+ u.getShipping_address_id());
-	        	Address a =  uDAO.getShippingAddress(u.getShipping_address_id());
-	        	if(a == null)
-	        		System.out.println("null si address :( ");
-	        	System.out.println("A: "+ a.getCity());
-	        	
+	        	Address a =  uDAO.getShippingAddress(u.getShipping_address_id());        	
 	            request.getSession().setAttribute("address", a);
 			}
 			
@@ -80,8 +74,8 @@ public class CheckoutShippingServlet extends HttpServlet {
 				Address a = new Address(sHouseNo, sStreet, sSubdivision, sCity, sPostalCode, sCountry);
 				AddressDAO aDAO = new AddressDAO();
 				aDAO.updateAddress(u.getShipping_address_id(), a);
-				encodedURL = response.encodeRedirectURL("checkout_billing.jsp");
-		 		request.getRequestDispatcher(encodedURL).forward(request, response);
+				encodedURL = response.encodeRedirectURL("CheckoutBillingServlet");
+		 		response.sendRedirect(encodedURL);
 			}
 		}else{
 			uDAO.setUserSessionID(u, null);

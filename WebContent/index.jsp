@@ -444,7 +444,7 @@
 
 		            <!--<div class="content">-->
 		                <div class="ui sub header">Search Results:</div>
-		                <em><c:out value="${searchQuery}"></c:out></em> / ${fn:length(products)} found
+		                <em><c:out value="${searchQuery}"></c:out></em> / <c:out value='${fn:length(products)}'/> found
 		            <!--</div>-->
 		        </div>
 		    </div>
@@ -519,7 +519,7 @@
                     <c:when test="${filter ne 'All'}">
                         <form id = "nav-form" action="SelectDisplayCategoryServlet" method="Get">
                             <input type="hidden" name="page">
-                            <input type="hidden" name="cat" value="${filter}">
+                            <input type="hidden" name="cat" value="<c:out value='${filter}'/>">
                         </form>
                     </c:when>
                     <c:when test="${search ne null}">

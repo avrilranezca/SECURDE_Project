@@ -137,7 +137,7 @@
                 <p>Please fill in all fields!</p>                
                 <c:choose>
 	            	<c:when test="${error ne ''}">
-	            		  <p>${error}</p>   
+	            		  <p><c:out value='${error}'/></p>   
 	            	</c:when>
 	            </c:choose>
             </div>

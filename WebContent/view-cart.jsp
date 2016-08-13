@@ -446,11 +446,14 @@
             	<c:choose>
             		<c:when test="${user eq null}">
             			<a href="login.jsp">
+            				<%request.getSession().setAttribute("warning", 1); %>
+            				<!-- <input type="hidden" name="warning" value="1"/>-->
             				<span class="middle-align">CHECKOUT</span>
                 		</a>
             		</c:when>
             		<c:otherwise>
             			<a href="CheckoutShippingServlet">
+            				<%request.getSession().setAttribute("warning", 0); %>
             				<span class="middle-align">CHECKOUT</span>
                 		</a>
             		</c:otherwise>
