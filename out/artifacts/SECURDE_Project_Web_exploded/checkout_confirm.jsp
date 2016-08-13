@@ -41,7 +41,7 @@
                                   url: "CheckoutConfirmServlet",
                                   data: {"password": password},
                                   type: "POST",
-                                  fail:function(data){
+                                  error:function(data){
                                 	alert("fail: ");
                                   },
                                   success: function(data){

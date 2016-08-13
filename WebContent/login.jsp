@@ -4,6 +4,7 @@
 <%@ page import="database.ProductDAO" %>
 <%@ page import="database.ReviewDAO" %>
 <%@ page import="model.Product" %>
+<%@ page import="org.apache.commons.lang3.StringEscapeUtils" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONException" %>
 <! DOCTYPE html>
@@ -87,7 +88,7 @@
 
                 $("#empty-cart").hide();
 
-                $("#cart-name").html("<%=prod.getName()%>");
+                $("#cart-name").html("<%=StringEscapeUtils.escapeHtml4(prod.getName())%>");
                 $("#cart-subtotal").html('<fmt:formatNumber value="<%=prod.getPrice()%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
                 $("#cart-total").html('<fmt:formatNumber value="<%=sum%>" type="currency" currencyCode="PHP"></fmt:formatNumber>');
 
