@@ -35,6 +35,7 @@
                 if(session.getAttribute("user") != null){
 
 	                userName = (String) session.getAttribute("user");
+	                request.getSession().setAttribute("warning", 0);
 	                foundCookie=true;
                 }
                             Cookie[] cookies = request.getCookies();

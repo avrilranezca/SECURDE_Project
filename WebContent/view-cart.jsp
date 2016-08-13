@@ -453,7 +453,6 @@
             		</c:when>
             		<c:otherwise>
             			<a href="CheckoutShippingServlet">
-            				<%request.getSession().setAttribute("warning", 0); %>
             				<span class="middle-align">CHECKOUT</span>
                 		</a>
             		</c:otherwise>

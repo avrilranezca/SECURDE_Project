@@ -31,7 +31,6 @@
                           onApprove : function() {
                         	  if($("#password").val()==""){
                                   $("#error-password").show();
-                                  return false;
                               }    
                         	  
                         	  var password = $("#user-password").val();
@@ -39,15 +38,24 @@
                                   url: "CheckoutConfirmServlet",
                                   data: {"password": password},
                                   type: "POST",
-                                  success: function(data){
+                                  onfail:function(data){
+                                	alert("fail: "+data);  
+                                  },
+                                  onsucceed: function(data){
                                   	alert("data: "+data);
                                   	if(data == '-1'){
-                                        $("#error-password p").text("<%=request.getSession().getAttribute("error")%>");
+                                  		alert("-1");
+                                        $("#error-password p").text("Incorrect Password!");
                                         $("#error-password").show();
-                                  		return false;
+                                      
+                                  	}else{
+                                  	   $('#password-modal').modal('hide');
+                                  	   return true;
                                   	}
                                   }
                         	  });
+                        	  
+                        	  return false;
                           }
                       })
                       .modal('show');
@@ -400,7 +408,6 @@
                     <p>
                         Please fill up all fields!
                     </p>
-                    
                 </div>
                 <div>
                     <div class="ui grid middle aligned">
