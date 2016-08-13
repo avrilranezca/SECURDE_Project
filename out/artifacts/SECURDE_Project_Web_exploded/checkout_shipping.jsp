@@ -140,7 +140,7 @@
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                <div class="ui sub header"> Welcome  ${user}!</div>
+                <div class="ui sub header"> Welcome <c:out value='${user}'/>!</div>
             </div>
             <div class="two wide column">
                 <div class="ui tiny right aligned basic button">Logout</div>
@@ -262,37 +262,37 @@
 	                    <div class="ui grid middle aligned field">
 	                        <div class="four wide column"><label>House No.</label></div>
 	                        <div class="twelve wide column">
-	                        	<input placeholder="123" name="sHouseNo" type="number" value="${address.getHouse_no()}">
+	                        	<input placeholder="123" name="sHouseNo" type="number" value=<c:out value='${address.getHouse_no()}'/>>
 	                        </div>
 	                    </div>
 	                    <div class="ui grid middle aligned field">
 	                        <div class="four wide column"><label>Subdivision</label></div>
 	                        <div class="twelve wide column">
-	                        	<input placeholder="subdivi" name="sSubdivision" type="text" value="${address.getSubdivision()}">
+	                        	<input placeholder="subdivi" name="sSubdivision" type="text" value=<c:out value='${address.getSubdivision()}'/>>
 	                        </div>
 	                    </div>
 	                    <div class="ui grid middle aligned field">
 	                        <div class="four wide column"><label>Postal Code</label></div>
 	                        <div class="twelve wide column">
-	                        	<input placeholder="1440" name="sPostalCode" type="number" value="${address.getPostal_code()}">
+	                        	<input placeholder="1440" name="sPostalCode" type="number" value=<c:out value='${address.getPostal_code()}'/>>
 	                        </div>
 	                    </div>
 	                    <div class="ui grid middle aligned field">
 	                        <div class="four wide column"><label>Street</label></div>
 	                        <div class="twelve wide column">
-	                        	<input placeholder="Santo Domingo" name="sStreet" type="text" value="${address.geStreet()}">
+	                        	<input placeholder="Santo Domingo" name="sStreet" type="text" value=<c:out value='${address.getStreet()}'/>>
 	                        </div>
 	                    </div>
 	                    <div class="ui grid middle aligned field">
 	                        <div class="four wide column"><label>City</label></div>
 	                        <div class="twelve wide column">
-	                        	<input placeholder="Quezon City" name="sCity" type="text" value="${address.getCity()}">
+	                        	<input placeholder="Quezon City" name="sCity" type="text" value=<c:out value='${address.getCity()}'/>>
 	                        </div>
 	                    </div>
 	                    <div class="ui grid middle aligned field">
 	                        <div class="four wide column"><label>Country</label></div>
 	                        <div class="twelve wide column">
-	                        	<input placeholder="Philippines" name="sCountry" type="text" value="${address.getCountry()}">
+	                        	<input placeholder="Philippines" name="sCountry" type="text" value=<c:out value='${address.getCountry()}'/>>
 	                        </div>
 	                    </div>
 	                </div>
@@ -336,7 +336,7 @@
 
                         <div class="ui tiny image">
                             <div class="floating ui circular orange label"><%=itemp%></div>
-                            <img src="assets/bababoots.jpg">
+                            <img src="resources/assets/bababoots.jpg">
                         </div>
                         <%=temp.getName()%></h5>
                 </div>

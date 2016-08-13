@@ -343,7 +343,7 @@
         <a id="cat-boots" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/boots.png">
+                    <img class="ui mini image middle aligned" src="resources/assets/boots.png">
                 </div>
                 <div class="sixteen wide column categ-label-container"><span class="category-label">boots</span></div>
             </div>
@@ -351,7 +351,7 @@
         <a id="cat-shoes" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/shoes.png">
+                    <img class="ui mini image middle aligned" src="resources/assets/shoes.png">
                 </div>
                 <div class="sixteen wide column categ-label-container"><span class="category-label">shoes</span></div>
             </div>
@@ -359,7 +359,7 @@
         <a id="cat-sandals" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/sandals.png">
+                    <img class="ui mini image middle aligned" src="resources/assets/sandals.png">
                 </div>
                 <div class="sixteen wide column categ-label-container"><span class="category-label">sandals</span></div>
             </div>
@@ -367,7 +367,7 @@
         <a id="cat-slippers" class="item">
             <div class="ui grid">
                 <div class="sixteen wide column categ-label-container">
-                    <img class="ui mini image middle aligned" src="assets/slippers.png">
+                    <img class="ui mini image middle aligned" src="resources/assets/slippers.png">
                 </div>
                 <div class="sixteen wide column categ-label-container"><span class="category-label">slippers</span>
                 </div>
@@ -414,7 +414,7 @@
         <tr>
             <td>
                 <h4 class="ui image header">
-                    <img src="assets/bababoots.jpg" class="ui mini rounded image">
+                    <img src="resources/assets/bababoots.jpg" class="ui mini rounded image">
                     <div class="content">
                         <%=StringEscapeUtils.escapeHtml4(temp.getName())%>
                     </div>
@@ -450,7 +450,7 @@
                 		</a>
             		</c:when>
             		<c:otherwise>
-            			<a href="checkout_shipping.jsp">
+            			<a href="CheckoutShippingServlet">
             				<span class="middle-align">CHECKOUT</span>
                 		</a>
             		</c:otherwise>
