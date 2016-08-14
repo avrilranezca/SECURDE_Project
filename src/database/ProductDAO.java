@@ -280,6 +280,7 @@ public class ProductDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null; 
 		
+		System.out.println("PRODUCT ID: "+ id);
 		try {
 			ps = conn.prepareStatement("SELECT product.id, product.price, product.name, description, category_id, category.name AS c_name, isActive FROM product INNER JOIN category ON product.category_id = category.id WHERE product.id = ?;");
 
@@ -290,6 +291,8 @@ public class ProductDAO {
 			
 			while(rs.next()) {
 				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getString("description"), rs.getDouble("price"), rs.getString("c_name"), rs.getInt("isActive"));
+				
+				System.out.println("PRODUCT NAME: "+ p.getName());
 				return p;
 			}
 			

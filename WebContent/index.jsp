@@ -29,8 +29,11 @@
                 String username=null;
                 UserDAO uDAO = new UserDAO();
 
-                if(session.getAttribute("user") != null)
+                if(session.getAttribute("user") != null){
 	                username = (String) session.getAttribute("user");
+	                request.getSession().setAttribute("warning", 0);
+
+                }
 
 
                 String sessionID = request.getSession().getId();
@@ -255,7 +258,7 @@
             });
 
             function updateForm(ind){
-                alert(ind);
+//                alert(ind);
                 $('#nav-form input[name=page]').val(ind);
                 $('#nav-form').submit();
             }
@@ -315,7 +318,7 @@
 			        </form>
 
                     <div class="ui icon input search-bar">
-                        <input id="searchQuery" name="query" placeholder="Search for products or categories" type="text" >
+                        <input id="searchQuery" name="query" placeholder="Search for products or categories" type="search"  pattern="[^'\x22]+" title="Invalid input" >
                         <i class="search link icon"></i>
                     </div>
                 </div>
@@ -444,7 +447,7 @@
 
 		            <!--<div class="content">-->
 		                <div class="ui sub header">Search Results:</div>
-		                <em><c:out value="${searchQuery}"></c:out></em> / ${fn:length(products)} found
+		                <em><c:out value="${searchQuery}"></c:out></em> / <c:out value='${fn:length(products)}'/> found
 		            <!--</div>-->
 		        </div>
 		    </div>
@@ -519,7 +522,7 @@
                     <c:when test="${filter ne 'All'}">
                         <form id = "nav-form" action="SelectDisplayCategoryServlet" method="Get">
                             <input type="hidden" name="page">
-                            <input type="hidden" name="cat" value="${filter}">
+                            <input type="hidden" name="cat" value="<c:out value='${filter}'/>">
                         </form>
                     </c:when>
                     <c:when test="${search ne null}">

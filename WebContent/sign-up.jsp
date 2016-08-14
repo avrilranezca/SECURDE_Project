@@ -1,3 +1,4 @@
+<%@page import="database.UserDAO"%>
 <%@ page import="database.ProductDAO" %>
 <%@ page import="database.ReviewDAO" %>
 <%@ page import="model.Product" %>
@@ -18,11 +19,15 @@
         <script src="resources/jquery-1.11.3.min.js"></script>
         <script src="resources/semantic-ui/dist/semantic.js"></script>
         <script type="text/javascript">
+        
+          
+            
             $(document).ready(function () {
             	
+           	  	
+                  
             	var password = $('[name="password"]');
             	var confirmpassword = $('[name="confirmpassword"]');
-            	
             	 $.fn.form.settings.rules.passwordMinLength = function(value) {
            		    var currentPassValue = password.length > 0 ? password.val() : undefined;
            		    if(currentPassValue === undefined || currentPassValue.length === 0) {
@@ -30,7 +35,36 @@
            		    }
            		    return value.length >= 7;
            		  };
-
+				
+           		var isAvailable = "1";
+                
+                function setIsAvailable(val){
+                	isAvailable = val;
+                }
+           		 
+           		 $.fn.form.settings.rules.usernameDuplicate = function(value) {
+           			 $.ajax({
+                         url: "CheckUsernameServlet",
+                         data: {"username": value},
+                         type: "POST",
+                         error: function (data) {
+                        	 alert("error: "+data);
+                         },
+                         success: function (data) {
+                             if (data == '-1' || data == -1) {
+                            	 setIsAvailable("-1")                                
+                             } else {
+                            	 setIsAvailable("1");                                 
+                             }
+                         }
+                     });
+           			 
+           			 if(isAvailable <0){
+           				 return false;
+					 }else         			 
+           				 return true;
+            	 };
+            		  
            		  $.fn.form.settings.rules.repeatPasswordMatch = function(value) {
            		    var currentPassValue = password.length > 0 ? password.val() : undefined,
            		        newPassValue = confirmpassword.length > 0 ? confirmpassword.val() : undefined;
@@ -115,6 +149,8 @@
                     }
                     %>
                 }
+                
+             
                 $('#logout').click(function(){
                     $('#logout-form').submit();
                 });
@@ -135,6 +171,9 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter your firstname'
+	                        },{
+	                        	type	: 'regExp[/^[a-zA-Z]*$/]',
+	                        	prompt	: 'Please enter a valid firstname'
 	                        }
 	                      ]
 	                    },
@@ -144,7 +183,10 @@
 		                        {
 		                          type   : 'empty',
 		                          prompt : 'Please enter your middle initial'
-		                        }		                        
+		                        },{
+		                        	type	: 'regExp[/^[a-zA-Z]*$/]',
+		                        	prompt	: 'Please enter a valid middle Initial'
+		                        }	                        
 		                      ]
 		                    },
 	                    lastname: {
@@ -153,6 +195,9 @@
 		                        {
 		                          type   : 'empty',
 		                          prompt : 'Please enter your lastname'
+		                        },{
+		                        	type	: 'regExp[/^[a-zA-Z]*$/]',
+		                        	prompt	: 'Please enter a valid lastname'
 		                        }
 		                      ]
 		                    },    
@@ -171,6 +216,12 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter a username'
+	                        },{
+	                        	type	: 'regExp[/([A-Za-z0-9_]+$)/]',
+	                        	prompt	: 'Please enter a valid username. A username may contain alphanumeric characters with an optional underscore only'
+	                        },{
+	                        	type	: 'usernameDuplicate',
+	                        	prompt	: 'Username already taken'
 	                        }
 	                      ]
 	                    },
@@ -219,6 +270,9 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter your Billing Subdivision'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing Subdivision'
 	                        }
 	                      ]
 	                    },
@@ -237,6 +291,9 @@
 	                        {
 	                          type   : 'empty',
 	                          prompt : 'Please enter your Billing House Street'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing House Street'
 	                        }
 	                      ]
 	                    },
@@ -244,8 +301,11 @@
 	                      identifier: 'bCity',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Billing House City'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Billing House City'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing House City'
 	                        }
 	                      ]
 	                    },
@@ -253,8 +313,11 @@
 	                      identifier: 'bCountry',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Billing Country'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Billing Country'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Billing Country'
 	                        }
 	                      ]
 	                    },
@@ -271,8 +334,11 @@
 	                      identifier: 'sSubdivision',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping Subdivision'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping Subdivision'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping Subdivision'
 	                        }
 	                      ]
 	                    },
@@ -289,8 +355,11 @@
 	                      identifier: 'sStreet',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping House Street'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping House Street'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping House Street'
 	                        }
 	                      ]
 	                    },
@@ -298,8 +367,11 @@
 	                      identifier: 'sCity',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping House City'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping House City'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping House City'
 	                        }
 	                      ]
 	                    },
@@ -307,14 +379,24 @@
 	                      identifier: 'sCountry',
 	                      rules: [
 	                        {
-	                          type   : 'empty',
-	                          prompt : 'Please enter your Shipping Country'
+	                          	type   	: 'empty',
+	                          	prompt 	: 'Please enter your Shipping Country'
+	                        },{
+	                        	type	: 'regExp[/(([a-zA-Z]+\s)*[a-zA-Z]+$)/]',
+	                        	prompt	: 'Please enter a valid Shipping Country'
 	                        }
 	                      ]
 	                    }
-	                  }
-	                })
-	              ;
+	                  },
+	                    on: 'blur',
+	                    inline: true,
+	                    onSuccess : function(event, fields){
+	                    	return false;
+	                    },
+	                    onFail: function(){
+	                    	return false;
+	                    }
+	                });
             });
         </script>
     </head>
@@ -428,7 +510,7 @@
             <div class="ui header">Create new account</div>
             <div class="ui segment">
                 <form data-abide class="ui form" method="POST" action="SignUpServlet" id="signup-form">
-                	<div id="error-message" class="ui error message"></div>
+                	<!-- <div id="error-message" class="ui error message"></div> -->
                     <div class="ui grid">
                         <div class="seven wide computer sixteen wide tablet column">
                             <h4 class="ui dividing header">Basic Information</h4>

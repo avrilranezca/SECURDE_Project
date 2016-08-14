@@ -109,22 +109,22 @@
        		    }
        		    
        		    return value.length >= 16;
-       		 };
-       		  
+       		 };      		 
+       	
             $('.ui.form')
 	            .form({
 	              fields: {
-	            	  card: {
-	            		  identifier  : 'card-no',
-	            		  rules: [
-	            		          {
-	            		        	  type   : 'cardRequiredLength',
-	            		        	  prompt : 'Please enter a valid credit card:length error'
-	            		          },{
-	            		        	  type	: 'regExp[/(^[0-9]+$)/]',
-	            		        	  prompt: 'Please enter a valid credit card:character error'
-	            		          }
-	            		         ]
+            	  	card: {
+            	  		identifier  : 'card-no',
+            	  		rules: [
+            	  		        {
+            		        	  type   : 'cardRequiredLength',
+            		        	  prompt : 'Please enter a valid credit card:length error'
+	            		       },{
+            		        	  type	: 'regExp[/(^[0-9]+$)/]',
+            		        	  prompt: 'Please enter a valid credit card:character error'
+	            		      }
+	            		   ]
 	            		},
 	                bHouseNo: {
 	                  identifier: 'bHouseNo',
@@ -180,8 +180,16 @@
 	                    }
 	                  ]
 	                }
-	              }
-	            });
+	              },
+                  on: 'blur',
+                  inline: true,
+                  onSuccess : function(event, fields){
+                  	return true;
+                  },
+                  onFail: function(){
+                  	return false;
+                  }
+	         });
         });
     </script>
 </head>
@@ -314,27 +322,15 @@
 
             <!--<h3 class="ui header">Payment</h3>-->
             <div class="ui form">
-            	<form action="CheckoutBillingServlet" method="POST">
+            	<form action="CheckoutBillingServlet" method="POST" id="billing-form">
             		<div id="error-message" class="ui error message"></div>
 		            <h3 class="ui dividing header">Payment</h3>
-		            <div class="grouped fields">
-		                <div class="field">
-		                    <div class="ui radio checkbox">
-		                        <input type="radio" id="cash" name="payment" checked="checked">
-		                        <label>Cash</label>
-		                    </div>
-		                </div>
-		                <div class="field">
-		                    <div class="ui radio checkbox">
-		                        <input type="radio" id="card" name="payment">
-		                        <label>Card
-		                            <div class="ui field">
-		                                <input id="card-no" name="card-no" maxlength="16" placeholder="Card #" type="text">
-		                            </div>
-		                        </label>
-		                    </div>
-		                </div>
-		            </div>
+	               	<div class="ui grid middle aligned field">
+	                    <div class="four wide column"><label>Card Number</label></div>
+	                    <div class="twelve wide column">
+		                    <input id="card-no" name="card-no" maxlength="16" placeholder="Card #" type="text">
+	                    </div>
+	                </div>
 		
 		            <h3 class="ui dividing header">Billing Address</h3>
 		            <div>
@@ -377,7 +373,7 @@
 		            </div>
 		            <h4 class="ui hidden divider"></h4>
 		            <div class="ui basic right aligned segment">
-		                <button class="ui  large blue submit button">Confirm Billing Information</button>
+		                <button id="confirm-billing" class="ui  large blue submit button">Confirm Billing Information</button>
 		            </div>
 	            </form>
 	        </div>

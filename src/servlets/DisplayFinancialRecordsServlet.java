@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.TransactionDAO;
+import database.UserDAO;
 import model.Sales;
+import model.User;
 
 /**
  * Servlet implementation class DisplayFinancialRecordsServlet
@@ -34,6 +36,14 @@ public class DisplayFinancialRecordsServlet extends HttpServlet {
 		System.out.println("PASOK dsplay finance manager");
 		String filter = "Total";
 		String subfilter = "Daily";
+		
+		String username = (String) request.getSession().getAttribute("user");
+		UserDAO  uDAO = new UserDAO();
+		User u = uDAO.getUser(username);
+		if(u.getPassword_permanent() == 0)
+			request.setAttribute("isPermanent", false);
+		else
+			request.setAttribute("isPermanent", true);
 		
 		if(request.getParameter("filter") != null) {
 			filter = request.getParameter("filter");

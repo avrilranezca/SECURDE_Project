@@ -94,6 +94,7 @@ public class UserDAO {
 					
 					user.setBilling_address_id(rs.getInt("billing_address_id"));
 					user.setShipping_address_id(rs.getInt("shipping_address_id"));
+					user.setPassword_permanent(rs.getInt("password_permanent"));
 
 			
 		} catch (SQLException e) {
@@ -198,7 +199,7 @@ public class UserDAO {
 		PreparedStatement ps = null;
 		try {
 			ps = conn.prepareStatement("UPDATE user SET isActive = 0 WHERE id = ?;");
-			
+			ps.setInt(1, id);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -712,12 +713,13 @@ public class UserDAO {
 		ResultSet rs = null;
 		
 		try {
-			ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum NOT LIKE \"CUSTOMER\" ORDER BY account_type_enum, user_name;");
+			ps = conn.prepareStatement("SELECT id, first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum NOT LIKE \"CUSTOMER\" ORDER BY account_type_enum, user_name;");
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				u.setId(rs.getInt("id"));
 				userList.add(u);
 			}
 			
@@ -749,12 +751,13 @@ public class UserDAO {
 		ResultSet rs = null;
 		
 		try {
-			ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"ACCOUNTING_MANAGER\" ORDER BY user_name;");
+			ps = conn.prepareStatement("SELECT id, first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"ACCOUNTING_MANAGER\" ORDER BY user_name;");
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				u.setId(rs.getInt("id"));
 				userList.add(u);
 			}
 			
@@ -786,12 +789,13 @@ public class UserDAO {
 		ResultSet rs = null;
 		
 		try {
-			ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"PRODUCT_MANAGER\" ORDER BY user_name;");
+			ps = conn.prepareStatement("SELECT id, first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"PRODUCT_MANAGER\" ORDER BY user_name;");
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				u.setId(rs.getInt("id"));
 				userList.add(u);	
 			}
 			
@@ -823,12 +827,13 @@ public class UserDAO {
 		ResultSet rs = null;
 		
 		try {
-			ps = conn.prepareStatement("SELECT first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"ADMIN\" ORDER BY user_name;");
+			ps = conn.prepareStatement("SELECT id, first_name, last_name, middle_initial, user_name, email, account_type_enum, isActive FROM user WHERE isActive = 1 AND account_type_enum LIKE \"ADMIN\" ORDER BY user_name;");
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				User u = new User(rs.getString("first_name"), rs.getString("last_name"), rs.getString("middle_initial"), rs.getString("user_name"), rs.getString("email"), rs.getString("account_type_enum"), rs.getInt("isActive"));
+				u.setId(rs.getInt("id"));
 				userList.add(u);	
 			}
 			

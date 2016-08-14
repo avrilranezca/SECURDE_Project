@@ -16,6 +16,119 @@
 	        $('#logout').click(function(){
                 $('#logout-form').submit();
             });
+	        
+	        $('#changepw')
+	            .modal({
+	                closable: false,
+	                onDeny: function () {
+	                    //                window.alert('Wait not yet!');
+	                    //                return false;
+	                },
+	                onApprove: function () {
+	
+//	                    alert("hllo");
+	
+	                    var strength = 0;
+	
+	                    if ($("#oldpw").val() == "" || $("#newpw").val() == "" || $("#confirmnewpw").val() == "") {
+	                        $("#error-change").show();
+	                        $("#error-change p").text("Please fill in all fields!");
+	                    }
+	                    else {
+	
+	                        if ($("#newpw").val().length > 7) {
+	                            strength += 1;
+//	                            alert("pasok length");
+	                        }
+	
+	                        // If password contains both lower and uppercase characters, increase strength value.
+	                        if ($("#newpw").val().match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+	                            strength += 1;
+//	                            alert("pasook uppercase and lowercase")
+	                        }
+	                        // If it has numbers and characters, increase strength value.
+	                        if ($("#newpw").val().match(/([a-zA-Z])/) && $("#newpw").val().match(/([0-9])/)) {
+//	                            alert("pasok numbers and characters");
+	                            strength += 1;
+	                        }
+	                        // If it has one special character, increase strength value.
+	                        if ($("#newpw").val().match(/([!,%,&,@,#,$,^,*,?,_,~,:,.])/)) {
+//	                            alert("pasok special characters");
+	                            strength += 1;
+	                        }
+	                        // If it has two special characters, increase strength value.
+	                        if ($("#newpw").val().match(/(.*[!,%,&,@,#,$,^,*,?,_,~,:,.].*[!,%,&,@,#,$,^,*,?,_,~,:,.])/))
+	                            strength += 1;
+	
+	                        if (strength < 4) {
+//	                            alert("strength: " + strength);
+	                            var error_poorpw = "<br> Weak password! Your password must meet the following requirements: " +
+	                                    "<ul> " +
+	                                    "<li>At least one special character</li>" +
+	                                    "<li>At least one capital letter</li>" +
+	                                    "<li>At least one number</li>" +
+	                                    "<li>At least 7 characters</li>" +
+	                                    "</ul> ";
+	                            $("#error-change").show();
+	                            $("#error-change p").append(error_poorpw);
+	
+	                            $("#newpw").css('color', 'red');
+	                        }
+	
+	                        if ($("#newpw").val() != $("#confirmnewpw").val()) {
+	                            var error_mismatch = "New password does not match with the confirmation password! ";
+	
+	                            if ($("#error-change p").val() == "")
+	                                $("#error-change p").text(error_mismatch);
+	                            else
+	                                $("#error-change p").append("<br> " + error_mismatch);
+	
+	                            $("#error-change").show();
+	                            $("#newpw").css('color', 'red');
+	                            $("#confirmnewpw").css('color', 'red');
+	                        }else{
+	                        	strength += 1;
+	                        	$("#newpw").css('color', 'black');
+		                        $("#confirmnewpw").css('color', 'black');
+	                        }
+	                    }
+	                   
+	                   if(strength > 4){
+	                	   var password = $("#user-password").val();
+		                    var oldPassword = $('#oldpw').val();
+		                    var newPassword = $('#newpw').val();
+		
+		                    $.ajax({
+		                        url: "ChangePasswordServlet",
+		                        data: {
+		                            "oldpw": oldPassword,
+		                            "newpw": newPassword
+		                        },
+		                        type: "POST",
+		                        error: function (data) {
+//		                            alert("fail: ");
+		                        },
+		                        success: function (data) {
+//		                            alert("data:" + data);
+		                            if (data == '-1') {
+		                                $("#error-change p").text("Incorrect Password!");
+		                                $("#error-change").show();
+		
+		                            } else{
+		                                $('#changepw').modal('hide');
+		                                window.location.href = 'DisplayFinancialRecordsServlet';
+		                                return true;
+		                            }
+		                        }
+		                    });
+		
+	                   }
+	                    return false;
+	
+	                }
+	            })
+	            .modal('show');
+	        
         });
         
         function changeFilter(form, filter) {
@@ -30,11 +143,49 @@
     </script>
 </head>
 <body>
+<c:choose>
+    <c:when test='${isPermanent eq false}'>
+        <div class="ui small basic long modal" id="changepw">
+            <div class="header">Change temporary password</div>
+            <div class="content">
+                <p>Please change the temporary password given to you by the administrator. This is for security
+                    purposes.</p>
+                <div class="ui hidden divider"></div>
+                <form class="ui form" id="change-form" method="post" action="ChangePasswordServlet">
+                    <div id="error-change" class="ui negative message">
+                        <p>Please fill in all fields!</p>
+                    </div>
+
+                    <div class="ui fluid left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="oldpw" id="oldpw" placeholder="Old Password">
+                    </div>
+                    <br>
+                    <div class="ui fluid left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="newpw" id="newpw" placeholder="New Password">
+                    </div>
+                    <br>
+                    <div class="ui fluid left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="confirmnewpw" id="confirmnewpw" placeholder="Confirm New Password">
+                    </div>
+                </form>
+            </div>
+
+            <div class="actions">
+                <div class="ui positive right button" type="submit" id="change-button">
+                    Change Password
+                </div>
+            </div>
+        </div>
+    </c:when>
+</c:choose>
 <div class="ui container">
     <div class="ui right aligned basic segment">
         <div class="ui grid middle aligned">
             <div class="fourteen wide column">
-                 <div class="ui sub header"> Welcome <c:out value="${user }"/>!</div>
+                 <div class="ui sub header"> Welcome <c:out value="${user}"/>!</div>
             </div>
             <div class="two wide column">
                   <div class="ui tiny right aligned basic button" id="logout">Logout</div>
@@ -194,5 +345,6 @@
         </div>    
     </div>
 </div>
+
 </body>
 </html>

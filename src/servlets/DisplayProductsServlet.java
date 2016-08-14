@@ -8,11 +8,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
 
 import database.CategoryDAO;
 import database.ProductDAO;
+import database.UserDAO;
 import model.Category;
 import model.Product;
+import model.User;
 
 /**
  * Servlet implementation class DisplayProductsServlet
@@ -34,6 +37,14 @@ public class DisplayProductsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String filter = "All";
+		String username = (String) request.getSession().getAttribute("user");
+		UserDAO  uDAO = new UserDAO();
+		User u = uDAO.getUser(username);
+		if(u.getPassword_permanent() == 0)
+			request.setAttribute("isPermanent", false);
+		else
+			request.setAttribute("isPermanent", true);
+
 		
 		if(request.getParameter("filter") != null) {
 			filter = request.getParameter("filter");
@@ -54,7 +65,9 @@ public class DisplayProductsServlet extends HttpServlet {
 			products = productDAO.getProductOnCategory(new Category(filter));
 		}
 		
+		
 		request.setAttribute("products", products);
+		
 		request.getRequestDispatcher("product_manager.jsp").forward(request, response);
 	}
 

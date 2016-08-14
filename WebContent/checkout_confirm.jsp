@@ -16,6 +16,53 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
+        	
+        	var isFail;
+            $("#confirm-purchase").click((function () {
+
+//            $("#login-modal").modal('show');
+              $("#error-password").hide();
+              $("#password-modal")
+                      .modal({
+                          closable  : true,
+                          onDeny    : function(){
+//                        	  	alert("fail");
+                          },
+                          onApprove : function() {
+
+                        	  if($("#password").val()==""){
+                                  $("#error-password").show();
+                              }
+
+                        	  var password = $("#user-password").val();
+                        	  $.ajax({
+                                  url: "CheckoutConfirmServlet",
+                                  data: {"password": password},
+                                  type: "POST",
+                                  error:function(data){
+//                                	alert("fail: ");
+                                  },
+                                  success: function(data){
+                                  	if(data == '-1'){
+                                        $("#error-password p").text("Incorrect Password!");
+                                        $("#error-password").show();
+                                      
+                                  	}else{
+                                  	   $('#password-modal').modal('hide');
+                                  
+                                  	   window.location.href = 'IndexDisplayProductsServlet';
+                                  	   return true;
+                                  	}
+                                  }
+                        	  });
+                        	  
+                        	  return false;
+                          }
+                      })
+                      .modal('show');
+          }));
+        
+        	
             <%
                 String userName=null;
 
@@ -230,7 +277,7 @@
 
             <!--<h3 class="ui header">Payment</h3>-->
             <div class="ui form">
-            	<form action="CheckoutConfirmServlet" method="POST">
+           <!--  	<form action="CheckoutConfirmServlet" method="POST"> -->
 	              <div class="ui grid">
                        <div class="eight wide column">
                             <h3 class="ui dividing header">Ship To</h3>
@@ -258,14 +305,16 @@
                                   <p><b>Name:</b> <c:out value='${user}'/></p>
                                </div>
                                <div class="ui text">
-                                  <p> <b>Address:</b><br>
-                                   <c:out value='${billing.getHouse_no()}'/>
-                                   <c:out value='${billing.getSubdivision()}'/>
-                                   <c:out value='${billing.getStreet()}'/> ST. 
-                                   <br>
-                                   <c:out value='${billing.getCity()}'/>, 
-                                   <c:out value='${billing.getCountry()}'/>
-                                   <c:out value='${billing.getPostal_code()}'/>
+                                  <p> 
+	                                   <b>Address:</b>
+	                                   <br>
+	                                   <c:out value='${billing.getHouse_no()}'/>
+	                                   <c:out value='${billing.getSubdivision()}'/>
+	                                   <c:out value='${billing.getStreet()}'/> ST. 
+	                                   <br>
+	                                   <c:out value='${billing.getCity()}'/>, 
+	                                   <c:out value='${billing.getCountry()}'/>
+	                                   <c:out value='${billing.getPostal_code()}'/>
                                   </p> 
                                </div>
                            </div>
@@ -274,9 +323,9 @@
                     
 		            <h4 class="ui hidden divider"></h4>
 		            <div class="ui basic right aligned segment">
-		                <button class="ui  large blue submit button">Confirm Purchase</button>
+		                <button id="confirm-purchase" class="ui  large blue submit button">Confirm Purchase</button>
 		            </div>
-	            </form>
+	         <!-- </form>-->
 	        </div>
         </div>
     </div>
@@ -348,6 +397,33 @@
 
 
 </div>
+<div id="password-modal" class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">Please enter your password to continue</div>
 
+    <div class="content">
+        <div class="ui basic center aligned segment">
+
+            <form class="ui form" id="validate-password">
+                <div id="error-password" class="ui negative message">
+                    <p>
+                        Please fill up all fields!
+                    </p>
+                </div>
+                <div>
+                    <div class="ui grid middle aligned">
+                        <div class="four wide column left aligned"><label>Password:</label></div>
+                        <div class="twelve wide column"><input id="user-password" name="password" type="password"></div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        
+    </div>
+  	<div class="actions">
+   		<div id="confirm-password" class="ui positive right button">Confirm</div>
+	</div>
+</div>
 </body>
 </html>

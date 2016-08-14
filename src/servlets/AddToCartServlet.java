@@ -129,7 +129,7 @@ try {
     printWriter.flush();
 }
 
-catch (Exception e){}
+catch (Exception e){ e.printStackTrace();}
 
 
 //            Cookie cookie;
