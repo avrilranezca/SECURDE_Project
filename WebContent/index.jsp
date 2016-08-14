@@ -258,7 +258,7 @@
             });
 
             function updateForm(ind){
-                alert(ind);
+//                alert(ind);
                 $('#nav-form input[name=page]').val(ind);
                 $('#nav-form').submit();
             }
