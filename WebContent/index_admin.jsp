@@ -12,29 +12,118 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#add-manager").click((function () {
-//              $("#login-modal").modal('show');
-              $("#error-password").hide();
-              $("#password-modal")
-                      .modal({
-                          closable  : true,
-                          onDeny    : function(){
-                          },
-                          onApprove : function() {
-
-                          }
-                      })
-                      .modal('show')
-              ;
-          }));
             
             $('#logout').click(function(){
                 $('#logout-form').submit();
+            });
+            
+        	var password = $('[name="password"]');
+            $.fn.form.settings.rules.passwordMinLength = function(value) {
+       		    var currentPassValue = password.length > 0 ? password.val() : undefined;
+       		    if(currentPassValue === undefined || currentPassValue.length === 0) {
+       		      return true;
+       		    }
+       		    return value.length >= 7;
+       		  };
+       		  
+            $('#add-manager').form({
+            	fields :{
+            		  username: {
+	                      identifier: 'username',
+	                      rules: [
+	                        {
+	                          type   : 'empty',
+	                          prompt : 'Please enter a username'
+	                        },{
+	                        	type	: 'regExp[/([A-Za-z0-9_]+$)/]',
+	                        	prompt	: 'Please enter a valid username. A username may contain alphanumeric characters with an optional underscore only'
+	                        }
+	                      ]
+	                    },
+	                    temppass: {
+	                      identifier: 'temppass',
+	                      rules: [
+	                        {
+	                        	type   : 'empty',
+	                        	prompt : 'Please enter a password'
+	                        },{
+	                        	type 	: 'passwordMinLength',
+	                        	prompt 	: 'Your password must contain at least 7 characters'
+	                        },{
+	                        	type	: 'regExp[/([a-z].*[A-Z])|([A-Z].*[a-z])/]',
+	                        	prompt	: 'Your password must contain at least one lowercase and uppercase letter'
+	                        },{
+	                        	type	: 'regExp[/([0-9])/]',
+	                        	prompt	: 'Your password must contain at least one number'
+	                        },{
+	                        	type 	: 'regExp[/([!,%,&,@,#,$,^,*,?,_,~,:,.])/]',
+	                        	prompt	: 'Your password must contain at least one special character'
+	                        }
+	                      ]
+	                    }
+            	},
+            	 on: 'blur',
+                 inline: true,
+                 onSuccess : function(event, fields){
+                	alert("here")
+                    submitAddForm();
+                 	return false;
+                 },
+                 onFail: function(){
+                 	return false;
+                 }
             });
 
         });
         
         
+        function submitAddForm() {
+            alert("subimit me Add Manager form!");
+            $("#error-password").hide();
+            $("#password-modal")
+                  .modal({
+                      closable: true,
+                      onDeny: function () {
+                          alert("fail");
+                      },
+                      onApprove: function () {
+                          alert("yes");
+                          if ($("#password").val() == "") {
+                              $("#error-password").show();
+                          }
+
+                          var password = $("#user-password").val();
+                          $.ajax({
+                              url: "AddManagerServlet",
+                              data: {
+                            	  	"password": password,
+                              		"username" : $("input[name='username']").val(),
+                              		"temppass" : $("input[name='temppass']").val(),
+                              		"type"	   : $("input[name'type']:checked").val()	  
+                              	},
+                              type: "POST",
+                              error: function (data) {
+                                  alert("fail: ");
+                              },
+                              success: function (data) {
+                                  if (data == '-1') {
+                                      $("#error-password p").text("Incorrect Password!");
+                                      $("#error-password").show();
+
+                                  } else {
+                                      $('#password-modal').modal('hide');
+
+                                      window.location.href = 'DisplayManagersServlet';
+                                      return true;
+                                  }
+                              }
+                          });
+
+                          return false;
+                      }
+                  })
+                  .modal('show');
+        }
         
         function submitForm(form) {
         	form.submit();
@@ -161,17 +250,17 @@
         </div>
         <div class="seven wide column">
             <div class="ui segment">
-                <form class="ui form" action="AddManagerServlet" method="post">
+                <form id="add-manager" class="ui form">
 
                     <h2 class="ui header">Add Manager</h2>
                     <div>
-                        <div class="ui grid middle aligned">
+                        <div class="ui grid middle aligned field">
                             <div class="four wide column"><label>Username:</label></div>
                             <div class="twelve wide column"><input name="username" type="text"></div>
                         </div>
-                        <div class="ui grid middle aligned">
+                        <div class="ui grid middle aligned field">
                             <div class="four wide column"><label>Temporary Password:</label></div>
-                            <div class="twelve wide column"><input name="temppass" type="text"></div>
+                            <div class="twelve wide column"><input name="temppass" type="password"></div>
                         </div>
                         <div class="ui grid">
                             <div class="four wide column"><label>Type:</label></div>
@@ -196,14 +285,14 @@
 
                     <h4 class="ui hidden divider"></h4>
                     <div class="ui basic right aligned segment">
-
-                        <button id="add-manager" class="ui large orange submit button" type="submit">Add Manager</button>
+                        <button class="ui large orange submit button">Add Manager</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 <div id="password-modal" class="ui small modal">
     <i class="close icon"></i>
     <div class="header">Please enter your password to continue</div>
@@ -211,24 +300,25 @@
     <div class="content">
         <div class="ui basic center aligned segment">
 
-            <form class="ui form" id="validate-password" method="post" action="UserPasswordValidationServlet">
+            <form class="ui form" id="validate-password">
                 <div id="error-password" class="ui negative message">
                     <p>
                         Please fill up all fields!
                     </p>
                 </div>
                 <div>
-                    <div class="ui grid middle aligned">
+                    <div class="ui grid middle aligned field">
                         <div class="four wide column left aligned"><label>Password:</label></div>
-                        <div class="twelve wide column"><input id="password" name="password" type="password"></div>
+                        <div class="twelve wide column"><input id="user-password" name="password" type="password"></div>
                     </div>
 
                 </div>
             </form>
         </div>
+
     </div>
     <div class="actions">
-        <div class="ui positive right button" onClick="submitForm(document.getElementById('validate-password'))">Confirm</div>
+        <div id="confirm-password" class="ui positive right button">Confirm</div>
     </div>
 </div>
 </body>
