@@ -19,7 +19,7 @@
 	        
 	        $('#changepw')
 	            .modal({
-	                closable: true,
+	                closable: false,
 	                onDeny: function () {
 	                    //                window.alert('Wait not yet!');
 	                    //                return false;
