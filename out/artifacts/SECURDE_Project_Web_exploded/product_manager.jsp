@@ -19,15 +19,80 @@
                         .modal({
                             closable: true,
                             onDeny: function () {
+                            	
                             },
                             onApprove: function () {
-
+                         		alert("success");
+                         	   submitEditForm();
+                               $("#edit-product-modal").modal('hide');
+                            	return false;
                             }
                         })
                         .modal('show')
                 ;
             }));
+            
+           // $("#save-button").click(function(){
+            	
+            //	alert("HELLO!");
+        		
+        		
+        //	});
+        	
 
+            $("#edit-product").form({
+                fields: {
+                    editName: {
+                        identifier: 'editName',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Please enter a product name"
+                            }, {
+                                type: 'regExp[/([A-Za-z0-9_]+$)/]',
+                                prompt: 'Please enter a valid product name'
+                            }
+                        ]
+                    },
+                    editPrice: {
+                        identifier: 'editPrice',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Please enter a product price"
+                            }, {
+                                type: 'regExp[/^([1-9][0-9]*|0)(\.[0-9]{2})?$/]',
+                                prompt: "Please enter a valid product price"
+                            }
+                        ]
+                    },
+                    editDescription: {
+                        identifier: 'editDescription',
+                        rules: [
+                            {
+                                type: 'empty',
+                                prompt: "Please enter a product description"
+                            }, {
+                                type: 'regExp[/([A-Za-z0-9_\s.!]+$)/]',
+                                prompt: "Please enter a valid product description."
+                            }
+                        ]
+                    }
+                }, 
+                on: 'blur',
+                inline: true,
+                onSuccess: function(event, fields){
+                    alert("here")
+                 
+                    return false;
+                    //event.preventDefault();
+                },
+                onFail: function () {
+                    alert("failure");
+                    return false;
+                }
+            });
+            
             $('#logout').click(function () {
                 $('#logout-form').submit();
             });
@@ -92,6 +157,7 @@
                                 }
 
                                 if ($("#newpw").val() != $("#confirmnewpw").val()) {
+                                
                                     var error_mismatch = "New password does not match with the confirmation password! ";
 
                                     if ($("#error-change p").val() == "")
@@ -102,36 +168,44 @@
                                     $("#error-change").show();
                                     $("#newpw").css('color', 'red');
                                     $("#confirmnewpw").css('color', 'red');
-                                }
+                                }else{
+    	                        	strength += 1;
+    	                        	$("#newpw").css('color', 'black');
+    		                        $("#confirmnewpw").css('color', 'black');
+    	                        }
                             }
+							
+                       
+                            if(strength >4){
+                            	 var password = $("#user-password").val();
+                                 var oldPassword = $('#oldpw').val();
+                                 var newPassword = $('#newpw').val();
 
-                            var password = $("#user-password").val();
-                            var oldPassword = $('#oldpw').val();
-                            var newPassword = $('#newpw').val();
+                                 $.ajax({
+                                     url: "ChangePasswordServlet",
+                                     data: {
+                                         "oldpw": oldPassword,
+                                         "newpw": newPassword
+                                     },
+                                     type: "POST",
+                                     error: function (data) {
+                                         alert("fail: ");
+                                     },
+                                     success: function (data) {
+                                         alert("data:" + data);
+                                         if (data == '-1') {
+                                             $("#error-change p").text("Incorrect Password!");
+                                             $("#error-change").show();
 
-                            $.ajax({
-                                url: "ChangePasswordServlet",
-                                data: {
-                                    "oldpw": oldPassword,
-                                    "newpw": newPassword
-                                },
-                                type: "POST",
-                                error: function (data) {
-                                    alert("fail: ");
-                                },
-                                success: function (data) {
-                                    alert("data:" + data);
-                                    if (data == '-1') {
-                                        $("#error-change p").text("Incorrect Password!");
-                                        $("#error-change").show();
-
-                                    } else {
-                                        $('#changepw').modal('hide');
-                                        window.location.href = 'DisplayProductsServlet';
-                                        return true;
-                                    }
-                                }
-                            });
+                                         } else{
+                                             $('#changepw').modal('hide');
+                                             window.location.href = 'DisplayProductsServlet';
+                                             return true;
+                                         }
+                                     }
+                                 });
+                            }
+                           
 
 
                             return false;
@@ -140,48 +214,8 @@
                     })
                     .modal('show');
 
-            $("#edit-product").form({
-                fields: {
-                    editName: {
-                        identifier: 'editName',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Please enter a product name"
-                            }, {
-                                type: 'regExp[/([A-Za-z0-9_]+$)/]',
-                                prompt: 'Please enter a valid product name'
-                            }
-                        ]
-                    },
-                    editPrice: {
-                        identifier: 'editPrice',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Please enter a product price"
-                            }, {
-                                type: 'regExp[/^([1-9][0-9]*|0)(\.[0-9]{2})?$/]',
-                                prompt: "Please enter a valid product price"
-                            }
-                        ]
-                    },
-                    editDescription: {
-                        identifier: 'editDescription',
-                        rules: [
-                            {
-                                type: 'empty',
-                                prompt: "Please enter a product description"
-                            }, {
-                                type: 'regExp[/([A-Za-z0-9_\s.!]+$)/]',
-                                prompt: "Please enter a valid product description."
-                            }
-                        ]
-                    }
-                }
-            });
+         
 
-            var goAdd = false;
 
             $("#add-product").form({
                 fields: {
@@ -222,26 +256,78 @@
                         ]
                     },
                 },
-                    on: 'blur',
-                    inline: true,
-                    onSuccess: function(event, fields){
-                        alert("here")
-                        submitForm();
-                        return false;
-                        //event.preventDefault();
-                    },
-                    onFail: function () {
-                        alert("failure");
-                        return false;
-                    }
+                  on: 'blur',
+                  inline: true,
+                  onSuccess: function(event, fields){
+                      alert("here")
+                      submitAddForm();
+                      return false;
+                      //event.preventDefault();
+                  },
+                  onFail: function () {
+                      alert("failure");
+                      return false;
+                  }
 
             });
 
 
         });
+        
+      //  function saveEdit(form) {
+            //form.submit();
+      //  }
+        
+        function submitEditForm(){
+        	alert("subimit me Edit form!");
+            $("#error-password").hide();
+            $("#password-modal")
+                    .modal({
+                        closable: true,
+                        onDeny: function () {
+                            alert("fail");
+                        },
+                        onApprove: function () {
+                            alert("yes");
+                            if ($("#password").val() == "") {
+                                $("#error-password").show();
+                            }
 
-        function submitForm() {
-            alert("subimit me!");
+                            var password = $("#user-password").val();
+                            $.ajax({
+                                url: "EditProductServlet",
+                                data: {"password" : password,
+                                		"editId" : document.getElementById("editId").value,
+                                		"editName" : document.getElementById("editName").value,
+                                		"editDescription" : document.getElementById("editDescription").value,
+                                		"editType" : $("input[name='editType']:checked").val(),
+                                		"editPrice" : document.getElementById("editPrice").value
+                                	},
+                                type: "POST",
+                                error: function (data) {
+                                    alert("fail: ");
+                                },
+                                success: function (data) {
+                                    if (data == '-1') {
+                                        $("#error-password p").text("Incorrect Password!");
+                                        $("#error-password").show();
+
+                                    } else {
+                                        $('#password-modal').modal('hide');
+
+                                        window.location.href = 'DisplayProductsServlet';
+                                        return true;
+                                    }
+                                }
+                            });
+
+                            return false;
+                        }
+                    })
+                    .modal('show');
+        }
+        function submitAddForm() {
+            alert("subimit me Add form!");
             $("#error-password").hide();
             $("#password-modal")
                     .modal({
@@ -258,7 +344,12 @@
                             var password = $("#user-password").val();
                             $.ajax({
                                 url: "AddProductServlet",
-                                data: {"password": password},
+                                data: {"password": password,
+                                		"addName" : $("input[name='addName']").val(),
+                                		"addDescription" : $("textarea[name='addDescription']").val(),
+                                		"addType" : $("input[name='addType']:checked").val(),
+                                		"addPrice" : $("input[name='addPrice']").val()
+                                	},
                                 type: "POST",
                                 error: function (data) {
                                     alert("fail: ");
@@ -271,7 +362,7 @@
                                     } else {
                                         $('#password-modal').modal('hide');
 
-                                        window.location.href = 'DisplayProductServlet';
+                                        window.location.href = 'DisplayProductsServlet';
                                         return true;
                                     }
                                 }
@@ -284,23 +375,65 @@
         }
         function editProduct(index) {
             document.getElementById("editId").value = document.getElementById("productId" + index).value;
-            document.getElementById("editName").value = document.getElementById("productName" + index).innerHTML;
+            document.getElementById("editName").value = document.getElementById("productName" + index).innerHTML.trim();
             document.getElementById("editPrice").value = parseFloat(document.getElementById("productPrice" + index).value).toFixed(2);
             document.getElementById("editDescription").value = document.getElementById("productDescription" + index).value;
-            alert("index:" + index);
-            document.getElementById("editcb" + document.getElementById("productCategory" + index).innerHTML).checked = true;
+            document.getElementById("editcb" + document.getElementById("productCategory" + index).innerHTML.trim()).checked = true;
         }
 
-        function saveEdit(form) {
-            form.submit();
-        }
+     
         function filter(form, filter) {
             document.getElementById("filter").value = filter;
             form.submit();
         }
-        function deleteProduct(form, id) {
-            document.getElementById("deleteProductId").value = id;
-            form.submit();
+        function deleteProduct(id) {
+        	
+        	
+           // document.getElementById("deleteProductId").value = id;
+           // form.submit();
+           
+        	alert("subimit me Delete!");
+            $("#error-password").hide();
+            $("#password-modal")
+                    .modal({
+                        closable: true,
+                        onDeny: function () {
+                            alert("fail");
+                        },
+                        onApprove: function () {
+                            alert("yes");
+                            if ($("#password").val() == "") {
+                                $("#error-password").show();
+                            }
+
+                            var password = $("#user-password").val();
+                            $.ajax({
+                                url: "DeleteProductServlet",
+                                data: {"password": password,
+                                	   "deleteProductId" : id
+                                	},
+                                type: "POST",
+                                error: function (data) {
+                                    alert("fail: ");
+                                },
+                                success: function (data) {
+                                    if (data == '-1') {
+                                        $("#error-password p").text("Incorrect Password!");
+                                        $("#error-password").show();
+
+                                    } else {
+                                        $('#password-modal').modal('hide');
+
+                                        window.location.href = 'DisplayProductsServlet';
+                                        return true;
+                                    }
+                                }
+                            });
+
+                            return false;
+                        }
+                    })
+                    .modal('show');
         }
 
     </script>
@@ -433,9 +566,9 @@
 
             <div class="ui hidden divider"></div>
 
-            <form id="delete-form" action="DeleteProductServlet" method="post">
+           <!-- <form id="delete-form" action="DeleteProductServlet" method="post"> -->
                 <input type="hidden" id="deleteProductId" name="deleteProductId">
-            </form>
+          <!-- </form> -->
 
             <c:forEach var="product" items="${products}" varStatus="loop">
                 <div class="ui segment">
@@ -456,8 +589,7 @@
                             </h1>
                             <i class="write link icon" onClick="editProduct(<c:out value="${loop.index}"/>)"></i>
                             <i class="trash link icon"
-                               onClick="deleteProduct(document.getElementById('delete-form'), <c:out
-                                       value='${product.id}'/>)"></i>
+                               onClick="deleteProduct(<c:out value='${product.id}'/>)"></i>
                         </div>
                     </div>
                 </div>
@@ -546,8 +678,8 @@
     <div class="content">
         <div class="ui basic center aligned segment">
 
-            <form class="ui form" id="edit-product" method="post" action="EditProductServlet">
-                <div id="error-message" class="ui error message"></div>
+            <form class="ui form" id="edit-product">
+               <!--  <div id="error-message" class="ui error message"></div> -->
                 <div id="error-edit-product" class="ui negative message">
                     <p>
                         Please fill up all fields!
@@ -596,7 +728,7 @@
         </div>
     </div>
     <div class="actions">
-        <div class="ui positive right button" onClick="saveEdit(document.getElementById('edit-product'))">Save</div>
+        <div id="save-button" class="ui positive right button">Save</div>
     </div>
 </div>
 <div id="password-modal" class="ui small modal">

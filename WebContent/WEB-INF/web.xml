@@ -70,7 +70,7 @@
     <url-pattern>/checkout_confirm</url-pattern>
   </servlet-mapping>
   <session-config>
-    <session-timeout>20000</session-timeout>
+    <session-timeout>1800000</session-timeout>
     <cookie-config>
       <http-only>true</http-only>
       <secure>true</secure>
@@ -90,7 +90,7 @@
     <filter-class>filter.SessionFilter</filter-class>
     <init-param>
       <param-name>max-period</param-name>
-      <param-value>60000</param-value>
+      <param-value>3600000</param-value>
     </init-param>
   </filter>
   <filter-mapping>

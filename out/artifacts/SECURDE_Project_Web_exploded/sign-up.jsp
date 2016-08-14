@@ -348,9 +348,16 @@
 	                        }
 	                      ]
 	                    }
-	                  }
-	                })
-	              ;
+	                  },
+	                    on: 'blur',
+	                    inline: true,
+	                    onSuccess : function(event, fields){
+	                    	return false;
+	                    },
+	                    onFail: function(){
+	                    	return false;
+	                    }
+	                });
             });
         </script>
     </head>
@@ -464,7 +471,7 @@
             <div class="ui header">Create new account</div>
             <div class="ui segment">
                 <form data-abide class="ui form" method="POST" action="SignUpServlet" id="signup-form">
-                	<div id="error-message" class="ui error message"></div>
+                	<!-- <div id="error-message" class="ui error message"></div> -->
                     <div class="ui grid">
                         <div class="seven wide computer sixteen wide tablet column">
                             <h4 class="ui dividing header">Basic Information</h4>
