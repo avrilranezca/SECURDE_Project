@@ -116,7 +116,7 @@
        		 });
        		 
        		 $('#confirm-billing').click(function(){
-       			alert("radiotbuton: "+$('input[name=payment]:checked', '#billing-form').val());
+//       			alert("radiotbuton: "+$('input[name=payment]:checked', '#billing-form').val());
        			if($('input[name=payment]:checked', '#billing-form').val() == "card"){
        				$('.ui.form').form({
            				fields:{

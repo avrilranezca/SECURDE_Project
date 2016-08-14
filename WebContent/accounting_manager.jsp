@@ -26,7 +26,7 @@
 	                },
 	                onApprove: function () {
 	
-	                    alert("hllo");
+//	                    alert("hllo");
 	
 	                    var strength = 0;
 	
@@ -38,22 +38,22 @@
 	
 	                        if ($("#newpw").val().length > 7) {
 	                            strength += 1;
-	                            alert("pasok length");
+//	                            alert("pasok length");
 	                        }
 	
 	                        // If password contains both lower and uppercase characters, increase strength value.
 	                        if ($("#newpw").val().match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
 	                            strength += 1;
-	                            alert("pasook uppercase and lowercase")
+//	                            alert("pasook uppercase and lowercase")
 	                        }
 	                        // If it has numbers and characters, increase strength value.
 	                        if ($("#newpw").val().match(/([a-zA-Z])/) && $("#newpw").val().match(/([0-9])/)) {
-	                            alert("pasok numbers and characters");
+//	                            alert("pasok numbers and characters");
 	                            strength += 1;
 	                        }
 	                        // If it has one special character, increase strength value.
 	                        if ($("#newpw").val().match(/([!,%,&,@,#,$,^,*,?,_,~,:,.])/)) {
-	                            alert("pasok special characters");
+//	                            alert("pasok special characters");
 	                            strength += 1;
 	                        }
 	                        // If it has two special characters, increase strength value.
@@ -61,7 +61,7 @@
 	                            strength += 1;
 	
 	                        if (strength < 4) {
-	                            alert("strength: " + strength);
+//	                            alert("strength: " + strength);
 	                            var error_poorpw = "<br> Weak password! Your password must meet the following requirements: " +
 	                                    "<ul> " +
 	                                    "<li>At least one special character</li>" +
@@ -106,10 +106,10 @@
 		                        },
 		                        type: "POST",
 		                        error: function (data) {
-		                            alert("fail: ");
+//		                            alert("fail: ");
 		                        },
 		                        success: function (data) {
-		                            alert("data:" + data);
+//		                            alert("data:" + data);
 		                            if (data == '-1') {
 		                                $("#error-change p").text("Incorrect Password!");
 		                                $("#error-change").show();

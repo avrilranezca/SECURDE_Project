@@ -19,17 +19,17 @@
         	
         	var isFail;
             $("#confirm-purchase").click((function () {
-            	alert("i was clicked");
+//            	alert("i was clicked");
 //              $("#login-modal").modal('show');
               $("#error-password").hide();
               $("#password-modal")
                       .modal({
                           closable  : true,
                           onDeny    : function(){
-                        	  	alert("fail");
+//                        	  	alert("fail");
                           },
                           onApprove : function() {
-                              alert("yes");
+//                              alert("yes");
                         	  if($("#password").val()==""){
                                   $("#error-password").show();
                               }
@@ -40,7 +40,7 @@
                                   data: {"password": password},
                                   type: "POST",
                                   error:function(data){
-                                	alert("fail: ");
+//                                	alert("fail: ");
                                   },
                                   success: function(data){
                                   	if(data == '-1'){

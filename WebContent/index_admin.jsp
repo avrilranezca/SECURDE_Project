@@ -98,7 +98,7 @@
             	 on: 'blur',
                  inline: true,
                  onSuccess : function(event, fields){
-                	alert("here")
+//                	alert("here")
                     submitAddForm();
                  	return false;
                  },
@@ -111,16 +111,16 @@
         
         
         function submitAddForm() {
-            alert("subimit me Add Manager form!");
+//            alert("subimit me Add Manager form!");
             $("#error-password").hide();
             $("#password-modal")
                   .modal({
                       closable: true,
                       onDeny: function () {
-                          alert("fail");
+//                          alert("fail");
                       },
                       onApprove: function () {
-                          alert("yes");
+//                          alert("yes");
                           if ($("#password").val() == "") {
                               $("#error-password").show();
                           }
@@ -136,7 +136,7 @@
                               	},
                               type: "POST",
                               error: function (data) {
-                                  alert("fail: ");
+//                                  alert("fail: ");
                               },
                               success: function (data) {
                                   if (data == '-1') {
@@ -169,16 +169,16 @@
         
         function deleteManager(id) {
            
-         	alert("subimit me Delete!");
+//         	alert("subimit me Delete!");
              $("#error-password").hide();
              $("#password-modal")
                      .modal({
                          closable: true,
                          onDeny: function () {
-                             alert("fail");
+//                             alert("fail");
                          },
                          onApprove: function () {
-                             alert("yes");
+//                             alert("yes");
                              if ($("#password").val() == "") {
                                  $("#error-password").show();
                              }
@@ -191,7 +191,7 @@
                                  	},
                                  type: "POST",
                                  error: function (data) {
-                                     alert("fail: ");
+//                                     alert("fail: ");
                                  },
                                  success: function (data) {
                                      if (data == '-1') {
