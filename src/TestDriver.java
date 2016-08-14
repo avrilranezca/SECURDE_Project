@@ -32,9 +32,11 @@ public class TestDriver {
 		AccountTypeEnum accountManager = new AccountTypeEnum(AccountType.ACCOUNTING_MANAGER);
 		AccountTypeEnum productManager = new AccountTypeEnum(AccountType.PRODUCT_MANAGER);
 		AccountTypeEnum admin = new AccountTypeEnum(AccountType.ADMIN);
-		/*User u = new User("user8", "user8", "u", "user_8", "user8@securde.com", accountManager.accountTypeDetails(), 1);
+		/*User u = new User("user9", "user9", "u", "user_9", "user9@securde.com", accountManager.accountTypeDetails(), 1);
 		u.setPassword("password");
 		udao.addUser(u);*/
+		
+		System.out.println(udao.getDateCreated(9));
 		
 		/*System.out.println(udao.getAllUsers());
 		System.out.println();
@@ -159,7 +161,9 @@ public class TestDriver {
 		System.out.println(udao.getShippingAddress(u.getId()));*/
 		//System.out.println(udao.getAccountType(6));
 		//System.out.println(adao.isAuthorized(6, "/index_admin.jsp"));
-		System.out.println(udao.checkIfUserNameExists("user_7"));
+		//System.out.println(udao.checkIfUserNameExists("user_7"));
+		
+		
 	}
 
 }

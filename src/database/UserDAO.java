@@ -121,7 +121,7 @@ public class UserDAO {
 		PreparedStatement ps = null;
 		
 		try{
-			ps = conn.prepareStatement("INSERT INTO user (first_name, last_name, middle_initial, user_name, password, email, account_type_enum, isActive, password_permanent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);");
+			ps = conn.prepareStatement("INSERT INTO user (first_name, last_name, middle_initial, user_name, password, email, account_type_enum, isActive, password_permanent, date_created) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());");
 			ps.setString(1, u.getFirst_name());
 			ps.setString(2, u.getLast_name());
 			ps.setString(3, u.getMiddle_initial());
@@ -154,6 +154,44 @@ public class UserDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public Date getDateCreated(int id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = conn.prepareStatement("SELECT date_created FROM user WHERE id = ?;");
+			ps.setInt(1, id);
+		
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				Timestamp timestamp = rs.getTimestamp("date_created");
+				java.util.Date date = timestamp;
+				rs.close();
+				ps.close();
+				return date;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
 	}
 	
 	public void deactivateUser(int id) {

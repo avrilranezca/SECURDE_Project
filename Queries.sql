@@ -100,3 +100,4 @@ SELECT * FROM user;
 SELECT * FROM authorization_matrix;
 
 SELECT page_url, customer FROM authorization_matrix WHERE page_url LIKE "/index.jsp";
+
