@@ -129,7 +129,15 @@
 	                    }
 	                  ]
 	                }
-	              }
+	              },
+                  on: 'blur',
+                  inline: true,
+                  onSuccess : function(event, fields){
+                  	return true;
+                  },
+                  onFail: function(){
+                  	return false;
+                  }
 	            });
 	    	});
     </script> 

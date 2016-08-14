@@ -109,36 +109,23 @@
        		    }
        		    
        		    return value.length >= 16;
-       		 };
-       		  
-       		 $("#card-no").keypress(function(){
-       			$('input:radio[name=payment]:nth(1)').attr('checked',true);
-       		 });
-       		 
-       		 $('#confirm-billing').click(function(){
-       			alert("radiotbuton: "+$('input[name=payment]:checked', '#billing-form').val());
-       			if($('input[name=payment]:checked', '#billing-form').val() == "card"){
-       				$('.ui.form').form({
-           				fields:{
-           				  card: {
-    	            		  identifier  : 'card-no',
-    	            		  rules: [
-    	            		          {
-    	            		        	  type   : 'cardRequiredLength',
-    	            		        	  prompt : 'Please enter a valid credit card:length error'
-    	            		          },{
-    	            		        	  type	: 'regExp[/(^[0-9]+$)/]',
-    	            		        	  prompt: 'Please enter a valid credit card:character error'
-    	            		          }
-    	            		         ]
-    	            		}
-           				}
-           			});
-       			} 
-       		 });
+       		 };      		 
+       	
             $('.ui.form')
 	            .form({
 	              fields: {
+            	  	card: {
+            	  		identifier  : 'card-no',
+            	  		rules: [
+            	  		        {
+            		        	  type   : 'cardRequiredLength',
+            		        	  prompt : 'Please enter a valid credit card:length error'
+	            		       },{
+            		        	  type	: 'regExp[/(^[0-9]+$)/]',
+            		        	  prompt: 'Please enter a valid credit card:character error'
+	            		      }
+	            		   ]
+	            		},
 	                bHouseNo: {
 	                  identifier: 'bHouseNo',
 	                  rules: [
@@ -193,8 +180,16 @@
 	                    }
 	                  ]
 	                }
-	              }
-	            });
+	              },
+                  on: 'blur',
+                  inline: true,
+                  onSuccess : function(event, fields){
+                  	return true;
+                  },
+                  onFail: function(){
+                  	return false;
+                  }
+	         });
         });
     </script>
 </head>
@@ -330,24 +325,12 @@
             	<form action="CheckoutBillingServlet" method="POST" id="billing-form">
             		<div id="error-message" class="ui error message"></div>
 		            <h3 class="ui dividing header">Payment</h3>
-		            <div class="grouped fields">
-		                <div class="field">
-		                    <div class="ui radio checkbox">
-		                        <input type="radio" id="cash" value="cash" name="payment" checked="checked">
-		                        <label>Cash</label>
-		                    </div>
-		                </div>
-		                <div class="field">
-		                    <div class="ui radio checkbox">
-		                        <input type="radio" id="card" name="payment" value="card"/>
-		                        <label>Card
-		                            <div class="ui field">
-		                                <input id="card-no" name="card-no" maxlength="16" placeholder="Card #" type="text">
-		                            </div>
-		                        </label>
-		                    </div>
-		                </div>
-		            </div>
+	               	<div class="ui grid middle aligned field">
+	                    <div class="four wide column"><label>Card Number</label></div>
+	                    <div class="twelve wide column">
+		                    <input id="card-no" name="card-no" maxlength="16" placeholder="Card #" type="text">
+	                    </div>
+	                </div>
 		
 		            <h3 class="ui dividing header">Billing Address</h3>
 		            <div>

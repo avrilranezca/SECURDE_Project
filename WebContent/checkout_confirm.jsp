@@ -19,7 +19,6 @@
         	
         	var isFail;
             $("#confirm-purchase").click((function () {
-            	alert("i was clicked");
 //              $("#login-modal").modal('show');
               $("#error-password").hide();
               $("#password-modal")
@@ -29,7 +28,6 @@
                         	  	alert("fail");
                           },
                           onApprove : function() {
-                              alert("yes");
                         	  if($("#password").val()==""){
                                   $("#error-password").show();
                               }
