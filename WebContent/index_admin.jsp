@@ -26,6 +26,36 @@
        		    return value.length >= 7;
        		  };
        		  
+       		var isAvailable = "1";
+            
+            function setIsAvailable(val){
+            	isAvailable = val;
+            }
+        	$.fn.form.settings.rules.usernameDuplicate = function(value) {
+        			 $.ajax({
+                      url: "CheckUsernameServlet",
+                      data: {"username": value},
+                      type: "POST",
+                      error: function (data) {
+                     	 alert("error: "+data);
+                      },
+                      success: function (data) {
+                    	 // alert("data:"+data);
+                          if (data == '-1' || data == -1) {
+                         	 setIsAvailable("-1")                                
+                          } else {
+                         	 setIsAvailable("1");                                 
+                          }
+                      }
+                  });
+        			 //alert("isAvailable: "+ isAvailable);
+        			 if(isAvailable <0){
+        				// alert("hind free");
+        				 return false;
+					 }else         			 
+        				 return true;
+         	 };
+       		  
             $('#add-manager').form({
             	fields :{
             		  username: {
@@ -37,6 +67,9 @@
 	                        },{
 	                        	type	: 'regExp[/([A-Za-z0-9_]+$)/]',
 	                        	prompt	: 'Please enter a valid username. A username may contain alphanumeric characters with an optional underscore only'
+	                        },{
+	                        	type	: 'usernameDuplicate',
+	                        	prompt	: 'Username already taken'
 	                        }
 	                      ]
 	                    },

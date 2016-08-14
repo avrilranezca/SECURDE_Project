@@ -1,3 +1,4 @@
+<%@page import="database.UserDAO"%>
 <%@ page import="database.ProductDAO" %>
 <%@ page import="database.ReviewDAO" %>
 <%@ page import="model.Product" %>
@@ -18,11 +19,15 @@
         <script src="resources/jquery-1.11.3.min.js"></script>
         <script src="resources/semantic-ui/dist/semantic.js"></script>
         <script type="text/javascript">
+        
+          
+            
             $(document).ready(function () {
             	
+           	  	
+                  
             	var password = $('[name="password"]');
             	var confirmpassword = $('[name="confirmpassword"]');
-            	
             	 $.fn.form.settings.rules.passwordMinLength = function(value) {
            		    var currentPassValue = password.length > 0 ? password.val() : undefined;
            		    if(currentPassValue === undefined || currentPassValue.length === 0) {
@@ -30,7 +35,36 @@
            		    }
            		    return value.length >= 7;
            		  };
-
+				
+           		var isAvailable = "1";
+                
+                function setIsAvailable(val){
+                	isAvailable = val;
+                }
+           		 
+           		 $.fn.form.settings.rules.usernameDuplicate = function(value) {
+           			 $.ajax({
+                         url: "CheckUsernameServlet",
+                         data: {"username": value},
+                         type: "POST",
+                         error: function (data) {
+                        	 alert("error: "+data);
+                         },
+                         success: function (data) {
+                             if (data == '-1' || data == -1) {
+                            	 setIsAvailable("-1")                                
+                             } else {
+                            	 setIsAvailable("1");                                 
+                             }
+                         }
+                     });
+           			 
+           			 if(isAvailable <0){
+           				 return false;
+					 }else         			 
+           				 return true;
+            	 };
+            		  
            		  $.fn.form.settings.rules.repeatPasswordMatch = function(value) {
            		    var currentPassValue = password.length > 0 ? password.val() : undefined,
            		        newPassValue = confirmpassword.length > 0 ? confirmpassword.val() : undefined;
@@ -115,6 +149,8 @@
                     }
                     %>
                 }
+                
+             
                 $('#logout').click(function(){
                     $('#logout-form').submit();
                 });
@@ -183,6 +219,9 @@
 	                        },{
 	                        	type	: 'regExp[/([A-Za-z0-9_]+$)/]',
 	                        	prompt	: 'Please enter a valid username. A username may contain alphanumeric characters with an optional underscore only'
+	                        },{
+	                        	type	: 'usernameDuplicate',
+	                        	prompt	: 'Username already taken'
 	                        }
 	                      ]
 	                    },
