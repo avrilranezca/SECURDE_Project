@@ -99,7 +99,7 @@
                             	  	"password": password,
                               		"username" : $("input[name='username']").val(),
                               		"temppass" : $("input[name='temppass']").val(),
-                              		"type"	   : $("input[name'type']:checked").val()	  
+                              		"type"	   : $("input[name='type']:checked").val()	  
                               	},
                               type: "POST",
                               error: function (data) {
@@ -133,6 +133,52 @@
         	document.getElementById("filter").value = filter;
         	form.submit();
         }
+        
+        function deleteManager(id) {
+           
+         	alert("subimit me Delete!");
+             $("#error-password").hide();
+             $("#password-modal")
+                     .modal({
+                         closable: true,
+                         onDeny: function () {
+                             alert("fail");
+                         },
+                         onApprove: function () {
+                             alert("yes");
+                             if ($("#password").val() == "") {
+                                 $("#error-password").show();
+                             }
+
+                             var password = $("#user-password").val();
+                             $.ajax({
+                                 url: "DeleteManagerServlet",
+                                 data: {"password": password,
+                                 	   "deleteManagerId" : id
+                                 	},
+                                 type: "POST",
+                                 error: function (data) {
+                                     alert("fail: ");
+                                 },
+                                 success: function (data) {
+                                     if (data == '-1') {
+                                         $("#error-password p").text("Incorrect Password!");
+                                         $("#error-password").show();
+
+                                     } else {
+                                         $('#password-modal').modal('hide');
+
+                                         window.location.href = 'DisplayManagersServlet';
+                                         return true;
+                                     }
+                                 }
+                             });
+
+                             return false;
+                         }
+                     })
+                     .modal('show');
+         }
     </script>
 </head>
 <body>
@@ -242,7 +288,8 @@
 	                        <h1 class="ui sub header">
 	                        	<c:out value='${manager.account_type}'/>
 	                        </h1>
-	                        <i class="trash link icon bottom aligned"></i>
+	                          <i class="trash link icon bottom aligned"
+                               onClick="deleteManager(<c:out value='${manager.id}'/>)"></i>
 	                    </div>
 	                </div>
 	            </div>
