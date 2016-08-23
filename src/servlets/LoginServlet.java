@@ -83,33 +83,15 @@ public class LoginServlet extends HttpServlet {
 			
 			if(s!=null) session.setAttribute("item", s);
 			//setting session to expiry in 30 mins
-
-//			Cookie userName = new Cookie("user", user.getUser_name());
-//			userName.setSecure(true);
-//			userName.setHttpOnly(true);
-//			response.addCookie(userName);
-			//Get the encoded URL string
-
+						
 			if(user.getAccount_type().equals(AccountType.CUSTOMER.toString())) {
-				/*ProductDAO dao2 = new ProductDAO();
-				ArrayList<Product> plist = dao2.getAllProducts();
-				request.setAttribute("products", plist);
-				request.setAttribute("filter", "All");
-				String encodedURL = response.encodeRedirectURL("");*/
-//				response.sendRedirect(encodedURL);
-				//Logger.write(user.getId() + "", request.getRemoteAddr(), "logged in");
-				//request.getRequestDispatcher("/index").forward(request, response);
-				response.sendRedirect("index");
-//				request.getRequestDispatcher("/index").forward(request, response);
-//				ServletContext sc = getServletContext();
-//				RequestDispatcher rd = sc.getRequestDispatcher("/IndexDisplayProductsServlet");
-//				rd.forward(request, response);
+				response.sendRedirect(response.encodeRedirectURL("index"));
 			} else if(user.getAccount_type().equals(AccountType.ADMIN.toString())) {
-				request.getRequestDispatcher("/admin").forward(request, response);
+				response.sendRedirect(response.encodeRedirectURL("admin"));
 			} else if(user.getAccount_type().equals(AccountType.PRODUCT_MANAGER.toString())) {
-				request.getRequestDispatcher("/product_manager").forward(request, response);
+				response.sendRedirect(response.encodeRedirectURL("product_manager"));
 			} else if(user.getAccount_type().equals(AccountType.ACCOUNTING_MANAGER.toString())) {
-				request.getRequestDispatcher("/accounting_manager").forward(request, response);
+				response.sendRedirect(response.encodeRedirectURL("accounting_manager"));
 			}
 			return;
 		}else{

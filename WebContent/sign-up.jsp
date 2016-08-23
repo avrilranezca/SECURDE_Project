@@ -389,13 +389,7 @@
 	                    }
 	                  },
 	                    on: 'blur',
-	                    inline: true,
-	                    onSuccess : function(event, fields){
-	                    	return false;
-	                    },
-	                    onFail: function(){
-	                    	return false;
-	                    }
+	                    inline: true
 	                });
             });
         </script>

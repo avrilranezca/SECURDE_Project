@@ -37,7 +37,7 @@
                         	  var password = $("#user-password").val();
                         	  $.ajax({
                                   url: "CheckoutConfirmServlet",
-                                  data: {"password": password},
+                                  data: {"password": password, "something": "hi"},
                                   type: "POST",
                                   error:function(data){
 //                                	alert("fail: ");
